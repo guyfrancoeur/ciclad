@@ -1,2 +1,0 @@
-# ciclad
-ciclad cpp
