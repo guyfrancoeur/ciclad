@@ -6,7 +6,10 @@ isci: main.cpp isci.h
 	g++ -O3 -fno-pic -static -std=c++11 -DNDEBUG -I ./ -o $@ main.cpp
 
 test: isci
-	time ./isci testdb_gen2.txt
+	/bin/time ./isci testdb_gen2.txt
+
+test_d: isci_d
+	/bin/time ./isci_d testdb_gen2.txt
 
 isci_d: main.cpp isci.h
 	g++ -O1 -g -static -fno-pic -std=c++11 -DDEBUG -o $@ main.cpp

@@ -3,11 +3,11 @@
 // Test : valgrind --tool=memcheck --leak-check=yes ./isci ~/isci/testdb_gen2.txt
 // Profiler : valgrind --tools=callgrind ./isci ~/isci/testdb_gen2.txt
 // fastest testdb_gen2.txt 97sec
-// TODO : cmdline() [-i <in stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0]
+// TODO : cmdline() [-i <in stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0] [-r <ram limit> | default 50%]
 // TODO : sliding window
 // TODO : remove from window
 // TODO : fix the index initial capacity to be variable
-// TODO : validate unit to be 64bit
+// TODO : validate uint to be 64bit
 //PREPROCESSORS (also for isci.h)
 #define _BTREE  // _BTREE | _ROBIN | _HOPSCOTCH | _STLMAP_a // structure pour la trie
 #define _VECTOR // _VECTOR | _STLMAP_b         // structure pour les concepts
@@ -253,18 +253,16 @@ int main(int argc, char *argv[]) {
     ++row;
     #ifdef DEBUG
     if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
-      printf("time %0.4f ms", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
+      printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
       running = clock();
-      //cout << " to process " << row << " rows, idx size/capacity:" << idx->size() << "/" << idx->capacity() << ", # concept:" << fCI2.size() << endl;
-      cout << " to process " << row << " rows, idx size:" << 100000 << ", # concept:" << fCI2.size() << endl;
+      cout << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
     }
     #endif
     freeNode(root);
   }
   fclose(f);
-  printf("Completed in %0.4f sec", (clock() - start) / (double)CLOCKS_PER_SEC);
-  //cout << " to process " << row << " rows, idx size/capacity:" << idx->size() << "/" << idx->capacity() << ", # concept:" << fCI2.size() << endl;
-  cout << " to process " << row << " rows, idx size:" << 100000 << ", # concept:" << fCI2.size() << endl;
+  printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
+  cout  << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
 #ifdef DEBUG
   uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
   for (uint n = 0; n < fCI2.size(); ++n) {
