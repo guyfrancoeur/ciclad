@@ -1,8 +1,5 @@
-// version 2.1h 2018-09-27 based on Galicia-P (codename isci) by Guy Francoeur
-// G++ v4.8.x et + (4.9.x ideal): g++ -Wall -DNDEBUG -static -O3 -std=c++11 isci.cpp -I ./ -o isci
-// Test : valgrind --tool=memcheck --leak-check=yes ./isci ~/isci/testdb_gen2.txt
-// Profiler : valgrind --tools=callgrind ./isci ~/isci/testdb_gen2.txt
-// fastest testdb_gen2.txt 97sec
+// version 2.1h 2018-09-27 based on Galicia-P (codename isci) before becoming ciclad by Guy Francoeur
+// voir Makefile pour build, test, valgrind (memory leak), time (memory usage, execution time)
 // TODO : cmdline() [-i <in stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0] [-r <ram limit> | default 50%]
 // TODO : sliding window
 // TODO : remove from window
