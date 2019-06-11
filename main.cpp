@@ -89,10 +89,11 @@ int main(int argc, char *argv[]) {
   #else
     map<uint, node *> _rootChild;
   #endif
+
   vector<uint> tmp;
   concept2 superconcept(0, 0, 0, tmp);
-
   uint gCid = 0; uint gItems = 0;
+
 #ifdef _VECTOR
   vector<concept2> fCI2(1,superconcept); //one space with value.
   ++gCid;
