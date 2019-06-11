@@ -9,7 +9,7 @@ Mining of frequent itemsets over a data stream still witholds some challenges, e
 Keywords : frequent pattern mining, closed itemsets, data streams, sliding window, inverted lists
 
 Contributors :
- - Tomas Martin 2015-2018
- - Guy Francoeur 2015-2018
+ - Tomas Martin 2015-2019
+ - Guy Francoeur 2015-2019
  - Mickael Wajnberg 2018
  - Petko Valtchev (c)
