@@ -76,7 +76,7 @@ void readCmdline(Cmdline* _cmdline, char** argv, int argc) {
 					}
 					break;
 				default:
-					cout << "Usage: " << argv[0] << " [-i <input stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0] [-r <ram limit size> | default mem available]" << endl;
+					cout << "Usage: " << argv[0] << " [-i <input stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0] [-r <ram limit> | default 50%]" << endl;
 					exit(1);
 			}
 		}
@@ -84,15 +84,18 @@ void readCmdline(Cmdline* _cmdline, char** argv, int argc) {
 }
 
 void setRam(Cmdline* _cmdline, char** argv) {
+	uint ram;
 	if(_cmdline->ram) {
-		uint ram=strtol(argv[_cmdline->ram],NULL,10);
-		struct rlimit limit;
-		getrlimit(RLIMIT_AS, &limit);
-		limit.rlim_cur=(limit.rlim_cur/100)*ram;
-		limit.rlim_max=(limit.rlim_max/100)*ram;
-		if(0 != setrlimit(RLIMIT_AS, &limit)){
-			exit(1);
-		}
+		ram=strtol(argv[_cmdline->ram],NULL,10);
+	}else{
+		ram = 50;
+	}
+	struct rlimit limit;
+	getrlimit(RLIMIT_AS, &limit);
+	limit.rlim_cur=(limit.rlim_cur/100)*ram;
+	limit.rlim_max=(limit.rlim_max/100)*ram;
+	if(0 != setrlimit(RLIMIT_AS, &limit)){
+		exit(1);
 	}
 }
 
