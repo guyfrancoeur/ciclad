@@ -1,23 +1,27 @@
-// version 2.1h 2018-09-27 Galicia-P (codename isci) by Guy Francoeur
+// version 2.1h 2018-09-27 based on Galicia-P (codename isci) by Guy Francoeur
 // G++ v4.8.x et + (4.9.x ideal): g++ -Wall -DNDEBUG -static -O3 -std=c++11 isci.cpp -I ./ -o isci
 // Test : valgrind --tool=memcheck --leak-check=yes ./isci ~/isci/testdb_gen2.txt
 // Profiler : valgrind --tools=callgrind ./isci ~/isci/testdb_gen2.txt
 // fastest testdb_gen2.txt 97sec
-
+// TODO : cmdline() [-i <in stream/file> | default stdin] [-o <output stream/file> | default stdout] [-w <window size> | default 1000] [-t <window time> | default 0]
+// TODO : sliding window
+// TODO : remove from window
+// TODO : fix the index initial capacity to be variable
+// TODO : validate unit to be 64bit
 //PREPROCESSORS (also for isci.h)
 #define _BTREE  // _BTREE | _ROBIN | _HOPSCOTCH | _STLMAP_a // structure pour la trie
 #define _VECTOR // _VECTOR | _STLMAP_b         // structure pour les concepts
 
 #include <cstdio>   //fopen
 #include <cstdlib>  //printf
-#include <queue>
-#include <cstring>  //strok
+#include <queue>    //sliding window
+#include <cstring>  //strtok
 #include <ctime>    //clock_t
 #include <iostream> //cout
 #include "stx/btree_map.h" // b+tree library
 #include "robin_map.h" // robin hood hash map library
 #include "hopscotch_map.h" // hopscotch hash map library
-#include "isci.h"
+#include "isci.h"  //cmdline
 
 #ifdef _WIN32
   #include <windows.h>
@@ -31,7 +35,7 @@ struct node {
   #ifdef _BTREE
     node(stx::btree_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
   #elif defined(_ROBIN)
-	node(tsl::robin_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
+    node(tsl::robin_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
   #elif defined(_HOPSCOTCH)
     node(tsl::hopscotch_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
   #else
@@ -45,7 +49,7 @@ struct node {
   #ifdef _BTREE
     stx::btree_map<uint, node *> enfant;
   #elif defined(_ROBIN)
-	tsl::robin_map<uint, node *> enfant;
+    tsl::robin_map<uint, node *> enfant;
   #elif defined(_HOPSCOTCH)
     tsl::hopscotch_map<uint, node *> enfant;
   #else
@@ -58,7 +62,7 @@ void freeNode(node *n) {
   auto it1 = _enfant.begin();
   while (it1 != _enfant.end()) {
     if (_enfant.size() > 0) {
-        freeNode(it1->second);
+      freeNode(it1->second);
     }
     ++it1;
   }
@@ -70,18 +74,10 @@ void freeNode(node *n) {
 int main(int argc, char *argv[]) {
   if (argc != 2) return 0;
   clock_t start = clock(); clock_t running = clock();
-  //#ifdef _BTREE //not used
-    //***stx::btree_map<uint, node*> li; //e.id, node //last items
-    //std::vector<node *> li;
-  //#else
-    //std::map<uint, node*> li; //e.id, node //last items
-  //#endif
-  //stx::btree_map<uint, vector<uint> > idx;
-  //map<uint, vector<uint> > idx;
-  vector<vector<uint>> idx(10000);
+  vector<vector<uint>> idx(10000); //Initalisation 
   for (int i = 0; i < 10000; ++i) {
-    vector<uint> vc;
-    idx[i] = vc;
+    vector<uint> vc; //Reservation
+    idx[i] = vc; //Affection
   }
   queue<node*> tn; // terminal nodes
   #ifdef _BTREE
@@ -98,13 +94,12 @@ int main(int argc, char *argv[]) {
 
   uint gCid = 0; uint gItems = 0;
 #ifdef _VECTOR
-  vector<concept2> fCI2(1,superconcept);
+  vector<concept2> fCI2(1,superconcept); //one space with value.
   ++gCid;
-#else
+#else //très lent (map de la stl)
   map<uint, concept2> fCI2;
   fCI2.emplace(gCid++, superconcept);
 #endif
-  //uint *bst = (uint *)calloc(100000, sizeof(uint)); uint bst_size = 0;  //to be deleted...
   node **li = (node **)malloc(fCI2.size() * sizeof(node *));
   uint allocated_memory = 0; uint allocated_block = 0;
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
@@ -137,7 +132,7 @@ int main(int argc, char *argv[]) {
       //---- mise a jour du superconcept (bottom) et de son index ---- start
       //****if (it0 == idx.end()) {
       if (idx[item].size() == 0) {
-        vector<uint> v(1, 0);
+        vector<uint> v(1, 0); //reserve one space with value 0.
         idx[item] = v;
         if (fCI2[0].supp > 0) {
           concept2 c(gCid, fCI2[0].supp, fCI2[0].size); //concept2 c(gCid, fCI2[0].supp, fCI2[0].size, fCI2[0].itemset);
@@ -168,15 +163,15 @@ int main(int argc, char *argv[]) {
         }
         //------------------------------------------------------- DEBUT ---- UPDATE INTERSECTION
         node *n;
-		auto *_child = &lin->enfant;  //un petit truc pour les diff�rentes declarations.  :)
+	      auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
         auto it2 = _child->find(item);
         if (it2 == _child->end()) {
           #ifdef _BTREE
             stx::btree_map<uint, node *> _enfant;
           #elif defined(_ROBIN)
-			tsl::robin_map<uint, node *> _enfant;
+	          tsl::robin_map<uint, node *> _enfant;
           #elif defined(_HOPSCOTCH)
-			tsl::hopscotch_map<uint, node *> _enfant;
+	          tsl::hopscotch_map<uint, node *> _enfant;
           #else
             map<uint, node *> _enfant;
           #endif
@@ -187,11 +182,11 @@ int main(int argc, char *argv[]) {
           n->depth = lin->depth + 1;
           n->nb_ref = 0;
           #ifdef _BTREE
-		    lin->enfant.insert2(lin->enfant.end(), item, n); //auto itX = 
+            lin->enfant.insert2(lin->enfant.end(), item, n); //auto itX = 
           #elif defined(_ROBIN)
-			lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n)); //auto itX = 
+	          lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n)); //auto itX = 
           #elif defined(_HOPSCOTCH)
-		    lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n));
+	          lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n));
           #else
             lin->enfant.emplace_hint(lin->enfant.end(), item, n);
           #endif
@@ -268,7 +263,7 @@ int main(int argc, char *argv[]) {
   fclose(f);
   printf("Completed in %0.4f sec", (clock() - start) / (double)CLOCKS_PER_SEC);
   //cout << " to process " << row << " rows, idx size/capacity:" << idx->size() << "/" << idx->capacity() << ", # concept:" << fCI2.size() << endl;
-  std::cout << " to process " << row << " rows, idx size:" << 100000 << ", # concept:" << fCI2.size() << endl;
+  cout << " to process " << row << " rows, idx size:" << 100000 << ", # concept:" << fCI2.size() << endl;
 #ifdef DEBUG
   uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
   for (uint n = 0; n < fCI2.size(); ++n) {
