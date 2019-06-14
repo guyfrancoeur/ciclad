@@ -15,10 +15,7 @@
 #include <cstring>  //strtok
 #include <ctime>    //clock_t
 #include <iostream> //cout
-#include "stx/btree_map.h" // b+tree library
-#include "robin_map.h" // robin hood hash map library
-#include "hopscotch_map.h" // hopscotch hash map library
-#include "isci.h"  //cmdline
+#include "isci.h"   //cmdline
 
 #ifdef _WIN32
   #include <windows.h>
@@ -27,51 +24,10 @@
 
 using namespace std;
 
-struct node {
-  node() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  #ifdef _BTREE
-    node(stx::btree_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  #elif defined(_ROBIN)
-    node(tsl::robin_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  #elif defined(_HOPSCOTCH)
-    node(tsl::hopscotch_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  #else
-    node(std::map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  #endif
-  uint depth;
-  uint key;  //item
-  uint nb_ref;
-  uint Cid;
-  node *parent;
-  #ifdef _BTREE
-    stx::btree_map<uint, node *> enfant;
-  #elif defined(_ROBIN)
-    tsl::robin_map<uint, node *> enfant;
-  #elif defined(_HOPSCOTCH)
-    tsl::hopscotch_map<uint, node *> enfant;
-  #else
-    std::map<uint, node *> enfant;
-  #endif
-};
-
-void freeNode(node *n) {
-  auto _enfant = n->enfant;
-  auto it1 = _enfant.begin();
-  while (it1 != _enfant.end()) {
-    if (_enfant.size() > 0) {
-      freeNode(it1->second);
-    }
-    ++it1;
-  }
-  n->enfant.clear();
-  delete(n);
-  return;
-}
-
 int main(int argc, char *argv[]) {
   if (argc != 2) return 0;
   clock_t start = clock(); clock_t running = clock();
-  vector<vector<uint>> idx(10000); //Initalisation 
+  vector<vector<uint>> idx(10000); //Initalisation
   for (int i = 0; i < 10000; ++i) {
     vector<uint> vc; //Reservation
     idx[i] = vc; //Affection
@@ -123,7 +79,7 @@ int main(int argc, char *argv[]) {
     allocated_memory = requested_memory;
     allocated_block = (uint)fCI2.size();
 
-    while (pch != 0) {
+    while (pch != 0) { //ici --->
       ++gItems;
       uint item = atol(pch);
       //****auto it0 = idx.find(item);
@@ -180,9 +136,9 @@ int main(int argc, char *argv[]) {
           n->depth = lin->depth + 1;
           n->nb_ref = 0;
           #ifdef _BTREE
-            lin->enfant.insert2(lin->enfant.end(), item, n); //auto itX = 
+            lin->enfant.insert2(lin->enfant.end(), item, n); //auto itX =
           #elif defined(_ROBIN)
-	          lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n)); //auto itX = 
+	          lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n)); //auto itX =
           #elif defined(_HOPSCOTCH)
 	          lin->enfant.insert(lin->enfant.end(), std::make_pair(item, n));
           #else
@@ -200,7 +156,6 @@ int main(int argc, char *argv[]) {
         if (lin->nb_ref > 0)
           --lin->nb_ref;
         li[e->id] = n;
-        //bst_insert(bst, e->id); ++bst_size;
         //------------------------------------------------------ FIN ---- UPDATE INTERSECTION
       }
       pch = strtok(0, " ");
@@ -273,9 +228,6 @@ int main(int argc, char *argv[]) {
   }
   for (uint n = 0; n < 11; ++n) { cout << n << "->" << nb[n] << endl; }
 #endif
-//#if _DEBUG
-//  wf(fCI2, "out.txt");
-//#endif
   fCI2.clear(); free(li); //idx.clear();
 #ifdef _WIN32
   PROCESS_MEMORY_COUNTERS_EX info;

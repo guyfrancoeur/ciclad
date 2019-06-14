@@ -2,8 +2,11 @@
 
 default: isci
 
-isci: main.cpp isci.h
-	g++ -O3 -fno-pic -static -std=c++11 -DNDEBUG -I ./ -o $@ main.cpp
+isci.o: isci.h isci.cpp
+	g++ -O3 -c isci.cpp -o $@
+
+isci: main.cpp isci.o
+	g++ -O3 -fno-pic -static -std=c++11 -DNDEBUG -I ./ -o $@ $^
 
 test: isci
 	/bin/time ./isci testdb_gen2.txt
@@ -11,8 +14,8 @@ test: isci
 test_d: isci_d
 	/bin/time ./isci_d testdb_gen2.txt
 
-isci_d: main.cpp isci.h
-	g++ -O1 -g -static -fno-pic -std=c++11 -DDEBUG -o $@ main.cpp
+isci_d: main.cpp isci.cpp
+	g++ -O3 -g -static -fno-pic -std=c++11 -DDEBUG -o $@ $^
 
 leak: isci_d
 	valgrind --tool=memcheck --leak-check=full --show-reachable=yes --track-origins=yes ./isci_d testdb_gen2.txt
