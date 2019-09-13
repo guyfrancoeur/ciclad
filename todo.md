@@ -4,7 +4,7 @@
 ## notation
 
 - [ ] Quel est le nom du premier index (item vers concept) ?
-     +
+     + R:
 
 ## TODO
 
