@@ -8,12 +8,12 @@
 
 ## TODO
 
-- [ ] détecteur de transactions multiple
+- [ ] détecteur de transactions identique
 - [ ] détecteur de concept associé à une transaction
      + on hash la transaction pour ajouter à l'index (limité);
-     + on hash seulement les trasactions donc nous avons les items dans l'index principal;
-     + l'index hash pointe vers les concepts ont les items;
-     + de cette façon il est assez facile de faire le `+1` ou `-1` en parallel;
+     + on hash seulement les transactions donc nous avons __tous__ les items dans l'index principal;
+     + l'index hash pointe vers le concept (la trx) et les sous concepts de la transaction;
+     + de cette façon il est assez facile de faire le `+1` ou `-1` en parallèle;
 - [ ] multi-treillis
      + merge;
      + split;
