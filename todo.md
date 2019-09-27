@@ -9,6 +9,7 @@
 
 ## TODO
 
+### Fonctionnalités
 - [ ] détecteur de transactions identique
 - [ ] détecteur de concept associé à une transaction
      + on hash la transaction pour ajouter à l'index (limité);
@@ -18,9 +19,17 @@
 - [ ] multi-treillis
      + merge;
      + split;
+- [ ] option de la ligne de commande pour la fenêtre glissante
+- [ ] gestionnaire de transactions externe
 
+### Langage C++
+- [ ] module et fonction de lecture de transaction (unique);
+- [ ] Compléter les templates C++;
+- [ ] Rendre le code compatible aux directives `#pragma` de OpenMP;
 
-### options pour la fenêtre glissante (sliding window)
+## Détails
+
+### Options pour la fenêtre glissante (sliding window)
 
 | option | description | default | mode |
 |:--------- |:-------- | :----| :------ |
@@ -29,11 +38,11 @@
 | -r 80    | utilsation de la mémoire (ram) en % |  -r 60 | non | drop |
 | -l 1000  | temps limite en ms pour gèrer un ajout | -l 5000 | drop |
 
-##### mode
+#### mode
   + autonome : En mode autonome seulement;
   + drop : les trx seront perdus si l'option n'est pas respectée;
 
-### gestionnaire de transaction externe
+### Gestionnaire de transactions externe
 
 Nous ne voulons peut-être pas gérer les transactions dans ciclad. Enfin ne pas prendre de la mémoire pour maintenir des
 milliers de transactions pour longtemps avant d'avoir le premier effacement.
@@ -56,12 +65,6 @@ quelles soient redirigé vers l'OS.  Nous pouvons donc rediriger le canal `stder
  + Exemple `tail -f ./file.in | ./ciclad 2> trx.out`.
 
 L'important ici c'est de ne pas avoir de <kbd>CTRL</kbd>-<kbd>D</kbd> dans le fichier `file.in` pour éviter la fin du stream.
-
-### Langage C++
-- [ ] module et fonction de lecture de transaction (unique);
-- [ ] Compléter les templates C++;
-- [ ] Rendre le code compatible aux directives `#pragma` de OpenMP;
-
 
 ## Idées
 
