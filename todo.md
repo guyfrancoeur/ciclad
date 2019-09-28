@@ -52,12 +52,13 @@ Donc nous allons laisser le soin de cette tache à un processus externe de nous 
 Ceci implique deux choses : que nous soyons capables de recevoir les trx à ajouter et celles à effacer. Nous allons donc 
 formaliser la signature des transactions add et delete.
 
-`stream.in`
++ `stream.in`
 ```
-add 1 3 4 59 90
-add 4 5 56 58 89
-add 3 4 56 59 89
-del 1 3 4 59 90
+add 8c8647fd 1 3 4 59 90
+add cbf6d2f0 4 5 56 58 89
+add e8103724 3 4 56 59 89
+del 8c8647fd 1 3 4 59 90
+...
 ```
 
 Avec une option `-e` il serait possible de dire au programme de sortir les transactions reçues sur la sortie `stderr` pour
