@@ -20,37 +20,6 @@ void wf(T p, string s) {
   return;
 }
 
-// flat binary search tree using array (experimental)
-void bst_insert(uint *array, uint _value) {
-  int currentIndex = 0;
-  //cout << "Adding: " << x;
-  while (true) {
-    if (array[currentIndex] == NULL) {
-      array[currentIndex] = _value;
-      //cout << " Inserted at index: " << currentIndex << endl;
-      break;
-    }
-    else if (array[currentIndex] <= _value) {
-      if (array[currentIndex] == _value) {
-        //cout << "ERROR!-- Repeating element" << endl;
-        break;
-      }
-      //else
-        //cout << " Right ";
-      currentIndex = (2 * currentIndex + 2);
-    }
-    else if (array[currentIndex] >= _value) {
-      if (array[currentIndex] == _value) {
-        //cout << "ERROR!-- Repeating element" << endl;
-        break;
-      }
-      //else
-        //cout << " Left ";
-      currentIndex = (2 * currentIndex + 1);
-    }
-  }
-}
-
 extern void freeNode(node *n) {
   auto _enfant = n->enfant;
   auto it1 = _enfant.begin();
