@@ -5,14 +5,15 @@
 #include <vector>
 #include <set>
 #include "stx/btree_map.h" // b+tree library
-#include "robin_map.h" // robin hood hash map library
-#include "hopscotch_map.h" // hopscotch hash map library
+//v2 #include "robin_map.h" // robin hood hash map library
+//v2 #include "hopscotch_map.h" // hopscotch hash map library
 
-typedef unsigned int uint;
-typedef unsigned short ushort;
+typedef unsigned int uint; //32bit
+typedef unsigned short ushort; //16bit
 
 using namespace std;
 
+//version 2.x (a la C)
 struct node {
   node() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
   node(stx::btree_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
@@ -52,7 +53,9 @@ struct concept2 {
   ushort size;
   std::vector<uint> itemset;
 };
+
 //------------------------------------------------------------------------------
+//version 3.x (a la C++)
 template <class T>
 class NodeA {
  public:
