@@ -113,7 +113,6 @@ NodeR<T>::~NodeR() { /* free() or delete[] */ }
 
 //------------------------------------------------------------------------------
 template <class T> void wf(T p, string s);
-extern void bst_insert(uint *array, uint _value); //function binary search tree insert
 extern void freeNode(node *n); // v2.1h
 
 #endif // _ISCI_H_
