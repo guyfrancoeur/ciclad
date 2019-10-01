@@ -32,7 +32,6 @@ T Transaction<T>::next() {
 
 template <class T>
 Transaction<T>::Transaction(char * _s, char *_delims, short _crc) {
-  vector<uint> data;
   index = 0;
   char *pch = strtok(_s, _delims);
   type = std::string(pch++);
