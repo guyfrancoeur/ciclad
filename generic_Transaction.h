@@ -61,11 +61,9 @@ void Transaction<T>::load(char *_s, const char *_delims, const short _withcrc) {
   char *pch = std::strtok(_s, _delims);
   __type = std::string(pch); pch = strtok(0, _delims);
   if (_withcrc == 1) { __crc = std::string(pch); pch = strtok(0, _delims); }
-  char *pEnd;
   while (pch != 0) {
-    std::from_chars(pch, pch+strlen(pch), v);
+    std::from_chars(pch, pch + strlen(pch), v);
     __data.insert(__data.end(), v);
-    //old --> __data.insert(__data.end(),std::strtoul(pch,&pEnd,10));
     pch = strtok(0, _delims);
   }
 };
