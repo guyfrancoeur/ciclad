@@ -41,10 +41,11 @@ int main(int argc, char *argv[]) {
   uint allocated_memory = 0; uint allocated_block = 0;
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
 
-  FILE *f=stdin; uint row = 0;
+  uint row = 0;
   char s[10000];
-    while (fgets(s, 10000, f) != NULL) {
-    char *pch = strtok(s, " ");
+  while (fgets(s, 10000, stdin) != NULL) {
+    // prototype add(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto fCI2, auto li, unit gCid);
+    // start add() --->
     node *root = new node(_rootChild); //attention
     uint requested_memory = (uint)fCI2.size()*sizeof(node *);
     li = (node **)realloc(li, requested_memory);
@@ -56,7 +57,8 @@ int main(int argc, char *argv[]) {
     allocated_memory = requested_memory;
     allocated_block = (uint)fCI2.size();
 
-    while (pch != 0) { //ici --->
+    char *pch = strtok(s, " ");
+    while (pch != 0) {
       uint item = atol(pch);
       //---- mise a jour du superconcept (bottom) et de son index ---- start
       if (idx[item].size() == 0) {
@@ -132,7 +134,9 @@ int main(int argc, char *argv[]) {
       }
       tn.pop();
     }
+    // end add() --->
     ++row;
+
     #ifdef DEBUG
     if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
       printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
@@ -142,7 +146,7 @@ int main(int argc, char *argv[]) {
     #endif
     freeNode(root);
   }
-  fclose(f);
+
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
   cout  << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
 #ifdef DEBUG
