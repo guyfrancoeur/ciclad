@@ -9,10 +9,8 @@
 
 using namespace std;
 
-template <class T>
+template <class T> // T est le datatype des items (int, long, short); 
 class Transaction { // itemset
-  // T est le type des items;
-  // U est le type pour determiner le type de trx;
 public:
   string type();          //ex: (String) "add", "del"
   string crc();           //ex: (String) "1ade980c" le crc de la transaction
