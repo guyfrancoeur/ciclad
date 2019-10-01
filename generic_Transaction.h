@@ -9,13 +9,13 @@
 
 using namespace std;
 
-template <class T> // T est le datatype des items (int, long, short); 
+template <class T> // T est le type des items (int, long, short); 
 class Transaction { // itemset
 public:
-  string type();          //ex: (String) "add", "del"
-  string crc();           //ex: (String) "1ade980c" le crc de la transaction
-  size_t count();       //nombre d'item dans la trx
-  void load(char *, const char *, const short);          //pour charger une autre trx
+  string type();                                 //ex: (String) "add", "del"
+  string crc();                                  //ex: (String) "1ade980c" le crc de la transaction
+  size_t count();                                //nombre d'item dans la trx
+  void load(char *, const char *, const short);  //pour charger une autre trx
   void clean();
   T next();
   Transaction(void);
@@ -23,7 +23,7 @@ public:
   ~Transaction();
 private:
   std::vector<T> __data;
-  size_t __index;             //index de l'element pointé pour le next();
+  size_t __index;                                 //index de l'élément pointé pour le next();
   string __type;
   string __crc;
 };
