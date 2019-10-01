@@ -53,11 +53,12 @@ void Transaction<T>::load(const char *_s, const char *_delims, const short _crc)
 
 template <class T>
 Transaction<T>::Transaction() {
-  index = 0;
+  clean();
 }
 
 template <class T>
 Transaction<T>::Transaction(const char *_s, const char *_delims, const short _crc) {
+  clean();
   load(_s, _delims, _crc);
 };
 
