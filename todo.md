@@ -63,7 +63,7 @@ del 8c8647fd 1 3 4 59 90
 
 Avec une option `-e` il serait possible de dire au programme de sortir les transactions reçues sur la sortie `stderr` pour
 quelles soient redirigé vers l'OS.  Nous pouvons donc rediriger le canal `stderr` vers un fichier.
- + Exemple `touch ./file.in ; tail -f ./file.in | ./ciclad 2> trx.out`.
+ + Exemple `rm -f strean.in ; touch ./stream.in ; tail -f ./file.in | ./ciclad 2> trx-in-window.txt`.
 
 L'important ici c'est de ne pas avoir de <kbd>CTRL</kbd>-<kbd>D</kbd> dans le fichier `file.in` pour éviter la fin du stream.
 
