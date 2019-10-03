@@ -65,7 +65,7 @@ Avec une option `-e` il serait possible de dire au programme de sortir les trans
 quelles soient redirigé vers l'OS.  Nous pouvons donc rediriger le canal `stderr` vers un fichier.
  + Exemple `rm -f strean.in ; touch ./stream.in ; tail -f ./file.in | ./ciclad 2> trx-in-window.txt`.
 
-L'important ici c'est de ne pas avoir de <kbd>CTRL</kbd>-<kbd>D</kbd> dans le fichier `file.in` pour éviter la fin du stream.
+L'important ici c'est de ne pas avoir de <kbd>CTRL</kbd>-<kbd>D</kbd> dans le fichier `stream.in` pour éviter la fin du stream.
 
 ## Idées
 
