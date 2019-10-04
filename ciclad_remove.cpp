@@ -39,7 +39,7 @@ double del(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto 
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
         stx::btree_map<uint, node3 *> _enfant;
-        n = new node(_enfant);
+        n = new node3(_enfant);
         n->key = item;
         n->Cid = e->id;
         n->parent = lin;
