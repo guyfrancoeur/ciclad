@@ -1,44 +1,4 @@
-#include <cstdio>   //fopen, printf
-#include <cstdlib>  //atol
-#include <queue>    //sliding window
-#include <cstring>  //strtok
-#include <ctime>    //clock_t
-#include <iostream> //cout
-#include "isci.h"   //cmdline, uint (TODO a fix needed for template only)
-
-#ifdef _WIN32
-#include <windows.h>
-#include <psapi.h>
-#endif
-
-using namespace std;
-
-typedef unsigned int uint;
-typedef unsigned short ushort;
-
-struct node {
-  node() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  node(stx::btree_map<uint, node *> _enfant) : enfant(_enfant), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-
-  uint depth;
-  uint key;  //item
-  uint nb_ref;
-  uint Cid;  //Conecpt id
-  node *parent;
-  stx::btree_map<uint, node *> enfant;
-  std::vector<uint> gen;
-};
-
-struct concept2 {
-  concept2() : id(0), supp(0), size(0), deleted(0){}
-  concept2(uint _id, uint _supp, ushort _size, ushort _deleted) : id(_id), supp(_supp), size(_size), deleted(_deleted){}
-  concept2(uint _id, uint _supp, ushort _size, ushort _deleted, std::vector<uint> _itemset) : id(_id), supp(_supp), size(_size), deleted(_deleted), itemset(_itemset) {}
-  uint id;
-  uint supp;
-  ushort size;
-  ushort deleted;
-  std::vector<uint> itemset;
-};
+#include ciclad_remove.h
 
 double del(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto fCI2, auto li, uint gCid) {
   clock_t start = clock(); clock_t running = clock();
