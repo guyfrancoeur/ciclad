@@ -1,9 +1,9 @@
 #include ciclad_remove.h
 
-double del(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto fCI2, uint gCid) {
+double del(char *s, auto &tn, auto &idx, auto &_rootchild, auto &fCI2, uint *gCid) {
   clock_t start = clock(); clock_t running = clock();
 
-  node3 *root = new node(_rootChild);
+  node3 *root = new node3(_rootChild);
   //ici nous avons besoin d'une optimisation sans arguments --->
   uint requested_memory = (uint)fCI2.size() * sizeof(node3 *);
   node3 li = (node3 **)realloc(li, requested_memory);
