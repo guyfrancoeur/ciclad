@@ -1,15 +1,17 @@
 #ifndef _CICLAD_REMOVE_H
 #define _CICLAD_REMOVE_H
 
-#include <cstdio>
-#include <vector>
-#include <queue>
+#include <cstdio>   //fopen, printf
+#include <cstdlib>  //atol
+#include <queue>    //sliding window
+#include <cstring>  //strtok
+#include <ctime>    //clock_t
+#include <iostream> //cout
 
-#include "isci.h"
+#include "isci.h"   //unit ushort node concept3
 
 using namespace std;
 
-void calculateRemove(TRANSACTION *current_T, vector<vector<concept*>>*index, vector<concept*>*conceptContainer);
-void expandPath(uint32_t item, size_t ref_pos, concept* ci, vector<trie_node_rmv>* tnodes);
+double del(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto fCI2, auto li, uint gCid);
 
 #endif
