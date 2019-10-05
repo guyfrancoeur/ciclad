@@ -8,10 +8,10 @@
 #include <ctime>    //clock_t
 #include <iostream> //cout
 
-#include "isci.h"   //unit ushort node concept3
+#include "isci.h"   //unit ushort node3 concept3
 
 using namespace std;
 
-double del(char *s, auto tn, auto idx, auto _rootchild, auto superconcept, auto fCI2, auto li, uint gCid);
+double del(char *s, auto &tn, auto &idx, auto &_rootchild, auto &fCI2, uint *gCid);
 
 #endif
