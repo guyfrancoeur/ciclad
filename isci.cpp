@@ -33,3 +33,17 @@ extern void freeNode(node *n) {
   delete(n);
   return;
 }
+
+extern void freeNode3(node3 *n) {
+  auto _enfant = n->enfant;
+  auto it1 = _enfant.begin();
+  while (it1 != _enfant.end()) {
+    if (_enfant.size() > 0) {
+      freeNode(it1->second);
+    }
+    ++it1;
+  }
+  n->enfant.clear();
+  delete(n);
+  return;
+}
