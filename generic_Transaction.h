@@ -5,6 +5,8 @@
 #include <cstdio>   //stdin
 #include <cstdlib>  //strtoul
 
+#include <charconv> // from_char, to_char
+
 #pragma warning(disable : 4996) //pour Visual C++ (std::strtok)
 
 using namespace std;
@@ -17,6 +19,7 @@ public:
   size_t count();                                //nombre d'item dans la trx
   void load(char *, const char *, const short);  //pour charger une autre trx
   void clean();
+  std::vector<T>* data();
   T next();
   Transaction(void);
   Transaction(char *, const char *, const short); //pointer vers le premier element, 1=avec crc/0=pas de crc a l'index [1]
@@ -44,6 +47,11 @@ size_t Transaction<T>::count() {
 };
 
 template <class T>
+std::vector<T>* Transaction<T>::data() {
+  return &__data;
+};
+
+template <class T>
 T Transaction<T>::next() {
   return __data.at(__index++); //bound check
 };
@@ -58,9 +66,9 @@ template <class T>
 void Transaction<T>::load(char *_s, const char *_delims, const short _withcrc) {
   T v;
   clean();
-  char *pch = std::strtok(_s, _delims);
-  __type = std::string(pch); pch = strtok(0, _delims);
-  if (_withcrc == 1) { __crc = std::string(pch); pch = strtok(0, _delims); }
+  char *pch = _s;// std::strtok(_s, _delims);
+  //__type = std::string(pch); pch = strtok(0, _delims);
+  //if (_withcrc == 1) { __crc = std::string(pch); pch = strtok(0, _delims); }
   while (pch != 0) {
     std::from_chars(pch, pch + strlen(pch), v);
     __data.insert(__data.end(), v);

@@ -111,11 +111,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ciclad_main.cpp" />
     <ClCompile Include="isci.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="ciclad_remove.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="generic_Transaction.h" />
     <ClInclude Include="hopscotch_growth_policy.h" />
     <ClInclude Include="hopscotch_hash.h" />
     <ClInclude Include="hopscotch_map.h" />
