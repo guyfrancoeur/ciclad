@@ -5,6 +5,8 @@
 #include <cstdio>   //stdin
 #include <cstdlib>  //strtoul
 
+#include <charconv> // from_char, to_char
+
 #pragma warning(disable : 4996) //pour Visual C++ (std::strtok)
 
 using namespace std;
@@ -17,6 +19,7 @@ public:
   size_t count();                                //nombre d'item dans la trx
   void load(char *, const char *, const short);  //pour charger une autre trx
   void clean();
+  std::vector<T>* data();
   T next();
   Transaction(void);
   Transaction(char *, const char *, const short); //pointer vers le premier element, 1=avec crc/0=pas de crc a l'index [1]
@@ -41,6 +44,11 @@ string Transaction<T>::crc() {
 template <class T>
 size_t Transaction<T>::count() {
   return __data.size();
+};
+
+template <class T>
+std::vector<T>* Transaction<T>::data() {
+  return &__data;
 };
 
 template <class T>
