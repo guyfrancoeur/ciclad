@@ -10,7 +10,8 @@
 #include <set>      //set
 #include <fstream>  //ofstream, ifstream
 
-#include "../stx/btree_map.h"
+//#include "../stx/btree_map.h"
+#include "../tlx/container/btree_map.hpp"
 
 using namespace std;
 
@@ -20,14 +21,14 @@ typedef unsigned short ushort;
 //Version 3.x (a la C)
 struct node3 {
   node3() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-  node3(stx::btree_map<uint, node3 *> _enfant) : enfant(_enfant), gen(std::vector<uint> (2)), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
+  node3(tlx::btree_map<uint, node3 *> _enfant) : enfant(_enfant), gen(std::vector<uint> (2)), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
 
   uint depth;
   uint key;  //item
   uint nb_ref;
   uint Cid;  //Conecpt id
   node3 *parent;
-  stx::btree_map<uint, node3 *> enfant;
+  tlx::btree_map<uint, node3 *> enfant;
   std::vector<uint> gen;
 };
 
@@ -52,7 +53,7 @@ public:
   uint nb_ref;
   uint Cid;   //Concept id
   NodeA *parent;
-  T enfant;  //stx::btree_map<uint, node *>
+  T enfant;  //tlx::btree_map<uint, node *>
   NodeA();
   NodeA(T _enfant);
   ~NodeA();
@@ -78,7 +79,7 @@ public:
   uint key;  //item
   uint nb_ref;
   NodeR *parent;
-  T enfant;  //stx::btree_map<uint, node *>
+  T enfant;  //tlx::btree_map<uint, node *>
   uint Cid;  //std::set<uint>
   std::vector<uint> gen; //std::set<uint> or std::vector<uint>
   NodeR();
@@ -100,8 +101,8 @@ inline NodeR<T>::~NodeR() { }
 //------------------------------------------------------------------------------
 //Prototype
 
-double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
-double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
+double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
+double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
 
 template <class T> void wf(T p, string s);
 extern void freeNode3(node3 *n); //v3.0

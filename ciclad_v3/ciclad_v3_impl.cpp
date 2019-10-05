@@ -2,7 +2,7 @@
 
 #pragma warning(disable : 4996)
 
-double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
+double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
   clock_t start = clock(); clock_t running = clock();
 
   node3 *root = new node3(_rootChild);
@@ -52,7 +52,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx
       auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
-        stx::btree_map<uint, node3 *> _enfant;
+        tlx::btree_map<uint, node3 *> _enfant;
         n = new node3(_enfant);
         n->key = item;
         n->Cid = e->id;
@@ -104,7 +104,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx
   return (clock() - start) / (double)CLOCKS_PER_SEC;
 }
 
-double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
+double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
   clock_t start = clock(); clock_t running = clock();
 
   node3 *root = new node3(_rootChild);
@@ -143,7 +143,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, stx
       auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
-        stx::btree_map<uint, node3 *> _enfant;
+        tlx::btree_map<uint, node3 *> _enfant;
         n = new node3(_enfant);
         n->key = item;
         n->Cid = e->id;

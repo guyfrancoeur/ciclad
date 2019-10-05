@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     idx[i] = vc; //Affection
   }
   queue<node3 *> tn; // terminal nodes
-  stx::btree_map<uint, node3 *> _rootChild; //stx is the fastest
+  tlx::btree_map<uint, node3 *> _rootChild; //stx is the fastest
   vector<uint> tmp;
   concept3 superconcept(0, 0, 0, 0, tmp);
   uint gCid = 0;
