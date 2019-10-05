@@ -39,7 +39,12 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
     }
     //---- mise a jour du superconcept (bottom) et de son index ---- fin
     for (uint idConcept : idx[item]) { //tant qu'il y a des concepts (pour un item).
-      concept3 *e = &fCI2.at(idConcept); //auto e = fCI2.at(idConcept); //e est un concept fCI2[idConcept]
+      concept3 *e = &fCI2[idConcept]; //fCI2.at(idConcept); //e est un concept 
+      //if (e->deleted == 1) {
+      //  idx[item].at(i) = idx[item].back();
+      //  idx[item].pop_back();
+      //  continue;
+      //}
       node3 *lin; //lin =est= last item node
       if (li[idConcept] != 0) { //v2.1g rev2
         lin = li[idConcept]; //v2.1g rev2
