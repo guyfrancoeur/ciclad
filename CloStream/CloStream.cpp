@@ -1,5 +1,7 @@
 #include "CloStream.h"
+#include "../CommonUtility/Utility.h"
 
+uint32_t CI_ID = 1;
 
 std::set<uint32_t>* compute_union_ideals(std::vector<uint32_t>* const _transaction, std::map<uint32_t, std::vector<uint32_t>>* const _cidListMap) {
   std::set<uint32_t>* cidset = new std::set<uint32_t>();
@@ -62,7 +64,7 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
     std::map<CloStreamCI*, uint32_t>::iterator* already_computed_intersection;
     if (!(already_computed_intersection = locate_intersection_class(cti, &intersection, &tableTemp))) {
       // add the instersection to the temporary table with "cid".
-      tableTemp.emplace(intersection, cid);
+      tableTemp.emplace(&intersection, cid);
     }
     else {
       CloStreamCI* const ctt = _tableClosed->find((*already_computed_intersection)->second)->second;
@@ -101,9 +103,9 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
         std::vector<uint32_t>* cidlist = &_cidListMap->find(item)->second;
         // if null
         if (!cidlist) {
-          cidlist = new std::vector<uint32_t>();
           // we  create one
-          _cidListMap->emplace(item, cidlist);
+          _cidListMap->emplace(item, std::vector<uint32_t>());
+          cidlist = &_cidListMap->find(item)->second;
         }
         // then we add x to the cidlist
         const uint32_t pos = cidlist->size();
@@ -138,7 +140,7 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       else {
         //les CI conserves via leurs cid doivent etre a l'exterieur du cone up trx
         if (!contains(_transaction, cti->itemset, false)) {
-          tableTemp.emplace(intersection, cid);
+          tableTemp.emplace(&intersection, cid);
         }
       }
     }
@@ -170,14 +172,14 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       for (int i = 0; i != obsoleteOrDemotedCI->positions_in_lists->size(); ++i) {
         std::vector<uint32_t>* cidlist = &_cidListMap->find(obsoleteOrDemotedCI->itemset->at(i))->second;
         if (!cidlist) {
-          System.out.println("error, this cannot happen");
-          System.exit(1);
+          //System.out.println("error, this cannot happen");
+          //System.exit(1);
         }
         cidlist->erase(cidlist->begin() + obsoleteOrDemotedCI->positions_in_lists->at(i));
         cidlist->at(obsoleteOrDemotedCI->positions_in_lists->at(i)) = 0;
       }
       _tableClosed->erase(obsoleteOrDemotedCI->id);
-      _tableClosed->emplace(obsoleteOrDemotedCI->id, 0);
+      _tableClosed->emplace(obsoleteOrDemotedCI->id, (CloStreamCI*)0);
     }
     else {
       // we have to increase its support

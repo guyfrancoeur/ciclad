@@ -1,13 +1,11 @@
 #ifndef CLOSTREAM_ALG_H
 #define CLOSTREAM_ALG_H
 
-#include "Utility.h"
+#include "../CommonUtility/Utility.h"
 
 #include <set>
 #include <map>
 #include <vector>
-
-uint32_t CI_ID = 1;
 
 struct CloStreamCI {
   uint32_t support;
