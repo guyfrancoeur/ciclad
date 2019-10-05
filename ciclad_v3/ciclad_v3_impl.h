@@ -8,7 +8,7 @@
 #include <ctime>    //clock_t
 #include <iostream> //cout
 #include <set>      //set
-#include <fstream>  //ofstream (open)
+#include <fstream>  //ofstream, ifstream
 
 #include "../stx/btree_map.h"
 
