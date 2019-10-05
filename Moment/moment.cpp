@@ -2,13 +2,13 @@
 #include "../CommonUtility/Utility.h"
 #include <iostream>
 
-uint32_t CET_NODE_ID = 0;
-uint32_t NBR_NODES = 0;
-uint32_t NBR_CLOSED_NODES = 0;
-
-std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
+extern uint32_t CET_NODE_ID;
+extern uint32_t NBR_NODES;
+extern uint32_t NBR_CLOSED_NODES;
+extern std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
 
 void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* const _transaction, const uint32_t _minsupp, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
+  std::vector<uint32_t>* closure;
   if (_node->support < _minsupp) {
     if (_node->type == CLOSED_NODE) {
       delete_ci(_node, _EQ_TABLE);
@@ -16,33 +16,43 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
     _node->type = INFREQUENT_GATEWAY_NODE;
     prune_children(_node, _tid, _EQ_TABLE);
   }
-  else if (left_check(_node, _EQ_TABLE)) {
+  else if ((closure = left_check(_node, _EQ_TABLE))) {
     if (_node->type == CLOSED_NODE) {
       delete_ci(_node, _EQ_TABLE);
     }
+    //std::cout << "we should stop here" << std::endl;
     _node->type = UNPROMISSING_GATEWAY_NODE;
     prune_children(_node, _tid, _EQ_TABLE);
+    delete closure;
   }
   else {
+    delete closure;
+    //std::cout << "begin " << _node->item << " combining with right sibling" << std::endl;
     //combiner les freres a droite
     std::map<uint32_t, CETNode*>::iterator it = _node->parent->children->begin();
-    for (; it != _node->children->end(); ++it) {
+    for (; it != _node->parent->children->end(); ++it) {
       if (it->first > _node->item && binary_search(_transaction->begin(), _transaction->end(), it->first)) {
         CETNode* const sibling = it->second;
-        if (sibling->support > _minsupp && (!_node->children || _node->children->end() == _node->children->find(it->first))) {
+        if (sibling->support > _minsupp && (!_node->children || (_node->children->end() == _node->children->find(it->first)))) {
           CETNode* const newnode = new CETNode();
           //compute support of a new node (support, tidset, tidsum)
           {
             std::vector<uint32_t>* const left_tids = _node->tidlist;
             std::vector<uint32_t>* const right_tids = sibling->tidlist;
+            
             newnode->id = ++CET_NODE_ID;
             newnode->tidlist = inter(left_tids, right_tids);
             newnode->support = newnode->tidlist->size();
             newnode->itemset = new std::vector<uint32_t>(_node->itemset->begin(), _node->itemset->end());// [_node->itemset->size() + 1];
             newnode->item = it->first;
+            newnode->tidsum = 0;
+            newnode->type = 0;
             //System.arraycopy(_node->itemset->size(), newnode->itemset, 0, _node->itemset.length);
             newnode->itemset->push_back(sibling->itemset->at(sibling->itemset->size() - 1));
-            for (int z = 0; z != newnode->tidlist->size(); ++z) {
+            //std::cout << "Created a new node w/ " << it->first << " ";
+            print_cet_node(newnode);
+
+            for (uint32_t z = 0; z != newnode->tidlist->size(); ++z) {
               newnode->tidsum += newnode->tidlist->at(z);
             }
             newnode->hash = newnode->tidsum * newnode->support;
@@ -86,6 +96,7 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
     else {
       if (_node->type != CLOSED_NODE) {
         _node->type = CLOSED_NODE;
+        //std::cout << "added ci in explore..." << _node->support << std::endl;
         add_ci(_node, _EQ_TABLE);
         //This should go into a function
         {
@@ -104,8 +115,11 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
   }
 };
 
-void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, const CETNode* _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
+void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
   //not relevant to addition => not included in transaction
+  
+  //std::cout << _transaction->size() << std::endl;
+
   if (!contains(_transaction, _node->itemset, false)) {
     return;
   }
@@ -120,7 +134,9 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
   std::map<uint32_t, CETNode*>::iterator it = _node->children->begin();
   for (; it != _node->children->end(); ++it) {
     CETNode* const childNode = it->second;
-    if (contains(_transaction, childNode->itemset, false)) {
+    //std::cout << "testing " << childNode->item << std::endl;
+    bool res;
+    if ((res = contains(_transaction, childNode->itemset, false))) {
       //increment support of already existing node (support, tidset, tidsum)
       {
         if (childNode->tidlist->size() == 0 || childNode->tidlist->at(childNode->tidlist->size() - 1) != _tid) {
@@ -132,6 +148,7 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
 
           std::vector<uint32_t>* tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin(), childNode->tidlist->end());
           tmpTidList->push_back(_tid);
+          delete childNode->tidlist;
           childNode->tidlist = tmpTidList;
         }
 
@@ -157,6 +174,7 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
             newly_promissing_nodes.push_back(it->first);
           }
         }
+        delete diff;
       }
       else if (childNode->type == INFREQUENT_GATEWAY_NODE) {
         //ces noeuds la etaient infrequent donc leurs combinaisons en tant que freres a droite n'existent pas encore
@@ -174,8 +192,10 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         //mais cela va se detecter tout seul via la recursion (existe fils avec support !=)
       }
     }
+    //std::cout << "res was " << res << std::endl;
   }
-  
+  //std::cout << "looped on all children nodes" << std::endl;
+
   it = _node->children->begin();
   for (; it != _node->children->end(); ++it) {
     CETNode* const ni_prime = it->second;
@@ -222,16 +242,19 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
               std::vector<uint32_t>* const left_tids = ni_prime->tidlist;
               std::vector<uint32_t>* const right_tids = sibling->tidlist;
               newnode->id = ++CET_NODE_ID;
+              //std::cout << "Created a new node w/ " << *frequent_siblings << std::endl;
               newnode->tidlist = inter(left_tids, right_tids);
               newnode->itemset = new std::vector<uint32_t>(ni_prime->itemset->begin(), ni_prime->itemset->end());
               //newnode->itemset->resize(ni_prime->itemset->size()+1);
               //System.arraycopy(ni_prime.itemset, 0, newnode.itemset, 0, ni_prime.itemset.length);
               newnode->itemset->push_back(sibling->itemset->at(sibling->itemset->size() - 1));
               newnode->support = newnode->tidlist->size();
+              newnode->type = 0;
               if (newnode->support > ni_prime->support || newnode->support > sibling->support) {
                 exit(ERROR_INCORRECT_CREATION_OF_NODE);
               }
               newnode->item = *frequent_siblings;
+              newnode->tidsum = 0;
               for (uint32_t z = 0; z != newnode->tidlist->size(); ++z) {
                 newnode->tidsum += newnode->tidlist->at(z);
               }
@@ -246,7 +269,6 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
             NBR_NODES += 1;
           }
         }
-       
         Addition(_tid, _transaction, _minsupp, ni_prime, _EQ_TABLE);
         if (ni_prime->type == CLOSED_NODE) {
           //mettre a jour la table de hashage : changer de classe d'equivalence
@@ -316,6 +338,7 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           }
           if (!has_child_with_same_support) {
             ni_prime->type = CLOSED_NODE;
+            //std::cout << "added ci in addition..." << std::endl;
             add_ci(ni_prime, _EQ_TABLE);
             {
               //This shoudl go into a function
@@ -370,6 +393,7 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           }
           childNode->hash = childNode->tidsum * childNode->support;
           std::vector<uint32_t>* const tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin() + 1, childNode->tidlist->end());
+          delete childNode->tidlist;
           //final int[] tmpTidList = new int[childNode.tidlist.length - 1];
           //System.arraycopy(childNode.tidlist, 1, tmpTidList, 0, childNode.tidlist.length - 1);
           childNode->tidlist = tmpTidList;
@@ -385,6 +409,7 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         infrequent_nodes.push_back(it->first);
       }
 
+      std::vector<uint32_t>* closure;
       //on pourrait peut etre remplacer la seconde condition par type != INFREQUENT_GATEWAY ?
       if (childNode->support < _minsupp && (childNode->support + 1) >= _minsupp) {
         //newly infrequent
@@ -401,14 +426,16 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         //verifier le WAS unpromissing or infrequent
         prune_children(childNode, _tid, _EQ_TABLE);
       }
-      else if (left_check(childNode, _EQ_TABLE)) {
+      else if ((closure = left_check(childNode, _EQ_TABLE))) {
         if (childNode->type == CLOSED_NODE) {
           delete_ci(childNode, _EQ_TABLE);
         }
         prune_children(childNode, _tid, _EQ_TABLE);
         childNode->type = UNPROMISSING_GATEWAY_NODE;
+        delete closure;
       }
       else {
+        delete closure;
         //ici probablement newly infrequent only ?
         std::vector<uint32_t>::iterator infrequent_sib_it = newly_infrequent_nodes.begin();
         for (; infrequent_sib_it != newly_infrequent_nodes.end(); ++infrequent_sib_it) {
@@ -421,11 +448,11 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
               if (childNodeObs->type == CLOSED_NODE) {
                 exit(ERROR_DELETE_REMOVING_INFREQUENT_CI);
               }
+              delete childNodeObs;
               NBR_NODES -= 1;
             }
           }
         }
-        //System.out.println("starting recursion for "+Arrays.toString(childNode.itemset));
         Deletion(_tid, _transaction, _minsupp, childNode, _EQ_TABLE);
         if (childNode->type == CLOSED_NODE) {
           //test les fils support
@@ -444,14 +471,13 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           if (has_child_with_same_support) {
             delete_ci(childNode, _EQ_TABLE);
             childNode->type = INTERMEDIATE_NODE;
-            //prune_children(childNode, _tid, _EQ_TABLE);
           }
           else {
-            //System.out.println("ok still closed "+Arrays.toString(childNode.itemset));
             //update la table de hashage
             if (childNode->support == 0) {
               prune_children(childNode, _tid, _EQ_TABLE);
               delete_ci(childNode, _EQ_TABLE);
+              delete it->second;
               _node->children->erase(it->first);
             }
             else {
@@ -464,7 +490,11 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
   }
 };
 
+//lire un define pour utiliser stratified ou pas
 std::vector<uint32_t>* left_check(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
+  //std::cout << "left check for ";
+  //print_cet_node(_node);
+
   if (_EQ_TABLE->end() != _EQ_TABLE->find(_node->hash)) {
     std::vector<std::vector<CETNode*>*>* const potential_closures_by_size = _EQ_TABLE->find(_node->hash)->second;
     for (int i = _node->itemset->size() + 1; i < potential_closures_by_size->size(); ++i) {
@@ -473,15 +503,20 @@ std::vector<uint32_t>* left_check(CETNode* const _node, std::map<long, std::vect
       for (; it != strate->end(); ++it) {
         CETNode* const candidate = *it;
         if (candidate->support == _node->support && contains(candidate->itemset, _node->itemset, true)) {
-          //il faut aussi tester que le candidat a la branche de fermeture contient des items lexicographiquement plus petits que ceux dans le noeud a tester
+          /*std::cout << "for ";
+          print_cet_node(_node);
+          std::cout << "we found its closure" << std::endl;
+          print_cet_node(candidate);
+          */
           std::vector<uint32_t>* const set_difference = diff(candidate->itemset, _node->itemset);
           if (_node->itemset->size() == 0) return set_difference;
-          for (int j = 0; j != set_difference->size(); ++j) {
+          for (uint32_t j = 0; j != set_difference->size(); ++j) {
+            //std::cout << set_difference->at(j) << " vs " << (_node->itemset->at(_node->itemset->size() - 1)) << std::endl;
             if (set_difference->at(j) < _node->itemset->at(_node->itemset->size() - 1)) {
-              //if(_print) System.out.println("set diff "+Arrays.toString(set_difference)+" and node was "+Arrays.toString(_node.itemset)+" and other CI was "+Arrays.toString(candidate.itemset));
               return set_difference;
             }
           }
+          //std::cout << "allo" << std::endl;
         }
       }
     }
@@ -489,15 +524,21 @@ std::vector<uint32_t>* left_check(CETNode* const _node, std::map<long, std::vect
   return 0;
 };
 
+
+//Below are utility functions for Moment (non in algorithm). TODO: Still need to add exit and error codes
+
 void add_ci(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
+  //std::cout << "Added new CI of size " << _node->itemset->size() << " ";
+  //print_cet_node(_node);
+
   if (NBR_CLOSED_NODES != CLOSED_ITEMSETS.size()) {
     //System.out.println("before add erreur d'integrite " + NBR_CLOSED_NODES + " vs " + CLOSED_ITEMSETS.size());
-    //System.exit(1);
+    exit(ERROR_NBR_CLOSED_NODES_DOES_NOT_MATCH_CI_SET_SIZE);
   }
 
   if (CLOSED_ITEMSETS.end() != CLOSED_ITEMSETS.find(_node->id)) {
     //System.out.println("on a deja cet id #" + _node.id + " " + Arrays.toString(CLOSED_ITEMSETS.get(_node.id).itemset) + " vs " + Arrays.toString(_node.itemset));
-    //System.exit(1);
+    exit(ERROR_ID_NEW_CI_ALREADY_REGISTERED);
   }
 
   CLOSED_ITEMSETS.emplace(_node->id, _node);
@@ -505,7 +546,7 @@ void add_ci(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode
 
   if (NBR_CLOSED_NODES != CLOSED_ITEMSETS.size()) {
     //System.out.println("after add erreur d'integrite " + NBR_CLOSED_NODES + " vs " + CLOSED_ITEMSETS.size());
-    //System.exit(1);
+    exit(ERROR_NBR_CLOSED_NODES_DOES_NOT_MATCH_CI_SET_SIZE);
   }
 
 };
@@ -514,14 +555,14 @@ void delete_ci(CETNode* const _node, std::map<long, std::vector<std::vector<CETN
   //System.out.println("deleting "+Arrays.toString(_node.itemset)+" w/ "+_node.support);
   if (NBR_CLOSED_NODES != CLOSED_ITEMSETS.size()) {
     //System.out.println("before erreur d'integrite " + NBR_CLOSED_NODES + " vs " + CLOSED_ITEMSETS.size());
-    //System.exit(1);
+    exit(ERROR_NBR_CLOSED_NODES_DOES_NOT_MATCH_CI_SET_SIZE);
   }
 
   NBR_CLOSED_NODES -= 1;
   if (CLOSED_ITEMSETS.find(_node->id) == CLOSED_ITEMSETS.end()) {
     //System.out.println("(delete) oh shit, " + _node.id + " should " + Arrays.toString(_node.itemset) + " be here..." + _node.support);
     //new Throwable().printStackTrace(System.out);
-    //System.exit(1);
+    exit(ERROR_CANNOT_DELETE_UNREGISTRED_CI);
   }
 
   CLOSED_ITEMSETS.erase(_node->id);
@@ -532,7 +573,7 @@ void delete_ci(CETNode* const _node, std::map<long, std::vector<std::vector<CETN
 
   if (NBR_CLOSED_NODES != CLOSED_ITEMSETS.size()) {
     //System.out.println("erreur d'integrite " + NBR_CLOSED_NODES + " vs " + CLOSED_ITEMSETS.size());
-    //System.exit(1);
+    exit(ERROR_NBR_CLOSED_NODES_DOES_NOT_MATCH_CI_SET_SIZE);
   }
 };
 
@@ -549,6 +590,10 @@ void prune_children(CETNode* const _node, const uint32_t _tid, std::map<long, st
       }
       prune_children(node, _tid, _EQ_TABLE);
       NBR_NODES -= 1;
+      delete node->tidlist;
+      delete node->itemset;
+      delete node->children;
+      delete node;
     }
     _node->children->clear();
   }
@@ -610,7 +655,7 @@ void update_cetnode_in_hashmap(CETNode* const _node, std::map<long, std::vector<
   //on ajoute le noeud dans la bonne classe d'equivalence (tidsum + support)
   {
     if (_EQ_TABLE->end() == _EQ_TABLE->find(_node->hash)) {
-      //_EQ_TABLE->emplace(_node->hash, new std::vector<CETNode*>());
+      _EQ_TABLE->emplace(_node->hash, new std::vector<std::vector<CETNode*>*>());
     }
     if (_EQ_TABLE->find(_node->hash)->second->size() <= _node->itemset->size()) {
       while (_EQ_TABLE->find(_node->hash)->second->size() <= _node->itemset->size()) {
@@ -620,3 +665,11 @@ void update_cetnode_in_hashmap(CETNode* const _node, std::map<long, std::vector<
     _EQ_TABLE->find(_node->hash)->second->at(_node->itemset->size())->push_back(_node);
   }
 };
+
+void print_cet_node(CETNode* const _node) {
+  std::vector<uint32_t>::iterator it = _node->itemset->begin();
+  for(; it != _node->itemset->end();++it){
+    std::cout << *it << ", ";
+  }
+  std::cout << std::endl;
+}

@@ -66,9 +66,9 @@ template <class T>
 void Transaction<T>::load(char *_s, const char *_delims, const short _withcrc) {
   T v;
   clean();
-  char *pch = std::strtok(_s, _delims);
-  __type = std::string(pch); pch = strtok(0, _delims);
-  if (_withcrc == 1) { __crc = std::string(pch); pch = strtok(0, _delims); }
+  char *pch = _s;// std::strtok(_s, _delims);
+  //__type = std::string(pch); pch = strtok(0, _delims);
+  //if (_withcrc == 1) { __crc = std::string(pch); pch = strtok(0, _delims); }
   while (pch != 0) {
     std::from_chars(pch, pch + strlen(pch), v);
     __data.insert(__data.end(), v);

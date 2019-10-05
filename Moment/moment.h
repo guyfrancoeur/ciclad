@@ -30,9 +30,9 @@ const uint8_t INFREQUENT_GATEWAY_NODE = 0x03;
 
 void Explore(const uint32_t _tid, CETNode* const _node,  std::vector<uint32_t>* const _transaction, const uint32_t _minsupp, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _TABLE);
 
-void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, const CETNode* _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
+void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
 
-void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, const CETNode* _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
+void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
 
 std::vector<uint32_t>* left_check(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _TABLE);
 
@@ -41,6 +41,8 @@ void delete_ci(CETNode* const _node, std::map<long, std::vector<std::vector<CETN
 void prune_children(CETNode* const _node, const uint32_t _tid, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
 void remove_from_class(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
 void update_cetnode_in_hashmap(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE);
+void print_cet_node(CETNode* const _node);
+
 
 //error codes
 const uint32_t ERROR_INCORRECT_CREATION_OF_NODE = 0x01;//An invalid node has been created: its support is higher than at least one of its parents (i.e. violates downward closure property)
@@ -50,5 +52,7 @@ const uint32_t ERROR_DELETE_NODE_WITH_EMPTY_TIDSET = 0x08;//A node has an empty 
 const uint32_t ERROR_DELETE_NODE_WITH_HASH = 0x10;
 const uint32_t ERROR_DELETE_NODE_CONTAINS_TRX_BUT_NOT_IN_TIDSET = 0x20;
 const uint32_t ERROR_DELETE_REMOVING_INFREQUENT_CI = 0x40;//Removing some infrequent closed node
-
+const uint32_t ERROR_NBR_CLOSED_NODES_DOES_NOT_MATCH_CI_SET_SIZE = 0x80;
+const uint32_t ERROR_ID_NEW_CI_ALREADY_REGISTERED = 0x100;
+const uint32_t ERROR_CANNOT_DELETE_UNREGISTRED_CI = 0x200;
 #endif

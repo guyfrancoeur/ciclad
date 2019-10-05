@@ -96,6 +96,7 @@
       </OpenMPSupport>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <CallingConvention>FastCall</CallingConvention>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +118,7 @@
       </OpenMPSupport>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <CallingConvention>FastCall</CallingConvention>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

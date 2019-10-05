@@ -163,6 +163,7 @@
     <ClCompile Include="Moment.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\generic_Transaction.h" />
     <ClInclude Include="moment.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
