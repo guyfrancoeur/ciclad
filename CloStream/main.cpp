@@ -70,6 +70,15 @@ int main(int argc, char *argv[]) {
   //std::cout << CLOSED_ITEMSETS.size() << std::endl;
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
 
+  {
+    std::map<uint32_t, CloStreamCI*>::iterator it = tableClosed.begin();
+    for (; it != tableClosed.end(); ++it) {
+      CloStreamCI* const ci = it->second;
+      delete ci->itemset;
+      delete ci->positions_in_lists;
+      delete ci;
+    }
+  }
 
 #ifdef _WIN32
   //PROCESS_MEMORY_COUNTERS_EX info;

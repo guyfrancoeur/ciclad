@@ -22,7 +22,7 @@ std::set<uint32_t>* compute_union_ideals(std::vector<uint32_t>* const _transacti
   return cidset;
 };
 
-std::map<CloStreamCI*, uint32_t>::iterator* locate_intersection_class(CloStreamCI* const _candidateGenitor, CloStreamCI* _intersection, std::map<CloStreamCI*, uint32_t>* const _tableTemp) {
+std::map<CloStreamCI*, uint32_t>::iterator* locate_intersection_class(CloStreamCI* const _candidateGenitor, CloStreamCI* _intersection, std::map<CloStreamCI*, uint32_t, LexicographicItemsetComparator>* const _tableTemp) {
   std::map<CloStreamCI*, uint32_t>::iterator it = _tableTemp->begin();
   for (; it != _tableTemp->end(); ++it) {
     // if it is equal to the intersection
@@ -36,7 +36,7 @@ std::map<CloStreamCI*, uint32_t>::iterator* locate_intersection_class(CloStreamC
 void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<uint32_t, std::vector<uint32_t>>* const _cidListMap, std::map<uint32_t, CloStreamCI*>* const _tableClosed) {
   // a temporary table (as described in the paper) to 
   // associate itemsets with cids.
-  std::map<CloStreamCI*, uint32_t> tableTemp = std::map<CloStreamCI*, uint32_t>();
+  std::map<CloStreamCI*, uint32_t, LexicographicItemsetComparator> tableTemp = std::map<CloStreamCI*, uint32_t, LexicographicItemsetComparator>();
 
   // Line 02 of the pseudocode in the article
   // We add the transaction in a temporary table
@@ -113,11 +113,13 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
         newCI->positions_in_lists->push_back(pos);
       }
     }
+    delete newCI->itemset;
+    delete newCI;
   }
 };
 
 void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<uint32_t, std::vector<uint32_t>>* const _cidListMap, std::map<uint32_t, CloStreamCI*>* const _tableClosed) {
-  std::map<CloStreamCI*, uint32_t> tableTemp = std::map<CloStreamCI*, uint32_t>();
+  std::map<CloStreamCI*, uint32_t, LexicographicItemsetComparator> tableTemp = std::map<CloStreamCI*, uint32_t, LexicographicItemsetComparator>();
   CloStreamCI trxci = CloStreamCI();
   trxci.itemset = _transaction;
   trxci.support = 0;
@@ -180,6 +182,9 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       }
       _tableClosed->erase(obsoleteOrDemotedCI->id);
       _tableClosed->emplace(obsoleteOrDemotedCI->id, (CloStreamCI*)0);
+      delete obsoleteOrDemotedCI->itemset;
+      delete obsoleteOrDemotedCI->positions_in_lists;
+      delete obsoleteOrDemotedCI;
     }
     else {
       // we have to increase its support
