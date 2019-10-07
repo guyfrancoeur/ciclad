@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Moment", "Moment\Moment.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonUtility", "CommonUtility\CommonUtility.vcxproj", "{4F658DA5-ED4F-4CD1-A85E-3A41B906FBC5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ciclad_v3", "ciclad_v3\ciclad_v3.vcxproj", "{76654E57-D9B5-49A0-90F4-022FAF0FF863}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{4F658DA5-ED4F-4CD1-A85E-3A41B906FBC5}.Release|x64.Build.0 = Release|x64
 		{4F658DA5-ED4F-4CD1-A85E-3A41B906FBC5}.Release|x86.ActiveCfg = Release|Win32
 		{4F658DA5-ED4F-4CD1-A85E-3A41B906FBC5}.Release|x86.Build.0 = Release|Win32
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Debug|x64.ActiveCfg = Debug|x64
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Debug|x64.Build.0 = Debug|x64
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Debug|x86.ActiveCfg = Debug|Win32
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Debug|x86.Build.0 = Debug|Win32
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Release|x64.ActiveCfg = Release|x64
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Release|x64.Build.0 = Release|x64
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Release|x86.ActiveCfg = Release|Win32
+		{76654E57-D9B5-49A0-90F4-022FAF0FF863}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

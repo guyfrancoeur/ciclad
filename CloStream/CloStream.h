@@ -13,22 +13,10 @@ struct CloStreamCI {
   std::vector<uint32_t>* itemset;
   std::vector<uint32_t>* positions_in_lists;
 };
-class LexicographicItemsetComparator {
+class CloStreamLexicographicItemsetComparator {
 public:
-  bool operator() (CloStreamCI* const _lhs, CloStreamCI* const _rhs) const
-  {
-    const uint32_t smaller = _lhs->itemset->size() > _rhs->itemset->size() ? _rhs->itemset->size() : _lhs->itemset->size();
-    for (int i = 0; i != smaller; ++i) {
-      if (_lhs->itemset->at(i) > _rhs->itemset->at(i)) return false;
-      else if (_lhs->itemset->at(i) < _rhs->itemset->at(i)) return true;
-    }
-    if (_lhs->itemset->size() > _rhs->itemset->size()) {
-      return false;
-    }
-    else if (_lhs->itemset->size() < _rhs->itemset->size()) {
-      return true;
-    }
-    return false;
+  bool operator() (CloStreamCI* const _lhs, CloStreamCI* const _rhs) const{
+    return LexicographicItemsetComparator().compare(_lhs->itemset, _rhs->itemset);
   }
 };
 

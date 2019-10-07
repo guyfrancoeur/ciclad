@@ -1,5 +1,5 @@
 #include "../generic_Transaction.h"
-#include "moment.h"
+#include "NewMoment.h"
 
 #include <cstdio>   //fopen, printf
 #include <cstdlib>  //atol
@@ -54,36 +54,43 @@ int main(int argc, char *argv[]) {
     atom->support = 0;
     NBR_NODES += 1;
   }
-
+  const uint32_t BLOCK_SIZE = 8500;
+  uint32_t trx_shift = 0;
   char s[10000];
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
     //if (i > 8123) break;
+    Transaction<uint32_t> new_transaction = Transaction<uint32_t>(pch, " ", 0);
+    if (0 != window_size && i >= window_size) {
+      trx_shift += 1;
+      if (trx_shift % BLOCK_SIZE == 0) {
+        trx_shift = 0;
+      }
+    }
+
+    update_index_sliding_window(new_transaction.data(), i, trx_shift, window_size, MAX_ATTRIBUTES, BLOCK_SIZE);
     if (0 != window_size && i >= window_size) {
       //delete
       Transaction<uint32_t> old_transaction = window.front();
-      Deletion(1 + (i - window_size), old_transaction.data(), minsup, &ROOT, &EQ_TABLE);
-      //std::cout << "removed something " << std::endl;
+      const uint32_t trx_shift_right = trx_shift == 0 ? 0 : trx_shift - 1;
+      Delete(1 + (i - window_size), old_transaction.data(), minsup, &ROOT, window_size, trx_shift, trx_shift_right, &EQ_TABLE, BLOCK_SIZE);
       window.pop();
     }
-    Transaction<uint32_t> new_transaction = Transaction<uint32_t>(pch, " ", 0);
-    //new_transaction.load(pch, " ", 0);
-    //add
-    //std::cout << "added something " << std::endl;
-    if (i % 500 == 0){
+    
+    if (i % 500 == 0) {
       std::cout << i << " transaction(s) processed" << std::endl;
     }
-    Addition(i + 1, new_transaction.data(), minsup, &ROOT, &EQ_TABLE);
+    Append(i + 1, new_transaction.data(), minsup, &ROOT, window_size, trx_shift, trx_shift, &EQ_TABLE, BLOCK_SIZE);
     window.push(new_transaction);
     i += 1;
 
 #ifdef DEBUG
-      if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
-        printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
-          running = clock();
-          cout << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
-      }
+    if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
+      printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
+      running = clock();
+      cout << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+    }
 #endif
   }
   std::cout << CLOSED_ITEMSETS.size() << std::endl;
