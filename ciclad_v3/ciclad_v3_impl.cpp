@@ -3,7 +3,7 @@
 #pragma warning(disable : 4996)
 
 double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
-  clock_t start = clock(); clock_t running = clock();
+  clock_t start = clock();
 
   node3 *root = new node3(_rootChild);
   // à reviser --->
@@ -110,7 +110,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
 }
 
 double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
-  clock_t start = clock(); clock_t running = clock();
+  clock_t start = clock();
 
   node3 *root = new node3(_rootChild);
   //ici nous avons besoin d'une optimisation sans arguments --->
