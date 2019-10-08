@@ -26,7 +26,7 @@ struct node3 {
   uint depth;
   uint key;  //item
   uint nb_ref;
-  uint Cid;  //Conecpt id
+  uint Cid;
   node3 *parent;
   tlx::btree_map<uint, node3 *> enfant;
   std::vector<uint> gen;
