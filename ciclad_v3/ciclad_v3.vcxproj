@@ -164,7 +164,8 @@
       <OpenMPSupport>
       </OpenMPSupport>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <CallingConvention>FastCall</CallingConvention>
+      <CallingConvention>
+      </CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,6 +179,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tlx\die\core.cpp" />
     <ClCompile Include="ciclad_v3_main.cpp" />
     <ClCompile Include="ciclad_v3_impl.cpp" />
   </ItemGroup>
