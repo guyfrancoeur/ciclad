@@ -111,9 +111,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ciclad_main.cpp" />
     <ClCompile Include="isci.cpp" />
-    <ClCompile Include="ciclad_remove.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generic_Transaction.h" />

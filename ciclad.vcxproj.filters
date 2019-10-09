@@ -18,10 +18,7 @@
     <ClCompile Include="isci.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ciclad_remove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ciclad_main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
