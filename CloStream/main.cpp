@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
   std::map<uint32_t, std::vector<uint32_t>> cidListMap = std::map<uint32_t, std::vector<uint32_t>>();
   CloStreamCI emptySet = CloStreamCI();
   emptySet.support = 0;
+  emptySet.id = 0;
   emptySet.itemset = new std::vector<uint32_t>();
   // add the empty set in the list of closed sets
   tableClosed.emplace(0, &emptySet);
@@ -41,19 +42,21 @@ int main(int argc, char *argv[]) {
     cidListMap.emplace(i, std::vector<uint32_t>());
   }
 
+  //238709
+
   char s[10000];
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
-    //if (i > 8123) break;
+    //if (i > 500) break;
     if (0 != window_size && i >= window_size) {
       Transaction<uint32_t> old_transaction = window.front();
       removeOldTransaction(old_transaction.data(), &cidListMap, &tableClosed);
       window.pop();
     }
     Transaction<uint32_t> new_transaction = Transaction<uint32_t>(pch, " ", 0);
-    if (i % 500 == 0) {
-      std::cout << i << " transaction(s) processed" << std::endl;
+    if (i % 100 == 0) {
+      std::cout << i << " transaction(s) processed" << tableClosed.size() << std::endl;
     }
     processNewTransaction(new_transaction.data(), &cidListMap, &tableClosed);
     window.push(new_transaction);
@@ -67,7 +70,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
   }
-  //std::cout << CLOSED_ITEMSETS.size() << std::endl;
+  std::cout << tableClosed.size() << std::endl;
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
 
   {
@@ -76,7 +79,7 @@ int main(int argc, char *argv[]) {
       CloStreamCI* const ci = it->second;
       delete ci->itemset;
       delete ci->positions_in_lists;
-      delete ci;
+      if(ci->id) delete ci;
     }
   }
 

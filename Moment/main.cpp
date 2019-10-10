@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
-    //if (i > 8123) break;
+    if (i > 9998) break;
     if (0 != window_size && i >= window_size) {
       //delete
       Transaction<uint32_t> old_transaction = window.front();
@@ -89,6 +89,17 @@ int main(int argc, char *argv[]) {
   std::cout << CLOSED_ITEMSETS.size() << std::endl;
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
 
+  //nettoyage de l'arbre (TODO: put this in a function)
+  //NOTA: peut etre prune_children pourrait faire l'affaire ici !!
+  {
+    prune_children(&ROOT, 0, &EQ_TABLE);
+    delete ROOT.children;
+    delete ROOT.itemset;
+    delete ROOT.tidlist;
+    //nettoyer, children, itemset
+    //y aller directement DFS
+  }
+
   //nettoyage de la map (TODO: put this in a function)
   {
     std::map<long, std::vector<std::vector<CETNode*>*>*>::iterator it = EQ_TABLE.begin();
@@ -103,12 +114,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  //nettoyage de l'arbre (TODO: put this in a function)
-  //NOTA: peut etre prune_children pourrait faire l'affaire ici !!
-  {
-    //nettoyer, children, itemset
-    //y aller directement DFS
-  }
+
 
 #ifdef _WIN32
   //PROCESS_MEMORY_COUNTERS_EX info;

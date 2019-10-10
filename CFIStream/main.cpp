@@ -17,11 +17,18 @@
 //#include <psapi.h>
 #endif
 
-uint32_t CET_NODE_ID = 0;
-uint32_t NBR_NODES = 0;
 uint32_t NBR_CLOSED_NODES = 0;
 //std::map<uint32_t, DUINode*> CLOSED_ITEMSETS;
 
+std::map<uint32_t, std::vector<DUINode*>> HEADER_STRATE;
+std::map<uint32_t, DUINode*> HEADER_MIN;
+
+
+std::map<uint32_t, std::vector<std::vector<uint32_t>>> enumerations;
+uint32_t TOTAL_CANDIDATES = 0;
+
+bool X_close = true;//Il semble que cela serve uniquement a s arreter lorsque la transaction est deja un CI ???
+std::vector<uint32_t>* X_0 = 0;
 
 int main(int argc, char *argv[]) {
   if (argc != 1) return 0;
@@ -38,10 +45,35 @@ int main(int argc, char *argv[]) {
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
+    if (i > 50) break;
     if (0 != window_size && i >= window_size) {
       //delete
       Transaction<uint32_t> old_transaction = window.front();
-      //Deletion(1 + (i - window_size), old_transaction.data(), minsup, &ROOT, &EQ_TABLE);
+      std::cout << "removing" << std::endl;
+      std::vector<DUINode*> obs_cis = std::vector<DUINode*>();
+      Suppression(&ROOT, old_transaction.data(), &obs_cis);
+      {
+        std::cout << obs_cis.size() << " to remove" << std::endl;
+        std::sort(obs_cis.begin(), obs_cis.end(), CFIStreamLexicographicItemsetComparator());
+        //placer tous les noeuds dans new_cis
+        std::vector<DUINode*>::iterator it = obs_cis.begin();
+        for (; it != obs_cis.end(); ++it) {
+          DUINode* const node = *it;
+          const uint32_t len = node->itemset->size();
+          if (HEADER_STRATE.find(len) ==  HEADER_STRATE.end()) {
+            //erreur
+            exit(1);
+          }
+          std::vector<DUINode*>* const strate = &HEADER_STRATE.find(len)->second;
+          DUINode* const n = strate->back();
+          strate->at(node->positionInStrate) = n;
+          strate->pop_back();
+          n->positionInStrate = node->positionInStrate;
+          remove_from_tree(node, &ROOT);
+          NBR_CLOSED_NODES -= 1;
+          //System.out.println("removed " + Arrays.toString(node.itemset) + " " + node.support + " vs " + node.count);
+        }
+      }
       window.pop();
     }
     Transaction<uint32_t> new_transaction = Transaction<uint32_t>(pch, " ", 0);
@@ -56,6 +88,7 @@ int main(int argc, char *argv[]) {
       TOTAL_CANDIDATES = 0;
       X_0 = 0;
       X_close = true;
+      //std::cout << "starting addition " << std::endl;
       Addition(&ROOT, new_transaction.data(), &new_cis);
       {
         std::sort(new_cis.begin(), new_cis.end(), CFIStreamLexicographicItemsetComparator());
@@ -63,7 +96,9 @@ int main(int argc, char *argv[]) {
         std::vector<DUINode*>::iterator it = new_cis.begin();
         for(; it != new_cis.end(); ++it){
           DUINode* const node = *it;
-          //inserer dans l'arbre                
+          //inserer dans l'arbre     
+          //std::cout << "inserting " << std::endl;
+          //print_array(node->itemset);
           insert_in_tree(node, &ROOT);
           NBR_CLOSED_NODES += 1;
           //ensuite, rajouter dans les listes par taille
@@ -71,6 +106,7 @@ int main(int argc, char *argv[]) {
           if (HEADER_STRATE.find(len) == HEADER_STRATE.end()) {
             HEADER_STRATE.emplace(len, std::vector<DUINode*>());
           }
+          node->positionInStrate = (&HEADER_STRATE.find(len)->second)->size();
           (&HEADER_STRATE.find(len)->second)->push_back(node);
         }
       }
@@ -86,6 +122,8 @@ int main(int argc, char *argv[]) {
     }
 #endif
   }
+
+  std::cout << NBR_CLOSED_NODES << std::endl;
 
   //coder le cleanup du DUITree
   std::map<uint32_t, std::vector<DUINode*>>::iterator it = HEADER_STRATE.begin();
