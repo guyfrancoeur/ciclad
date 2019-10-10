@@ -15,8 +15,8 @@ using namespace std;
 int main(int argc, char *argv[]) {
   if (argc != 1) return 0;
   clock_t start = clock(); clock_t running = clock();
-  vector<vector<uint>> idx(10000); //Initalisation de index inversé
-  for (int i = 0; i < 10000; ++i) {
+  vector<vector<uint>> idx(10001); //Initalisation de index inversé
+  for (int i = 0; i < 10001; ++i) {
     vector<uint> vc; //Reservation
     idx[i] = vc; //Affection
   }
@@ -33,16 +33,21 @@ int main(int argc, char *argv[]) {
 
   //node3 **li = (node3 **)malloc(fCI2.size() * sizeof(node3 *));
   //uint allocated_memory = 0; uint allocated_block = 0;
-  printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
   double ms = 0;
-  char s[10000];
+  char s[10000]; char t[4] = { 0 }; char ss[10000];
+
+  printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
+  
   while (fgets(s, 10000, stdin) != NULL) {
-    char *pch = strtok(s, " ");
-    if (strcmp(pch, "add") == 0 ) {
-      ms = add(s, tn, idx, _rootChild, fCI2, &gCid);
+    strncpy(t, s, 3);
+    
+    if (strcmp(t, "add") == 0 ) {     
+      strcpy(ss, s + 4);
+      ms = add(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.insert(&ms); //row++ dans la fonction;
-    } else if (strcmp(pch, "del") == 0) {
-      ms = del(s, tn, idx, _rootChild, fCI2, &gCid);
+    } else if (strcmp(t, "del") == 0) {
+      strcpy(ss, s + 4);
+      ms = del(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.remove(&ms);
     }
 

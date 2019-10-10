@@ -18,8 +18,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   allocated_memory = requested_memory;
   allocated_block = (uint)fCI2.size();
   // <---
-  char *pch = strtok(s, " "); strtok(0, " "); //skip first (add, del)
-  // il faut valide la trx dans s
+  char *pch = strtok(s, " ");
   while (pch != 0) {
     uint item = atol(pch);
     //---- mise a jour du superconcept (bottom) et de son index ---- start
