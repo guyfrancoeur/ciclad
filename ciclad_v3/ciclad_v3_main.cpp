@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
   vector<concept3> fCI2(1, superconcept); //one space with value.
   ++gCid;
 
-  Stats stats = Stats();
+  Stats stats = Stats(); // garde les stats
 
   //node3 **li = (node3 **)malloc(fCI2.size() * sizeof(node3 *));
   //uint allocated_memory = 0; uint allocated_block = 0;
@@ -40,10 +40,10 @@ int main(int argc, char *argv[]) {
     char *pch = strtok(s, " ");
     if (strcmp(pch, "add") == 0 ) {
       ms = add(s, tn, idx, _rootChild, fCI2, &gCid);
-      //stats.insert(&ms); //row++ dans la fonction;
+      stats.insert(&ms); //row++ dans la fonction;
     } else if (strcmp(pch, "del") == 0) {
       ms = del(s, tn, idx, _rootChild, fCI2, &gCid);
-      //stats.remove(&ms);
+      stats.remove(&ms);
     }
 
 #ifdef DEBUG
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
   }
 
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
-  cout << S.rows_inserted << " rows inserted, " << S.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+  cout << stats.rows_inserted << " rows inserted, " << stats.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
 #ifdef DEBUG
   uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
   for (uint n = 0; n < fCI2.size(); ++n) {
