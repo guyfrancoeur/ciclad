@@ -18,7 +18,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   allocated_memory = requested_memory;
   allocated_block = (uint)fCI2.size();
   // <---
-  char *pch = strtok(s, " ");
+  char *pch = strtok(s, " "); strtok(0, " "); //skip first (add, del)
   // il faut valide la trx dans s
   while (pch != 0) {
     uint item = atol(pch);
@@ -125,7 +125,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   allocated_memory = requested_memory;
   allocated_block = (uint)fCI2.size();
   // <---
-  char *pch = strtok(s, " ");
+  char *pch = strtok(s, " "); strtok(0, " ");
   while (pch != 0) {
     uint item = atol(pch);
     for (uint i = 0; i < idx[item].size(); ++i) { //tant qu'il y a des concepts (pour un item).

@@ -29,22 +29,22 @@ int main(int argc, char *argv[]) {
   vector<concept3> fCI2(1, superconcept); //one space with value.
   ++gCid;
 
+  Stats stats = Stats();
+
   //node3 **li = (node3 **)malloc(fCI2.size() * sizeof(node3 *));
   //uint allocated_memory = 0; uint allocated_block = 0;
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
   double ms = 0;
-  uint row = 0; uint a = 0, d = 0;
   char s[10000];
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
     if (strcmp(pch, "add") == 0 ) {
       ms = add(s, tn, idx, _rootChild, fCI2, &gCid);
-        a++;
+      //stats.insert(&ms); //row++ dans la fonction;
     } else if (strcmp(pch, "del") == 0) {
       ms = del(s, tn, idx, _rootChild, fCI2, &gCid);
-        d++;
+      //stats.remove(&ms);
     }
-    ++row;
 
 #ifdef DEBUG
       if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
   }
 
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
-  cout << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+  cout << S.rows_inserted << " rows inserted, " << S.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
 #ifdef DEBUG
   uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
   for (uint n = 0; n < fCI2.size(); ++n) {

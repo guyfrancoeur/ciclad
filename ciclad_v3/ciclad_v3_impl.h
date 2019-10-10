@@ -18,6 +18,25 @@ using namespace std;
 typedef unsigned int uint;
 typedef unsigned short ushort;
 
+class Stats {
+public:
+  uint rows_processed;
+  uint rows_inserted;
+  uint rows_removed;
+  double avg_ms_insert;
+  double avg_ms_remove;
+  Stats() { rows_processed = 0; rows_inserted = 0; rows_removed = 0; avg_ms_insert = 0; avg_ms_remove = 0; };
+  ~Stats() { };
+  void insert(const double *_ms) {
+    ++rows_inserted; ++rows_processed;
+    avg_ms_insert = (avg_ms_insert + *_ms) / 2;
+  };
+  void remove(const double *_ms) {
+    ++rows_removed; ++rows_processed;
+    avg_ms_remove = (avg_ms_remove + *_ms) / 2;
+  };
+};
+
 //Version 3.x (a la C)
 struct node3 {
   node3() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
@@ -108,4 +127,3 @@ template <class T> void wf(T p, string s);
 extern void freeNode3(node3 *n); //v3.0
 
 #endif
-
