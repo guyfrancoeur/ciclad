@@ -17,10 +17,13 @@
 //#include <psapi.h>
 #endif
 
+uint32_t NEWCET_NODE_ID = 0;
+std::map<uint32_t, std::vector<std::vector<bool>*>*> TRX_INDEX;
+std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
+
 uint32_t CET_NODE_ID = 0;
 uint32_t NBR_NODES = 0;
 uint32_t NBR_CLOSED_NODES = 0;
-std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
 
 int main(int argc, char *argv[]) {
   if (argc != 1) return 0;
@@ -35,6 +38,7 @@ int main(int argc, char *argv[]) {
   std::map<long, std::vector<std::vector<CETNode*>*>*> EQ_TABLE = std::map<long, std::vector<std::vector<CETNode*>*>*>();
   uint32_t minsup = 0;
 
+  const uint32_t BLOCK_SIZE = 15000;
   const uint32_t MAX_ATTRIBUTES = 1001;
   //initialiser l'arbre (autant de noeuds de d'items)
   //ou on peut le faire a chaque trx ? si nouvel item, on rajoute l'item dans l'arbre ?
@@ -45,22 +49,19 @@ int main(int argc, char *argv[]) {
     atom->item = i;
     atom->itemset = new std::vector<uint32_t>();
     atom->itemset->push_back(i);
-    atom->type = INFREQUENT_GATEWAY_NODE;//? a verifier, mais ca se tient
-    atom->tidlist = new std::vector<uint32_t>();// [0];
+    atom->type = 0;//
+    //atom->tidlist = new std::vector<uint32_t>();// [0];
     atom->tidsum = 0;
-    atom->id = ++CET_NODE_ID;
-    atom->hash = 0;
-    atom->oldHash = 0;
-    atom->support = 0;
+    atom->id = ++NEWCET_NODE_ID;
     NBR_NODES += 1;
   }
-  const uint32_t BLOCK_SIZE = 8500;
+ 
   uint32_t trx_shift = 0;
   char s[10000];
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
-    //if (i > 8123) break;
+    //if (i > 9998) break;
     Transaction<uint32_t> new_transaction = Transaction<uint32_t>(pch, " ", 0);
     if (0 != window_size && i >= window_size) {
       trx_shift += 1;
@@ -93,8 +94,19 @@ int main(int argc, char *argv[]) {
     }
 #endif
   }
-  std::cout << CLOSED_ITEMSETS.size() << std::endl;
+  //std::cout << CLOSED_ITEMSETS.size() << std::endl;
+  std::cout << NBR_CLOSED_NODES << std::endl;
+  std::cout << NBR_NODES << std::endl;
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
+
+  {
+    prune_children(&ROOT, 0, &EQ_TABLE);
+    delete ROOT.children;
+    delete ROOT.itemset;
+    delete ROOT.tidlist;
+    //nettoyer, children, itemset
+    //y aller directement DFS
+  }
 
   //nettoyage de la map (TODO: put this in a function)
   {

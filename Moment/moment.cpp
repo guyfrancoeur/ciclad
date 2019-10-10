@@ -8,7 +8,7 @@ extern uint32_t NBR_CLOSED_NODES;
 extern std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
 
 void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* const _transaction, const uint32_t _minsupp, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
-  std::vector<uint32_t>* closure;
+  std::vector<uint32_t>* closure = 0;
   if (_node->support < _minsupp) {
     if (_node->type == CLOSED_NODE) {
       delete_ci(_node, _EQ_TABLE);
@@ -23,10 +23,9 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
     //std::cout << "we should stop here" << std::endl;
     _node->type = UNPROMISSING_GATEWAY_NODE;
     prune_children(_node, _tid, _EQ_TABLE);
-    delete closure;
+    
   }
   else {
-    delete closure;
     //std::cout << "begin " << _node->item << " combining with right sibling" << std::endl;
     //combiner les freres a droite
     std::map<uint32_t, CETNode*>::iterator it = _node->parent->children->begin();
@@ -50,7 +49,7 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
             //System.arraycopy(_node->itemset->size(), newnode->itemset, 0, _node->itemset.length);
             newnode->itemset->push_back(sibling->itemset->at(sibling->itemset->size() - 1));
             //std::cout << "Created a new node w/ " << it->first << " ";
-            print_cet_node(newnode);
+            //print_cet_node(newnode);
 
             for (uint32_t z = 0; z != newnode->tidlist->size(); ++z) {
               newnode->tidsum += newnode->tidlist->at(z);
@@ -113,13 +112,12 @@ void Explore(const uint32_t _tid, CETNode* const _node, std::vector<uint32_t>* c
       }
     }
   }
+  if(closure != 0)
+    delete closure;
 };
 
 void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const uint32_t _minsupp, CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
   //not relevant to addition => not included in transaction
-  
-  //std::cout << _transaction->size() << std::endl;
-
   if (!contains(_transaction, _node->itemset, false)) {
     return;
   }
@@ -151,7 +149,6 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           delete childNode->tidlist;
           childNode->tidlist = tmpTidList;
         }
-
       }
       if (childNode->support > _minsupp) {
         frequent_nodes.push_back(it->first);
@@ -161,10 +158,10 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         //dans ce cas, meme si non prometteur il est quand meme frequent donc
         //ses combinaisons en tant que right sibling existent deja
         //il faut verifier si il devient prometteur ou pas
-        std::vector<uint32_t>* diff;
+        std::vector<uint32_t>* diff = 0;
         if ((diff = left_check(childNode, _EQ_TABLE))) {
           bool missing_element = false;
-          for (int j = 0; j != diff->size(); ++j) {
+          for (uint32_t j = 0; j != diff->size(); ++j) {
             if (!binary_search(_transaction->begin(), _transaction->end(), diff->at(j))) {
               missing_element = true;
               break;
@@ -174,7 +171,7 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
             newly_promissing_nodes.push_back(it->first);
           }
         }
-        delete diff;
+        if(diff != 0) delete diff;
       }
       else if (childNode->type == INFREQUENT_GATEWAY_NODE) {
         //ces noeuds la etaient infrequent donc leurs combinaisons en tant que freres a droite n'existent pas encore
@@ -202,7 +199,7 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
     if (!contains(_transaction, ni_prime->itemset, false)) {
       continue;
     }
-    std::vector<uint32_t>* closure;
+    std::vector<uint32_t>* closure = 0;
     if (ni_prime->support < _minsupp) {
       if (ni_prime->type == CLOSED_NODE) {
         //was closed but is now infrequent gateway
@@ -363,6 +360,8 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         }
       }
     }
+    if (closure != 0)
+      delete closure;
   }
 };
 
@@ -409,7 +408,7 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         infrequent_nodes.push_back(it->first);
       }
 
-      std::vector<uint32_t>* closure;
+      std::vector<uint32_t>* closure = 0;
       //on pourrait peut etre remplacer la seconde condition par type != INFREQUENT_GATEWAY ?
       if (childNode->support < _minsupp && (childNode->support + 1) >= _minsupp) {
         //newly infrequent
@@ -432,10 +431,8 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
         }
         prune_children(childNode, _tid, _EQ_TABLE);
         childNode->type = UNPROMISSING_GATEWAY_NODE;
-        delete closure;
       }
       else {
-        delete closure;
         //ici probablement newly infrequent only ?
         std::vector<uint32_t>::iterator infrequent_sib_it = newly_infrequent_nodes.begin();
         for (; infrequent_sib_it != newly_infrequent_nodes.end(); ++infrequent_sib_it) {
@@ -448,6 +445,9 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
               if (childNodeObs->type == CLOSED_NODE) {
                 exit(ERROR_DELETE_REMOVING_INFREQUENT_CI);
               }
+              delete childNodeObs->itemset;
+              delete childNodeObs->tidlist;
+              delete childNodeObs->children;
               delete childNodeObs;
               NBR_NODES -= 1;
             }
@@ -458,7 +458,6 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           //test les fils support
           bool has_child_with_same_support = false;
           if (childNode->children) {
-
             std::map<uint32_t, CETNode*>::iterator it = childNode->children->begin();
             for (; it != childNode->children->end(); ++it) {
               CETNode* const ni_second = it->second;
@@ -477,6 +476,9 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
             if (childNode->support == 0) {
               prune_children(childNode, _tid, _EQ_TABLE);
               delete_ci(childNode, _EQ_TABLE);
+              delete it->second->tidlist;
+              delete it->second->itemset;
+              delete it->second->children;
               delete it->second;
               _node->children->erase(it->first);
             }
@@ -486,6 +488,7 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
           }
         }
       }
+      if (closure != 0) delete closure;
     }
   }
 };

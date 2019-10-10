@@ -8,9 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-uint32_t NEWCET_NODE_ID = 0;
-std::map<uint32_t, CETNode*> CLOSED_ITEMSETS;
-std::map<uint32_t, std::vector<std::vector<bool>>> TRX_INDEX;
+
 
 /*struct NewCETNode : virtual public CETNode {
 public:
@@ -40,12 +38,12 @@ void print_cet_node(CETNode* const _node);
 
 //Support computation
 void intersect_bitsets(std::vector<bool[]>* const _in1, std::vector<bool[]>* const _in2, const uint32_t _BLOCK_SIZE);
-std::vector<std::vector<bool>>* compute_bitset(CETNode* const _node, const uint32_t _BLOCK_SIZE);
-std::vector<std::vector<bool>>* cloneList(std::vector<std::vector<bool>>* const _list);
-std::vector<std::vector<bool>>* compute_bitset(CETNode* const _node, const uint32_t _item, const uint32_t _trx_shift_left, const uint32_t _trx_shift_right);
-std::vector<std::vector<bool>>* compute_bitset(CETNode* const _node, const uint32_t _trx_shift_left, const uint32_t _trx_shift_right, const uint32_t _BLOCK_SIZE);
+std::vector<std::vector<bool>*>* compute_bitset(CETNode* const _node, const uint32_t _BLOCK_SIZE);
+std::vector<std::vector<bool>*>* cloneList(std::vector<std::vector<bool>*>* const _list);
+std::vector<std::vector<bool>*>* compute_bitset(CETNode* const _node, const uint32_t _item, const uint32_t _trx_shift_left, const uint32_t _trx_shift_right, const uint32_t _BLOCK_SIZE);
+std::vector<std::vector<bool>*>* compute_bitset(CETNode* const _node, const uint32_t _trx_shift_left, const uint32_t _trx_shift_right, const uint32_t _BLOCK_SIZE);
 uint32_t support(CETNode* const _node, const uint32_t _window_size, const uint32_t _trx_shift_left, const uint32_t _trx_shift_right, const uint32_t _BLOCK_SIZE);
-uint32_t support(std::vector<uint32_t>* const _itemset, std::vector<std::vector<bool>>* const _bitset, const uint32_t _window_size, const uint32_t _trx_shift_left,
+uint32_t support(std::vector<uint32_t>* const _itemset, std::vector<std::vector<bool>*>* const _bitset, const uint32_t _window_size, const uint32_t _trx_shift_left,
   const uint32_t _trx_shift_right, const uint32_t _BLOCK_SIZE);
 
 //CI management

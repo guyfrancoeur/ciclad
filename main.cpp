@@ -17,7 +17,7 @@
 #include <iostream> //cout
 #include "isci.h"   //cmdline
 
-#ifdef _WIN32
+#ifdef WIN32
   #include <windows.h>
   #include <psapi.h>
 #endif

@@ -67,6 +67,15 @@ bool exactMatch(std::vector<uint32_t>* const _a, std::vector<uint32_t>* const _b
   return false;
 };
 
+void print_array(std::vector<uint32_t>* const _array) {
+  std::cout << "{";
+  std::vector<uint32_t>::iterator it = _array->begin();
+  for (; it != _array->end(); ++it) {
+    std::cout << *it << ", ";
+  }
+  std::cout << "}" << std::endl;
+};
+
 
 std::vector<uint32_t>* diff(std::vector<uint32_t>* const _left_set, std::vector<uint32_t>* const _right_set) {
   std::vector<uint32_t>* smaller;

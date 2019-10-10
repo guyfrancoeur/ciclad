@@ -12,4 +12,4 @@ Contributors :
  - Tomas Martin 2015-2019
  - Guy Francoeur 2015-2019
  - Mickael Wajnberg 2018
- - Petko Valtchev (c)
+ - Petko Valtchev :copyright:

@@ -5,10 +5,15 @@
 
 #include <map>
 #include <vector>
+#include <iostream>
 
 struct DUINode {
+  uint32_t item;
   uint32_t count;
   uint32_t support;
+  uint32_t positionInStrate = 0;
+  bool flaged_for_removal = false;
+  DUINode* parent;
   std::vector<uint32_t>* itemset;
   std::map<uint32_t, DUINode*>* children;
 };
@@ -20,20 +25,9 @@ public:
 };
 
 
-std::map<uint32_t, std::vector<DUINode*>> HEADER_STRATE;
-std::map<uint32_t, DUINode*> HEADER_MIN;
-
-
-std::map<uint32_t, std::vector<std::vector<uint32_t>>> enumerations;
-uint32_t TOTAL_CANDIDATES = 0;
-
-const uint8_t INCREMENT = 0x01;
-const uint8_t DECREMENT = 0x02;
-
-bool X_close = true;//Il semble que cela serve uniquement a s arreter lorsque la transaction est deja un CI ???
-std::vector<uint32_t>* X_0 = 0;
-
 void Addition(DUINode* const _root, std::vector<uint32_t>* const _transaction, std::vector<DUINode*>* const _new_cis);
+
+void Suppression(DUINode* const _root, std::vector<uint32_t>* const _transaction, std::vector<DUINode*>* const _new_cis);
 
 void enumerate_supersets(std::vector<uint32_t>* const _transaction, std::vector<DUINode*>* const _superset_cis);
 
@@ -46,5 +40,11 @@ DUINode* count(std::vector<uint32_t>* const _transaction, DUINode* const _node);
 uint32_t support(std::vector<uint32_t>* const _transaction, DUINode* const _node);
 
 void insert_in_tree(DUINode* const _node, DUINode* const _root);
+
+void enumerate_subsets_stratified(std::vector<uint32_t>* const _transaction, std::vector<std::vector<DUINode*>>* const _all_subsets_stratified);
+
+void remove_from_tree(DUINode* const _node, DUINode* const _root);
+
+void Suppression(DUINode* const _node, std::vector<uint32_t>* const _transaction, std::vector<DUINode*>* const _obs_cis);
 
 #endif
