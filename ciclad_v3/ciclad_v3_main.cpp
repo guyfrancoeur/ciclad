@@ -13,7 +13,11 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  if (argc != 1) return 0;
+  short verbose = 0;
+  if (argc == 2) {
+    if (strcmp(argv[1], "-v") == 0) { verbose = 1; }
+  }
+  else { cout << "verbose mode inactive." << endl; }
   clock_t start = clock(); clock_t running = clock();
   vector<vector<uint>> idx(10001); //Initalisation de index inversé
   for (int i = 0; i < 10001; ++i) {
@@ -37,45 +41,45 @@ int main(int argc, char *argv[]) {
   char s[10000]; char t[4] = { 0 }; char ss[10000];
 
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
-  
+
   while (fgets(s, 10000, stdin) != NULL) {
     strncpy(t, s, 3);
-    
-    if (strcmp(t, "add") == 0 ) {     
+
+    if (strcmp(t, "add") == 0) {
       strcpy(ss, s + 4);
       ms = add(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.insert(&ms); //row++ dans la fonction;
-    } else if (strcmp(t, "del") == 0) {
+    }
+    else if (strcmp(t, "del") == 0) {
       strcpy(ss, s + 4);
       ms = del(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.remove(&ms);
     }
+    else if (strcmp(t, "end") == 0) break;
 
-#ifdef DEBUG
-      if ((row % 1000 == 0 && row < 10001) || row % 10000 == 0) {
+    if (verbose)
+      if ((stats.rows_processed % 1000 == 0 && stats.rows_processed < 10001) || stats.rows_processed % 10000 == 0) {
         printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
-          running = clock();
-          cout << row << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+        running = clock();
+        cout << stats.rows_processed << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
       }
-#endif
-    //freeNode3(root);
   }
 
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
   cout << stats.rows_inserted << " rows inserted, " << stats.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
-#ifdef DEBUG
-  uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
-  for (uint n = 0; n < fCI2.size(); ++n) {
-    uint y = fCI2.at(n).supp;
-    if (y < 10) {
-      ++nb[y];
+  if (verbose) {
+    uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
+    for (uint n = 0; n < fCI2.size(); ++n) {
+      uint y = fCI2.at(n).supp;
+      if (y < 10) {
+        ++nb[y];
+      }
+      else {
+        ++nb[10];
+      }
     }
-    else {
-      ++nb[10];
-    }
+    for (uint n = 0; n < 11; ++n) { cout << n << "->" << nb[n] << endl; }
   }
-  for (uint n = 0; n < 11; ++n) { cout << n << "->" << nb[n] << endl; }
-#endif
   fCI2.clear();
 #ifdef _WIN32
   PROCESS_MEMORY_COUNTERS_EX info;
