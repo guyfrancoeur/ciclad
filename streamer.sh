@@ -1,18 +1,29 @@
 #!/bin/bash
+echo "data streamer simulator 2019 (c) GF"
+echo "-----------------------------------"
+
 if [ -z $1 ]
 then
   f="./testdb_gen2.txt"
+else
+  f=$1
 fi
-echo "data streamer simulator 2019 (c) GF"
-echo "-----------------------------------"
+echo "processing file : $f"
 row=0
 fun=1
-cnt=$(wc -l "$f" | awk '{print $1}')
-cnt=$(( $cnt / 2 ))
+if [ -z $2 ]
+then
+  cnt=$(wc -l "$f" | awk '{print $1}')
+  cnt=$(( $cnt / 2 ))
+else
+  cnt=$2
+fi
 echo "Sliding window size : $cnt"
 rm -f ./stream.in
 touch ./stream.in
-echo "Launch app using tail -f ./stream.in | ./ciclad_v3/ciclad_v3 2> ./resultats.out"
+rm -f ./window.current
+touch window.current
+echo "Launch NOW using : tail -f ./stream.in | ./ciclad_v3/ciclad_v3 -v 2> ./resultat.out"
 echo -e "\nstarting in ...\n"
 for (( i=20 ; i>0 ; --i ))
 do
@@ -20,21 +31,20 @@ do
   echo -n "$i "
 done
 #start ciclad
-# tail -f ./stream.in | ./ciclad_v3/ciclad_v3 < ./stream.in 2> ./resultat.out &
+# tail -f ./stream.in | ./ciclad_v3/ciclad_v3 -v 2> ./resultat.out &
 echo -e "Initialisation done.\n"
 echo -e "\nStarted...\n"
 while read line
 do
+  row=$(wc -l "./window.current" | awk '{print $1}')
   if [ $row -gt $cnt ]
   then
-    ligne=$(head -n 1 ./stream.in)
-    if [ ${ligne:0:3} == "add" ]
-    then
-      sed -i '1d' ./stream.in
-    fi
-    echo "del ${ligne:4}" >> ./stream.in
+    ligne=$(head -n 1 ./window.current)
+    echo "${ligne}" >> ./stream.in
+    sed -i '1d' ./window.current
   fi
   echo "add $line" >> ./stream.in
+  echo "del $line" >> ./window.current
   if [ $fun -eq 1 ]
   then
     echo -n "working "
@@ -46,6 +56,6 @@ do
   fi
   t=$(( ( RANDOM % 4 ) + 0 ))
   #sleep $t
-  (( row++ ))
 done < $f
+echo "end" >> ./stream.in
 echo -e "\nFin.\n"
