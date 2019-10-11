@@ -48,4 +48,4 @@ do
   #sleep $t
   (( row++ ))
 done < $f
-echo -e "\nfin.\n"
+echo -e "\nFin.\n"
