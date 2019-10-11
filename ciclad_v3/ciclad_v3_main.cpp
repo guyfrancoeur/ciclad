@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
 
-  while ((fgets(s, 10000, stdin) != NULL) && (END = 0)) {
+  while ((fgets(s, 10000, stdin) != NULL) && (END == 0)) {
     strncpy(t, s, 3);
 
     if (strcmp(t, "add") == 0) {
