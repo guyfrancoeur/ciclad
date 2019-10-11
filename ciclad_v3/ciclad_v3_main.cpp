@@ -13,7 +13,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  short verbose = 0;
+  short verbose = 0; short END = 0;
   if (argc == 2) {
     if (strcmp(argv[1], "-v") == 0) { verbose = 1; }
   }
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
   printf("Initialisation en %0.4f ms\n", (clock() - start) / (double)CLOCKS_PER_SEC * 1000);
 
-  while (fgets(s, 10000, stdin) != NULL) {
+  while ((fgets(s, 10000, stdin) != NULL) && (END = 0)) {
     strncpy(t, s, 3);
 
     if (strcmp(t, "add") == 0) {
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
       ms = del(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.remove(&ms);
     }
-    else if (strcmp(t, "end") == 0) break;
+    else if (strcmp(t, "end") == 0) END = 1;
 
     if (verbose)
       if ((stats.rows_processed % 1000 == 0 && stats.rows_processed < 10001) || stats.rows_processed % 10000 == 0) {
