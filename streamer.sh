@@ -28,9 +28,9 @@ do
   if [ $row -gt $cnt ]
   then
     ligne=$(head -n 1 ./stream.in)
-    if [ ${ligne:0:3} -eq "add" ]
+    if [ ${ligne:0:3} == "add" ]
     then
-      sed '1d' ./stream.in
+      sed -i '1d' ./stream.in
     fi
     echo "del ${ligne:4}" >> ./stream.in
   fi
@@ -38,14 +38,14 @@ do
   if [ $fun -eq 1 ]
   then
     echo -n "working "
-    sleep 1
+    #sleep 1
     fun=9
   else
     (( fun-- ))
     echo -ne "\b"
   fi
   t=$(( ( RANDOM % 4 ) + 0 ))
-  sleep $t
+  #sleep $t
   (( row++ ))
 done < $f
 echo -e "\nfin.\n"
