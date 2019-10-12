@@ -39,7 +39,7 @@ public:
 
 //Version 3.x (a la C)
 struct node3 {
-  node3() : depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
+  node3() : depth(0), key(0), nb_ref(0), Cid(0), enfant(tlx::btree_map<uint, node3 *>()), parent(NULL) { }
   node3(tlx::btree_map<uint, node3 *> _enfant) : enfant(_enfant), gen(std::vector<uint> (2)), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
 
   uint depth;
@@ -52,12 +52,11 @@ struct node3 {
 };
 
 struct concept3 {
-  concept3() : id(0), supp(0), size(0), deleted(0) {}
-  concept3(uint _id, uint _supp, ushort _size, ushort _deleted) : id(_id), supp(_supp), size(_size), deleted(_deleted) {}
-  concept3(uint _id, uint _supp, ushort _size, ushort _deleted, std::vector<uint> _itemset) : id(_id), supp(_supp), size(_size), deleted(_deleted), itemset(_itemset) {}
+  concept3() : id(0), supp(0), deleted(0) {}
+  concept3(uint _id, uint _supp, ushort _deleted) : id(_id), supp(_supp), deleted(_deleted) {}
+  concept3(uint _id, uint _supp, ushort _deleted, std::vector<uint> _itemset) : id(_id), supp(_supp), deleted(_deleted), itemset(_itemset) {}
   uint id;
   uint supp;
-  ushort size;
   ushort deleted; //flag 0 | 1
   std::vector<uint> itemset;
 };

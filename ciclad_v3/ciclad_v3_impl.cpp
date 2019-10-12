@@ -7,16 +7,16 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
 
   node3 *root = new node3(_rootChild);
   // à reviser --->
-  uint allocated_memory = 0; uint allocated_block = 0;
+  //uint allocated_memory = 0; uint allocated_block = 0;
   uint requested_memory = (uint)fCI2.size() * sizeof(node3 *);
   node3 **li = (node3 **)malloc(requested_memory); //calloc ??
-  for (uint i = 0; i < allocated_block; ++i) {
-    if (li + i != NULL)
-      *(li + i) = NULL;
-  }
-  memset(li + allocated_block, 0, requested_memory - allocated_memory);
-  allocated_memory = requested_memory;
-  allocated_block = (uint)fCI2.size();
+  //for (uint i = 0; i < allocated_block; ++i) {
+  //  if (li + i != NULL)
+  //    *(li + i) = NULL;
+  //}
+  memset(li + 0 /*allocated_block*/, 0, requested_memory /*- allocated_memory*/);
+  //allocated_memory = requested_memory;
+  //allocated_block = (uint)fCI2.size();
   // <---
   char *pch = strtok(s, " ");
   while (pch != 0) {
@@ -26,7 +26,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       vector<uint> v(1, 0); //reserve one space with value 0.
       idx[item] = v;
       if (fCI2[0].supp > 0) {
-        concept3 c(*gCid, fCI2[0].supp, fCI2[0].size, 0); //concept2 c(gCid, fCI2[0].supp, fCI2[0].size, fCI2[0].itemset);
+        concept3 c(*gCid, fCI2[0].supp, /*fCI2[0].itemset.size(),*/ 0); //concept2 c(gCid, fCI2[0].supp, fCI2[0].size, fCI2[0].itemset);
         for (uint t = 0; t < fCI2[0].itemset.size(); ++t) {
           idx[fCI2[0].itemset[t]].push_back(*gCid);
         }
@@ -34,10 +34,10 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         fCI2[0].supp = 0;
       }
       fCI2[0].itemset.push_back(item);
-      fCI2[0].size = fCI2[0].size + 1;
+      //gf fCI2[0].size = fCI2[0].size + 1;
     }
     //---- mise a jour du superconcept (bottom) et de son index ---- fin
-    for (uint idConcept : idx[item]) { //tant qu'il y a des concepts (pour un item).
+    for (auto idConcept : idx[item]) { //tant qu'il y a des concepts (pour un item).
       concept3 *e = &fCI2[idConcept]; //fCI2.at(idConcept); //e est un concept 
       //if (e->deleted == 1) {
       //  idx[item].at(i) = idx[item].back();
@@ -53,7 +53,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       }
       //------------------------------------------------------- DEBUT ---- UPDATE INTERSECTION
       node3 *n;
-      auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
+      auto *_child = &lin->enfant;
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
         tlx::btree_map<uint, node3 *> _enfant;
@@ -87,17 +87,17 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
     if (n->nb_ref > 0) {
       uint newSupp = 1 + fCI2[n->Cid].supp;
 
-      if (fCI2[n->Cid].size == n->depth) {
+      if (fCI2[n->Cid].itemset.size() == n->depth) { //gf
         fCI2[n->Cid].supp = newSupp;
       }
       else {
-        ushort u = 0;
+        //ushort u = 0;
         while (n->parent != NULL) {
-          ++u; //size of itemset
+          //++u; //size of itemset
           idx[n->key].push_back(*gCid); //index update
           n = n->parent;
         }
-        concept3 C3(*gCid, newSupp, u, 0);
+        concept3 C3(*gCid, newSupp, /*u,*/ 0);
         fCI2.push_back(C3); ++(*gCid);
       }
     }
@@ -128,7 +128,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   while (pch != 0) {
     uint item = atol(pch);
     for (uint i = 0; i < idx[item].size(); ++i) { //tant qu'il y a des concepts (pour un item).
-      uint idConcept = idx[item].at(i);
+      auto idConcept = idx[item].at(i);
       concept3 *e = &fCI2.at(idConcept); //auto e = fCI2.at(idConcept); //e est un concept fCI2[idConcept]
       if (e->deleted == 1) {
         idx[item].at(i) = idx[item].back();

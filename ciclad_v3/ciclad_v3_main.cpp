@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   queue<node3 *> tn; // terminal nodes
   tlx::btree_map<uint, node3 *> _rootChild; //stx is the fastest
   vector<uint> tmp;
-  concept3 superconcept(0, 0, 0, 0, tmp);
+  concept3 superconcept(0, 0, /*0,*/ 0, tmp);
   uint gCid = 0;
 
   vector<concept3> fCI2(1, superconcept); //one space with value.
