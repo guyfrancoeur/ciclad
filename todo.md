@@ -67,6 +67,56 @@ quelles soient redirigé vers l'OS.  Nous pouvons donc rediriger le canal `stder
 
 L'important ici c'est de ne pas avoir de <kbd>CTRL</kbd>-<kbd>D</kbd> dans le fichier `stream.in` pour éviter la fin du stream.
 
+### mkfifo
+
+Voici un autre moyen de faire des `Named pipes` natif pour Unix.  Ceci reprend l'exemple plus haut mais
+sans la gestion des lignes à détruire.  
+
+```bash
+# Pour créer le pipe
+$ mkfifo pipe2
+# Liste les fichiers (le pipe aura un p comme attribut de départ)
+$ ls -lash
+```
+
+```bash
+# On lance des lignes dans le pipe nommé pipe2
+$ echo -e "add 8c8647fd 1 3 4 59 90" > pipe2 &
+```
+
+```bash
+# Maintenant on veut récupérer les données dans pipe2
+Tout ce qui a été ajouté sera sortie du pipe. Nul besoin de faire le ménage.
+$ cat < pipe2
+
+# En terminant, il serait surement possible de prendre la commande tail -f afin de recevoir les données
+tail -f pipe2
+```
+
+```bash
+#!/bin/bash
+
+pipe=MyPipe
+
+rm -f $pipe
+
+if [[ ! -p $pipe ]]; then
+    mkfifo $pipe
+fi
+
+while true
+do
+  if read line <$pipe; then
+    if [[ "$line" == 'quit' ]]; then
+      break
+    fi
+    echo $line
+  fi
+done
+
+echo "Reader exiting"
+```
+
 ## Idées
 
 + [van Emde Boas tree](https://en.wikipedia.org/wiki/Van_Emde_Boas_tree)
