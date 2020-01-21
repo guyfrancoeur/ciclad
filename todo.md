@@ -59,6 +59,7 @@ add cbf6d2f0 4 5 56 58 89
 add e8103724 3 4 56 59 89
 del 8c8647fd 1 3 4 59 90
 ...
+fin
 ```
 
 Avec une option `-e` il serait possible de dire au programme de sortir les transactions reçues sur la sortie `stderr` pour
@@ -107,14 +108,14 @@ fi
 while true
 do
   if read line <$pipe; then
-    if [[ "$line" == 'quit' ]]; then
+    if [[ "$line" == 'fin' ]]; then
       break
     fi
     echo $line
   fi
 done
 
-echo "Reader exiting"
+echo "Reader exiting, fin."
 ```
 
 ## Idées
