@@ -34,6 +34,7 @@ done
 # tail -f ./stream.in | ./ciclad_v3/ciclad_v3 -v 2> ./resultat.out &
 echo -e "Initialisation done.\n"
 echo -e "\nStarted...\n"
+fun=7
 while read line
 do
   row=$(wc -l "./window.current" | awk '{print $1}')
@@ -45,15 +46,21 @@ do
   fi
   echo "add $line" >> ./stream.in
   echo "del $line" >> ./window.current
-  if [ $fun -eq 1 ]
+  if [ $fun -eq 7 ]
   then
-    echo -n "working "
-    #sleep 1
-    fun=9
+    fun=1
   else
-    (( fun-- ))
-    echo -ne "\b"
+    (( fun++ ))
   fi
+
+  str="working"
+  i=1
+  while [ $i -lt $fun ] ; do
+    str="$str\b"
+    (( i++ ))
+  done
+  echo -ne $str
+  
   t=$(( ( RANDOM % 4 ) + 0 ))
   #sleep $t
 done < $f
