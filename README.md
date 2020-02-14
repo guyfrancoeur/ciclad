@@ -15,3 +15,9 @@ Contributors :
  - Guy Francoeur 2015-2020
  - Mickael Wajnberg 2018
  - Petko Valtchev :copyright:
+
+More 
+ + [experiments in images](./image/README.md)
+
+---
+ciclad :copyright: 2015-2020
