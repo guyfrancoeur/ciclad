@@ -26,20 +26,21 @@ uint32_t NBR_NODES = 0;
 uint32_t NBR_CLOSED_NODES = 0;
 
 int main(int argc, char *argv[]) {
-  if (argc != 1) return 0;
+  if (argc != 5) return 0;
   clock_t start = clock(); clock_t running = clock();
   std::queue<Transaction<uint32_t>> window;
-  uint32_t window_size = 50;
+  const uint32_t window_size = strtoul(argv[1], 0, 10);//1500
+  const uint32_t MAX_ATTRIBUTES = strtoul(argv[2], 0, 10);//100001
+  const uint32_t minsup = strtoul(argv[3], 0, 10);//1
+  const uint32_t BLOCK_SIZE = strtoul(argv[4], 0, 10);//1
 
   CETNode ROOT = CETNode();
   ROOT.children = new std::map<uint32_t, CETNode*>();
   ROOT.itemset = new std::vector<uint32_t>();
   ROOT.tidsum = 0;
   std::map<long, std::vector<std::vector<CETNode*>*>*> EQ_TABLE = std::map<long, std::vector<std::vector<CETNode*>*>*>();
-  uint32_t minsup = 0;
-
-  const uint32_t BLOCK_SIZE = 15000;
-  const uint32_t MAX_ATTRIBUTES = 1001;
+  
+  //const uint32_t MAX_ATTRIBUTES = 1001;
   //initialiser l'arbre (autant de noeuds de d'items)
   //ou on peut le faire a chaque trx ? si nouvel item, on rajoute l'item dans l'arbre ?
   for (int i = 0; i != MAX_ATTRIBUTES; ++i) {
@@ -79,7 +80,7 @@ int main(int argc, char *argv[]) {
       window.pop();
     }
     
-    if (i % 500 == 0) {
+    if (i % 50 == 0) {
       std::cout << i << " transaction(s) processed" << std::endl;
     }
     Append(i + 1, new_transaction.data(), minsup, &ROOT, window_size, trx_shift, trx_shift, &EQ_TABLE, BLOCK_SIZE);

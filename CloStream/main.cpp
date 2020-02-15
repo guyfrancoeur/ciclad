@@ -22,13 +22,17 @@
 #endif
 
 
+extern std::map<uint32_t, std::queue<uint32_t>> POSITIONS_QUEUES_INDEX;
+
 int main(int argc, char *argv[]) {
-  if (argc != 1) return 0;
+  if (argc != 4) return 0;
   clock_t start = clock(); clock_t running = clock();
   std::queue<Transaction<uint32_t>> window;
-  uint32_t window_size = 50;
-
-  const uint32_t MAX_ATTRIBUTES = 1001;
+  //uint32_t window_size = 50;
+  const uint32_t window_size = strtoul(argv[1], 0, 10);//1500
+  const uint32_t MAX_ATTRIBUTES = strtoul(argv[2], 0, 10);//100001
+  const uint32_t minsup = strtoul(argv[3], 0, 10);//1
+  //const uint32_t MAX_ATTRIBUTES = 1001;
   std::map<uint32_t, CloStreamCI*> tableClosed = std::map<uint32_t, CloStreamCI*>();
   std::map<uint32_t, std::vector<uint32_t>> cidListMap = std::map<uint32_t, std::vector<uint32_t>>();
   CloStreamCI emptySet = CloStreamCI();
@@ -40,6 +44,7 @@ int main(int argc, char *argv[]) {
 
   for (uint32_t i = 0; i != MAX_ATTRIBUTES; ++i) {
     cidListMap.emplace(i, std::vector<uint32_t>());
+    POSITIONS_QUEUES_INDEX.emplace(i, std::queue<uint32_t>());
   }
 
   //238709
@@ -48,9 +53,10 @@ int main(int argc, char *argv[]) {
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
-    //if (i > 500) break;
+    //if (i > 150) break;
     if (0 != window_size && i >= window_size) {
       Transaction<uint32_t> old_transaction = window.front();
+      //std::cout << "old trx size " << old_transaction.data()->size() << std::endl;
       removeOldTransaction(old_transaction.data(), &cidListMap, &tableClosed);
       window.pop();
     }
@@ -58,6 +64,7 @@ int main(int argc, char *argv[]) {
     if (i % 100 == 0) {
       std::cout << i << " transaction(s) processed" << tableClosed.size() << std::endl;
     }
+    //std::cout << "trx size " << new_transaction.data()->size() << std::endl;
     processNewTransaction(new_transaction.data(), &cidListMap, &tableClosed);
     window.push(new_transaction);
     i += 1;

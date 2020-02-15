@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/xsl" href="Memory-Dump.xsl" ?>
+<!DOCTYPE MEMORY_DUMP_REPORT SYSTEM "Memory-Dump.dtd">
+<MEMORY_DUMP_REPORT>
+  <MD_HEADER/>
+  <MD_RUN_LISTING>
+    <MD_RUN_RECORD>
+      <MD_POINTER> 002D5670 </MD_POINTER>
+      <MD_EVENT_COUNT> 1 </MD_EVENT_COUNT>
+      <MD_EVENT_RECORD>
+        <MD_SIZE> 12 </MD_SIZE>
+        <MD_ALLOC_FILE> c:\users\_tmtrge\downloads\cunit-2.1-3\cunit\sources\framework\testdb.c </MD_ALLOC_FILE>
+        <MD_ALLOC_LINE> 934 </MD_ALLOC_LINE>
+        <MD_DEALLOC_FILE> c:\users\_tmtrge\downloads\cunit-2.1-3\cunit\sources\framework\testdb.c </MD_DEALLOC_FILE>
+        <MD_DEALLOC_LINE> 954 </MD_DEALLOC_LINE>
+      </MD_EVENT_RECORD>
+    </MD_RUN_RECORD>
+    <MD_RUN_RECORD>
+      <MD_POINTER> 00000000 </MD_POINTER>
+      <MD_EVENT_COUNT> 1 </MD_EVENT_COUNT>
+      <MD_EVENT_RECORD>
+        <MD_SIZE> 0 </MD_SIZE>
+        <MD_ALLOC_FILE>  </MD_ALLOC_FILE>
+        <MD_ALLOC_LINE> 0 </MD_ALLOC_LINE>
+        <MD_DEALLOC_FILE> c:\users\_tmtrge\downloads\cunit-2.1-3\cunit\sources\framework\testdb.c </MD_DEALLOC_FILE>
+        <MD_DEALLOC_LINE> 954 </MD_DEALLOC_LINE>
+      </MD_EVENT_RECORD>
+    </MD_RUN_RECORD>
+  </MD_RUN_LISTING>
+  <MD_SUMMARY>
+    <MD_SUMMARY_VALID_RECORDS> 1 </MD_SUMMARY_VALID_RECORDS>
+    <MD_SUMMARY_INVALID_RECORDS> 1 </MD_SUMMARY_INVALID_RECORDS>
+    <MD_SUMMARY_TOTAL_RECORDS> 2 </MD_SUMMARY_TOTAL_RECORDS>
+  </MD_SUMMARY>
+  <MD_FOOTER> Memory Trace for CUnit Run at Wed Jun 19 10:02:01 2019
+ </MD_FOOTER></MEMORY_DUMP_REPORT>

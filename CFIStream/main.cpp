@@ -31,21 +31,22 @@ bool X_close = true;//Il semble que cela serve uniquement a s arreter lorsque la
 std::vector<uint32_t>* X_0 = 0;
 
 int main(int argc, char *argv[]) {
-  if (argc != 1) return 0;
+  if (argc != 4) return 0;
   clock_t start = clock(); clock_t running = clock();
   std::queue<Transaction<uint32_t>> window;
-  uint32_t window_size = 50;
+  const uint32_t window_size = strtoul(argv[1], 0, 10);//1500
+  const uint32_t MAX_ATTRIBUTES = strtoul(argv[2], 0, 10);//100001
+  const uint32_t minsup = strtoul(argv[3], 0, 10);//1
 
   DUINode ROOT = DUINode();
   ROOT.children = new std::map<uint32_t, DUINode*>();
   ROOT.itemset = new std::vector<uint32_t>();
-  const uint32_t MAX_ATTRIBUTES = 1001;
+  //const uint32_t MAX_ATTRIBUTES = 1001;
 
   char s[10000];
   uint32_t i = 0;
   while (fgets(s, 10000, stdin) != NULL) {
     char *pch = strtok(s, " ");
-    if (i > 50) break;
     if (0 != window_size && i >= window_size) {
       //delete
       Transaction<uint32_t> old_transaction = window.front();

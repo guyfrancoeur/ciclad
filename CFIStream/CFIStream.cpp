@@ -1,7 +1,6 @@
 #include "CFIStream.h"
 
 extern uint32_t NBR_CLOSED_NODES;
-//std::map<uint32_t, DUINode*> CLOSED_ITEMSETS;
 
 extern std::map<uint32_t, std::vector<DUINode*>> HEADER_STRATE;
 extern std::map<uint32_t, DUINode*> HEADER_MIN;
@@ -23,10 +22,6 @@ void Addition(DUINode* const _root, std::vector<uint32_t>* const _transaction, s
     if (!X_0) {
       ref->count += 1;//incremente le compteur de transactions (utile pour le delete)
     }
-    /*if (X_0 && _transaction->size() == X_0->size()) {
-      //on pourrait aussi verifier avec ref.itemset.length == X_0.length
-      ref->count += 1;//incremente le compteur de transactions (utile pour le delete)
-    }*/
     //enumere et incremente les subsets stricts
     enumerate_subsets(ref, INCREMENT, false);
     if (X_close) {
@@ -210,7 +205,6 @@ DUINode* count(std::vector<uint32_t>* const _transaction, DUINode* const _node) 
       if (strate) {
         std::vector<DUINode*>::iterator it = strate->begin();
         for(; it != strate->end(); ++it){
-        //for (final DUINode n : strate) {
           DUINode* const n = *it;
           if (n->flaged_for_removal) continue;
           if (contains(n->itemset, _transaction, false)) {
@@ -234,8 +228,6 @@ uint32_t support(std::vector<uint32_t>* const _transaction, DUINode* const _node
         for (; it2 != strate->end(); ++it2) {
           DUINode* const n = *it2;
           if (contains(n->itemset, _transaction, false)) {
-            //print_array(n->itemset);
-            //print_array(_transaction);
             return n->support;
           }
         }
@@ -298,10 +290,8 @@ void Suppression(DUINode* const _node, std::vector<uint32_t>* const _transaction
       for (uint32_t j = 0; j != subsets_in_strata->size(); ++j) {
         DUINode* Y_node = subsets_in_strata->at(j);
         std::vector<uint32_t>* const Y = Y_node->itemset;
-        //if(Y_node.count != 1 && Y.length != _transaction.length){
-            //une trx qui n'est pas celle actuelle
+        //une trx qui n'est pas celle actuelle
         if (Y_node->count >= 2) {
-          //System.out.println("" + Arrays.toString(Y) + " will not disapear because " + Y_node.count);
           Y_node->support -= 1;//decrement
           //si match trx alors aussi decrement le count
           if (exactMatch(_transaction, Y)) {
@@ -320,15 +310,10 @@ void Suppression(DUINode* const _node, std::vector<uint32_t>* const _transaction
         else {
           //si leur count >= 2
           std::vector<DUINode*> superset_cis = std::vector<DUINode*>();
-          //System.out.println("----");
           enumerate_supersets(Y, &superset_cis);
-          //std::cout << superset_cis.size() << std::endl;
-          //superset_cis.add(ref);
           std::vector<uint32_t>* M = 0;
-          //System.out.println("we have " + superset_cis.size() + " supersetsfor s=" + Y_node.support + " " + Y_node.count);
           if (!superset_cis.empty()) {
             M = superset_cis.at(0)->itemset;
-            //System.out.println("supp=" + superset_cis.get(0).support);
             std::vector<uint32_t>* oldRef = 0;
             for (uint32_t i = 1; i != superset_cis.size(); ++i) {
               M = inter(M, superset_cis.at(i)->itemset);
@@ -336,7 +321,6 @@ void Suppression(DUINode* const _node, std::vector<uint32_t>* const _transaction
                 delete oldRef;
               }
               oldRef = M;
-              //System.out.println("supp=" + superset_cis.get(i).support);
             }
             /*if (oldRef != 0) {
               delete oldRef;
@@ -344,12 +328,12 @@ void Suppression(DUINode* const _node, std::vector<uint32_t>* const _transaction
           }
           //Y est une intersection donc il ne disparait pas... en vrai, dans la boucle du dessus, des qu`on a Y, on peut sortir
           //on peut meme checker la taille uniquement ?
-          //System.out.println("M=" + Arrays.toString(M) + " for " + Arrays.toString(Y));
           if (M && exactMatch(M, Y)) {
             Y_node->support -= 1;//decrerment
             if (exactMatch(_transaction, Y)) {
               Y_node->count -= 1;
               //ceci ne devrait pas arriver.... jamais
+              //A VERIFIER
               //System.exit(1);
               /*final DUINode obsolete = Y_node;
               _obs_cis.add(obsolete);
@@ -403,14 +387,9 @@ void remove_from_tree(DUINode* const _node, DUINode* const _root) {
 void enumerate_subsets_stratified(std::vector<uint32_t>* const _transaction, 
   std::vector<std::vector<DUINode*>>* const _all_subsets_stratified) {
   //here +1 if incrment or -1 if decrement
-  //std::vector<std::vector<DUINode*>>* all_subsets_stratified = new std::vector<std::vector<DUINode*>>();
   _all_subsets_stratified->resize(_transaction->size());
-  /*for (uint32_t i = 0; i != _transaction->size(); ++i) {
-    _all_subsets_stratified->push_back(std::vector<DUINode*>());
-  }*/
   std::map<uint32_t, std::vector<DUINode*>>::iterator it = HEADER_STRATE.begin();
   for(; it != HEADER_STRATE.end(); ++it){
-  //for (int i = _transaction.length; i != 0; --i) {
     if (it->first >= _transaction->size()) {
       continue;//skip if level to large
     }
@@ -418,13 +397,10 @@ void enumerate_subsets_stratified(std::vector<uint32_t>* const _transaction,
     std::vector<DUINode*>::iterator it2 = strate.begin();
     for(; it2 != strate.end(); ++it2){
       DUINode* const n = *it2;
-    //for (final DUINode n : strate) {
       if (n->flaged_for_removal) continue;
       if (contains(_transaction, n->itemset, true)) {
         _all_subsets_stratified->at(it->first).push_back(n);
       }
     }
   }
-  //std::cout << _all_subsets_stratified->size() << std::endl;
-  //return all_subsets_stratified;
 }

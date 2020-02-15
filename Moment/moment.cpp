@@ -143,11 +143,12 @@ void Addition(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
 
           childNode->oldHash = childNode->hash;
           childNode->hash = childNode->tidsum * childNode->support;
-
-          std::vector<uint32_t>* tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin(), childNode->tidlist->end());
-          tmpTidList->push_back(_tid);
-          delete childNode->tidlist;
-          childNode->tidlist = tmpTidList;
+          
+          childNode->tidlist->push_back(_tid);
+          //std::vector<uint32_t>* tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin(), childNode->tidlist->end());
+          //tmpTidList->push_back(_tid);
+          //delete childNode->tidlist;
+          //childNode->tidlist = tmpTidList;
         }
       }
       if (childNode->support > _minsupp) {
@@ -391,11 +392,13 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
             exit(ERROR_DELETE_NODE_WITH_HASH);
           }
           childNode->hash = childNode->tidsum * childNode->support;
-          std::vector<uint32_t>* const tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin() + 1, childNode->tidlist->end());
-          delete childNode->tidlist;
+
+          childNode->tidlist->erase(childNode->tidlist->begin());
+          //std::vector<uint32_t>* const tmpTidList = new std::vector<uint32_t>(childNode->tidlist->begin() + 1, childNode->tidlist->end());
+          //delete childNode->tidlist;
           //final int[] tmpTidList = new int[childNode.tidlist.length - 1];
           //System.arraycopy(childNode.tidlist, 1, tmpTidList, 0, childNode.tidlist.length - 1);
-          childNode->tidlist = tmpTidList;
+          //childNode->tidlist = tmpTidList;
         }
         else {
           if (binary_search(childNode->tidlist->begin(), childNode->tidlist->end(), _tid)) {
@@ -495,9 +498,6 @@ void Deletion(const uint32_t _tid, std::vector<uint32_t>* _transaction, const ui
 
 //lire un define pour utiliser stratified ou pas
 std::vector<uint32_t>* left_check(CETNode* const _node, std::map<long, std::vector<std::vector<CETNode*>*>*>* const _EQ_TABLE) {
-  //std::cout << "left check for ";
-  //print_cet_node(_node);
-
   if (_EQ_TABLE->end() != _EQ_TABLE->find(_node->hash)) {
     std::vector<std::vector<CETNode*>*>* const potential_closures_by_size = _EQ_TABLE->find(_node->hash)->second;
     for (int i = _node->itemset->size() + 1; i < potential_closures_by_size->size(); ++i) {

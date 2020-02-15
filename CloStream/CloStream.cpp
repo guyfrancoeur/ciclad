@@ -2,6 +2,7 @@
 #include "../CommonUtility/Utility.h"
 
 uint32_t CI_ID = 1;
+std::map<uint32_t, std::queue<uint32_t>> POSITIONS_QUEUES_INDEX;
 
 std::set<uint32_t>* compute_union_ideals(std::vector<uint32_t>* const _transaction, std::map<uint32_t, std::vector<uint32_t>>* const _cidListMap) {
   std::set<uint32_t>* cidset = new std::set<uint32_t>();
@@ -39,15 +40,15 @@ uint32_t locate_intersection_class(CloStreamCI* const _candidateGenitor, CloStre
       //  std::cout << " more than one match ! " << matches << std::endl;
       //  print_array((&_tableTemp->at(i))->first->itemset);
       //  print_array(_intersection->itemset);
-      //  std::cout << "==== INTERSECTION TABLE ======" << std::endl;
-      //  for (uint32_t j = 0; j != _tableTemp->size(); ++j) {
-      //  std::cout << (&_tableTemp->at(j))->second << " ";
-      //    print_array((&_tableTemp->at(j))->first->itemset);
-      //  }
-      //  std::cout << "==== END INTERSECTION TABLE ======" << std::endl;
-      //  exit(1);
-      //}
-      //return it;
+//  std::cout << "==== INTERSECTION TABLE ======" << std::endl;
+//  for (uint32_t j = 0; j != _tableTemp->size(); ++j) {
+//  std::cout << (&_tableTemp->at(j))->second << " ";
+//    print_array((&_tableTemp->at(j))->first->itemset);
+//  }
+//  std::cout << "==== END INTERSECTION TABLE ======" << std::endl;
+//  exit(1);
+//}
+//return it;
     }
   }
   /*if (matches != 0) {
@@ -88,14 +89,15 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
       tableTemp.push_back(std::pair<CloStreamCI*, uint32_t>(intersection, cid));
     }
     else {
-      delete intersection->itemset;
-      delete intersection;
+      
       CloStreamCI* const ctt = _tableClosed->find((&tableTemp.at(already_computed_intersection))->second)->second;
       // if the support of cti is higher than ctt
       if (cti->support > ctt->support) {
         // set the value as "cid".
         (&tableTemp.at(already_computed_intersection))->second = cid;
       }
+      delete intersection->itemset;
+      delete intersection;
     }
   }
   delete cidset;
@@ -103,9 +105,9 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
   // For each entry in the temporary table
   for (uint32_t i = 0; i != tableTemp.size(); ++i) {
     std::pair<CloStreamCI*, uint32_t>* const it2 = &tableTemp.at(i);
-  //std::map<CloStreamCI*, uint32_t>::iterator it2 = tableTemp.begin();
-  //for (; it2 != tableTemp.end(); ++it2) {
-    // get the itemset
+    //std::map<CloStreamCI*, uint32_t>::iterator it2 = tableTemp.begin();
+    //for (; it2 != tableTemp.end(); ++it2) {
+      // get the itemset
     CloStreamCI* const newCI = it2->first;
     // get the cid
     // get the closed itemset for that cid
@@ -136,14 +138,24 @@ void processNewTransaction(std::vector<uint32_t>* const _transaction, std::map<u
         }
         cidlist = &_cidListMap->find(item)->second;
         // then we add x to the cidlist
-        const uint32_t pos = cidlist->size();
-        cidlist->push_back(newCI->id);
-        newCI->positions_in_lists->push_back(pos);
+        if ((&POSITIONS_QUEUES_INDEX.at(item))->empty()) {
+          const uint32_t pos = cidlist->size();
+          newCI->positions_in_lists->push_back(pos);
+          cidlist->push_back(newCI->id);
+        }
+        else {
+          const uint32_t pos = (&POSITIONS_QUEUES_INDEX.at(item))->front();
+          (&POSITIONS_QUEUES_INDEX.at(item))->pop();
+          newCI->positions_in_lists->push_back(pos);
+          cidlist->at(pos) = newCI->id;
+        }
       }
     }
     //delete newCI->itemset;
     //delete newCI;
   }
+
+
   //delete trxci->itemset;
   //delete trxci;
 };
@@ -244,9 +256,12 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
   }
   delete cidset;
 
-  /*std::map<CloStreamCI*, uint32_t>::iterator it22 = tableTemp.begin();
+  std::vector<std::pair<CloStreamCI*, uint32_t>>::iterator it22 = tableTemp.begin();
   for (; it22 != tableTemp.end(); ++it22) {
-    if (it22->first->id == 0 && it22->first->itemset->size() != _transaction->size()) {
+    if (it22->first->id == 0) {
+      exit(1);
+    }
+    /*if (it22->first->id == 0 && it22->first->itemset->size() != _transaction->size()) {
       bool was_found = false;
       std::map<uint32_t, CloStreamCI*>::iterator it3 = _tableClosed->begin();
       for (; it3 != _tableClosed->end(); ++it3) {
@@ -263,8 +278,8 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
         std::cout << was_found << "but is not in table !" << std::endl;
         exit(1);
       }
-    }
-  }*/
+    }*/
+  }
   
   for (uint32_t i = 0; i != tableTemp.size(); ++i) {
     std::pair<CloStreamCI*, uint32_t>* const it2 = &tableTemp.at(i);
@@ -284,12 +299,14 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       }
 
       //System.out.println("removed "+Arrays.toString(obsoleteOrDemotedCI.itemset)+" with "+(obsoleteOrDemotedCI.support - 1));
-      for (uint32_t i = 0; i != obsoleteOrDemotedCI->positions_in_lists->size(); ++i) {
-        std::vector<uint32_t>* cidlist = &_cidListMap->find(obsoleteOrDemotedCI->itemset->at(i))->second;
+      for (uint32_t j = 0; j != obsoleteOrDemotedCI->positions_in_lists->size(); ++j) {
+        std::vector<uint32_t>* cidlist = &_cidListMap->find(obsoleteOrDemotedCI->itemset->at(j))->second;
         if (!cidlist) {
           exit(ERROR_TRYING_TO_REMOVE_CI_WITH_NO_CI_LIST);
         }
-        cidlist->at(obsoleteOrDemotedCI->positions_in_lists->at(i)) = 0;
+        cidlist->at(obsoleteOrDemotedCI->positions_in_lists->at(j)) = 0;
+        (&POSITIONS_QUEUES_INDEX.at(obsoleteOrDemotedCI->itemset->at(j)))->push(obsoleteOrDemotedCI->positions_in_lists->at(j));
+        //il faudrait stocker pour chaque item, la liste des positions dispos 
       }
       _tableClosed->erase(obsoleteOrDemotedCI->id);
       //_tableClosed->emplace(obsoleteOrDemotedCI->id, (CloStreamCI*)0);
@@ -298,7 +315,7 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       delete obsoleteOrDemotedCI;
     }
     else {
-      if (obsoleteOrDemotedCI->support == 0) {
+      if (obsoleteOrDemotedCI->id == 0 || obsoleteOrDemotedCI->support == 0 || obsoleteOrDemotedCI->positions_in_lists == 0) {
         exit(1);
       }
       // we have to increase its support
@@ -309,4 +326,6 @@ void removeOldTransaction(std::vector<uint32_t>* const _transaction, std::map<ui
       }
     }
   }
+  delete trxci->itemset;
+  delete trxci;
 };

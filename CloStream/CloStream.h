@@ -6,6 +6,7 @@
 #include <set>
 #include <map>
 #include <vector>
+#include <queue>
 #include <iostream>
 
 struct CloStreamCI {
