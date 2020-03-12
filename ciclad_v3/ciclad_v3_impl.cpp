@@ -161,14 +161,16 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         n = it2->second;
         concept3 *min = &fCI2.at(n->Cid);
         signed int ecart = e->supp - min->supp;
+		//cf. L.143+ dans CicladRmv.cpp dans nogen/newciclad/
         switch (ecart) {
-          case 0: n->Cid = e->id; break;
-          case 1:  n->gen.clear(); n->gen.push_back(n->Cid); n->Cid = e->id; break;
-          case -1: n->gen.push_back(e->id); break; //tomas
+          case 0: n->Cid = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
+		  //Il faut que node->Cid devienne un ensemble
+          case 1:  n->gen.clear(); n->gen.push_back(n->Cid); n->Cid = e->id; break;//Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
+          case -1: n->gen.push_back(e->id); break; //tomas (ceci est bon ^^)
           default:
             if (ecart > 1) {
               n->gen.clear();
-              n->Cid = e->id;
+              n->Cid = e->id;//Ici Cid doit etre { e }
             }
             break;
         }
