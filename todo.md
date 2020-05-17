@@ -16,7 +16,7 @@
      + on hash seulement les transactions donc nous avons __tous__ les items dans l'index inversé (principal);
      + l'index hash pointe vers le concept (la trx) et les sous-concepts de la transaction;
      + de cette façon il est assez facile de faire le `+1` ou `-1` en parallèle;
-- [ ] multi-treillis
+- [ ] multi-treillis (parallele)
      + merge;
      + split;
 - [ ] option de la ligne de commande pour la fenêtre glissante
@@ -26,6 +26,16 @@
 - [ ] module et fonction de lecture de transaction (unique);
 - [ ] Compléter les templates C++;
 - [ ] Rendre le code compatible aux directives `#pragma` de OpenMP;
+
+### Productivité
+- [ ] Création de CMakeLists.txt
+- [ ] Utiliser yaml (ci et test de regression)
+- [ ] Utiliser CTest dans CMake
+- [ ] Utiliser GNUplot pour  graphiser les résultats
+
+### Expérimentations:
+ - [ ] Utiliser [splay tree](https://en.wikipedia.org/wiki/Splay_tree)
+ - [ ] Utiliser [van Emde Boas tree](https://en.wikipedia.org/wiki/Van_Emde_Boas_tree)
 
 ## Détails
 
@@ -117,8 +127,3 @@ done
 
 echo "Reader exiting, fin."
 ```
-
-## Idées
-
-+ [van Emde Boas tree](https://en.wikipedia.org/wiki/Van_Emde_Boas_tree)
-+ [splay tree](https://en.wikipedia.org/wiki/Splay_tree)
