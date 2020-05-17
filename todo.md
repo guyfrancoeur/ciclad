@@ -36,6 +36,7 @@
 ### Expérimentations:
  - [ ] Utiliser [splay tree](https://en.wikipedia.org/wiki/Splay_tree)
  - [ ] Utiliser [van Emde Boas tree](https://en.wikipedia.org/wiki/Van_Emde_Boas_tree)
+ - [ ] Utiliser Judy array [wiki](https://en.wikipedia.org/wiki/Judy_array) [official](http://judy.sourceforge.net/) [resultat](http://www.nothings.org/computer/judy/)
 
 ## Détails
 
