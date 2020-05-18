@@ -268,3 +268,5 @@ isci_d.o
 
 result/
 dist/
+
+*.stream
