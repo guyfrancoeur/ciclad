@@ -265,3 +265,6 @@ isci
 isci_d
 isci.o
 isci_d.o
+
+result/
+dist/
