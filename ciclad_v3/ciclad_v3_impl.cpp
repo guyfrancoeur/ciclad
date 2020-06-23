@@ -154,7 +154,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         n->parent = lin;
         n->depth = lin->depth + 1;
         n->nb_ref = 0;
-        n->cid.push_back(e->id);
+        n->cid.push_back(e->id); //pour le delete uniquement
         lin->enfant.insert2(lin->enfant.end(), item, n);
         tn.push(n);
       }
@@ -201,7 +201,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       }
       else {
         //cleanup index; //fix memory bug with capacity()
-        if (nn->cid[0] != 0 && nn->cid.capacity() != 0 && nn->cid.size() > 0) {
+        if (nn->cid.capacity() != 0 && nn->cid.size() > 0) {
           fCI2.at(nn->cid[0]).deleted = 1;
           fCI2[nn->cid[0]] = fCI2.back();
           fCI2.pop_back();
