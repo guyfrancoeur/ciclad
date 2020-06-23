@@ -111,7 +111,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
 double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
   clock_t start = clock();
 
-  node3 *root = new node3(_rootChild);
+  node3 *root = new node3(_rootChild); //new struct for delete GF
   //ici nous avons besoin d'une optimisation sans arguments --->
   uint allocated_memory = 0; uint allocated_block = 0;
   uint requested_memory = (uint)fCI2.size() * sizeof(node3 *);
@@ -162,14 +162,14 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         concept3 *min = &fCI2.at(n->Cid);
         signed int ecart = e->supp - min->supp; // c'est bon ici GF+TM
         switch (ecart) {
-          case 0: n->Cid.push_back(e-id); break;// = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
-          case 1:  n->gen.clear(); /* ici copy du vector n->Cid vers gen */ n->Cid.clear(); n->Cid.push_back(e->id); break; //n->Cid = e->id; break;//Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
+          case 0:  n->cid.push_back(e-id); break;// = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
+          case 1:  n->gen.clear(); n->gen = n->cid; n->cid.clear(); n->cid.push_back(e->id); break; //n->Cid = e->id; break;//Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
           case -1: n->gen.push_back(e->id); break; //tomas (ceci est bon ^^)
           default:
             if (ecart > 1) {
               n->gen.clear();
-	      n->Cid.clear();
-              n->Cid.push_back(e->id); //Ici Cid doit etre { e }
+	      n->cid.clear();
+              n->cid.push_back(e->id); //Ici Cid doit etre { e }
             }
             break;
         }
