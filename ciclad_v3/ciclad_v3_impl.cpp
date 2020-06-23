@@ -162,7 +162,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         concept3 *min = &fCI2.at(n->Cid);
         signed int ecart = e->supp - min->supp; // c'est bon ici GF+TM
         switch (ecart) {
-          case 0:  n->cid.push_back(e-id); break;// = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
+          case 0:  n->cid.push_back(e->id); break;// = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
           case 1:  n->gen.clear(); n->gen = n->cid; n->cid.clear(); n->cid.push_back(e->id); break; //n->Cid = e->id; break;//Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
           case -1: n->gen.push_back(e->id); break; //tomas (ceci est bon ^^)
           default:
