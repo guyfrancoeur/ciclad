@@ -147,13 +147,14 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
-        tlx::btree_map<uint, node3 *> _enfant;
+        tlx::btree_map<uint, node3*> _enfant;
         n = new node3(_enfant);
         n->key = item;
         n->Cid = e->id;
         n->parent = lin;
         n->depth = lin->depth + 1;
         n->nb_ref = 0;
+        vector<uint> t; n->cid = t;
         lin->enfant.insert2(lin->enfant.end(), item, n);
         tn.push(n);
       }
@@ -162,9 +163,9 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         concept3 *min = &fCI2.at(n->Cid);
         signed int ecart = e->supp - min->supp; // c'est bon ici GF+TM
         switch (ecart) {
-          case 0:  n->cid.push_back(e->id); break;// = e->id; break;//Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
-          case 1:  n->gen.clear(); n->gen = n->cid; n->cid.clear(); n->cid.push_back(e->id); break; //n->Cid = e->id; break;//Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
-          case -1: n->gen.push_back(e->id); break; //tomas (ceci est bon ^^)
+          case 0:  n->cid.push_back(e->id); break; //Ici ce n'est pas egal, ca devrait etre qqch du genre min->Cid->push_back(e);
+          case 1:  n->gen.clear(); n->gen = n->cid; n->cid.clear(); n->cid.push_back(e->id); break; //Ici, il faut que gen prenne les valeurs de Cid et Cid devient { e }
+          case -1: n->gen.push_back(e->id); break; //TM (ceci est bon ^^)
           default:
             if (ecart > 1) {
               n->gen.clear();
@@ -189,7 +190,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       char state = 1; //bool
 
       for (auto cid : n->gen) {
-        node3 * tmp = li[cid];
+        node3 *tmp = li[cid];
         if (tmp == n) {
           state = 0;
           break;
