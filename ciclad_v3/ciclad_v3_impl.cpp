@@ -144,7 +144,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       }
       //------------------------------------------------------- DEBUT ---- UPDATE INTERSECTION
       node3 *n;
-      auto *_child = &lin->enfant;  //un petit truc pour les différentes declarations.  :)
+      auto *_child = &lin->enfant;
       auto it2 = _child->find(item);
       if (it2 == _child->end()) {
         tlx::btree_map<uint, node3*> _enfant;
@@ -154,7 +154,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         n->parent = lin;
         n->depth = lin->depth + 1;
         n->nb_ref = 0;
-        vector<uint> t; n->cid = t;
+        n->cid.push_back(e->id);
         lin->enfant.insert2(lin->enfant.end(), item, n);
         tn.push(n);
       }
@@ -169,7 +169,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
           default:
             if (ecart > 1) {
               n->gen.clear();
-	      n->cid.clear();
+	            n->cid.clear();
               n->cid.push_back(e->id); //Ici Cid doit etre { e }
             }
             break;
@@ -185,25 +185,27 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   }
 
   while (!tn.empty()) {
-    node3 *n = tn.front();
-    if (n->nb_ref > 0) {
+    node3 *nn = tn.front();
+    if (nn->nb_ref > 0) {
       char state = 1; //bool
 
-      for (auto cid : n->gen) {
+      for (auto cid : nn->gen) {
         node3 *tmp = li[cid];
-        if (tmp == n) {
+        if (tmp == nn) {
           state = 0;
           break;
         }
       }
       if (state == 1) {
-        fCI2.at(n->Cid).supp--;
+        fCI2.at(nn->cid[0]).supp--;
       }
       else {
-        //cleanup index;
-        fCI2.at(n->Cid).deleted = 1;
-        fCI2[n->Cid] = fCI2.back();
-        fCI2.pop_back();
+        //cleanup index; //fix memory bug with capacity()
+        if (nn->cid[0] != 0 && nn->cid.capacity() != 0 && nn->cid.size() > 0) {
+          fCI2.at(nn->cid[0]).deleted = 1;
+          fCI2[nn->cid[0]] = fCI2.back();
+          fCI2.pop_back();
+        }
       }
     }
     tn.pop();
