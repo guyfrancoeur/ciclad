@@ -49,19 +49,7 @@ struct node3 {
   node3 *parent;
   tlx::btree_map<uint, node3 *> enfant;
   std::vector<uint> gen;
-};
-
-struct node3r {
-  node3() : depth(0), key(0), nb_ref(0), Cid(0), enfant(tlx::btree_map<uint, node3 *>()), parent(NULL) { }
-  node3(tlx::btree_map<uint, node3 *> _enfant) : enfant(_enfant), gen(std::vector<uint> (2)), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
-
-  uint depth;
-  uint key;  //item
-  uint nb_ref;
-  std::vector<uint> Cid;
-  node3 *parent;
-  tlx::btree_map<uint, node3 *> enfant;
-  std::vector<uint> gen;
+  std::vector<uint> cid; //pour le delete uniquement
 };
 
 struct concept3 {
