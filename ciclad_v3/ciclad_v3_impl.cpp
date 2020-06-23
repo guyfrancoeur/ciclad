@@ -130,7 +130,7 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
     for (uint i = 0; i < idx[item].size(); ++i) { //tant qu'il y a des concepts (pour un item).
       auto idConcept = idx[item].at(i);
       concept3 *e = &fCI2.at(idConcept); //auto e = fCI2.at(idConcept); //e est un concept fCI2[idConcept]
-      if (e->deleted == 1) {
+      if (e->deleted == 1) { 
         idx[item].at(i) = idx[item].back();
         idx[item].pop_back();
         continue;
@@ -197,15 +197,14 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         }
       }
       if (state == 1) {
-        fCI2.at(nn->cid[0]).supp--;
+        if (fCI2.at(nn->cid[0]).supp > 0) fCI2.at(nn->cid[0]).supp--;
       }
       else {
         //cleanup index; //fix memory bug with capacity()
-        if (nn->cid.capacity() != 0 && nn->cid.size() > 0) {
-          fCI2.at(nn->cid[0]).deleted = 1;
-          fCI2[nn->cid[0]] = fCI2.back();
-          fCI2.pop_back();
-        }
+        fCI2.at(nn->cid[0]).deleted = 1;
+        fCI2.at(nn->cid[0]).supp = 0;
+        //fCI2[nn->cid[0]] = fCI2.back();
+        //fCI2.pop_back();
       }
     }
     tn.pop();
