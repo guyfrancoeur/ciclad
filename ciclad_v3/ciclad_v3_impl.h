@@ -51,6 +51,19 @@ struct node3 {
   std::vector<uint> gen;
 };
 
+struct node3r {
+  node3() : depth(0), key(0), nb_ref(0), Cid(0), enfant(tlx::btree_map<uint, node3 *>()), parent(NULL) { }
+  node3(tlx::btree_map<uint, node3 *> _enfant) : enfant(_enfant), gen(std::vector<uint> (2)), depth(0), key(0), nb_ref(0), Cid(0), parent(NULL) { }
+
+  uint depth;
+  uint key;  //item
+  uint nb_ref;
+  std::vector<uint> Cid;
+  node3 *parent;
+  tlx::btree_map<uint, node3 *> enfant;
+  std::vector<uint> gen;
+};
+
 struct concept3 {
   concept3() : id(0), supp(0), deleted(0) {}
   concept3(uint _id, uint _supp, ushort _deleted) : id(_id), supp(_supp), deleted(_deleted) {}
