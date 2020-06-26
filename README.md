@@ -21,6 +21,9 @@ Developer
 More 
  + [experiments in images](./image/README.md)
 
+Accepted paper :
++ [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:test=ciclad)
+
 Reference :
 + [A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
 + [Generating frequent itemsets incrementally: two novel approaches based on Galois lattice theory](https://www.tandfonline.com/doi/abs/10.1080/09528130210164198)
