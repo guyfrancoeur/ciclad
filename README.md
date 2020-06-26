@@ -1,4 +1,4 @@
-# ciclad C++
+# ciclad Project C++
 
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
