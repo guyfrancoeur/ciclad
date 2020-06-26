@@ -1,6 +1,6 @@
 # ciclad Project C++
 
-[Origial : A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
+
 
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
@@ -21,7 +21,9 @@ Developer
 More 
  + [experiments in images](./image/README.md)
 
-Reference : [Generating frequent itemsets incrementally: two novel approaches based on Galois lattice theory](https://www.tandfonline.com/doi/abs/10.1080/09528130210164198)
+Reference :
++ [A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
++ [Generating frequent itemsets incrementally: two novel approaches based on Galois lattice theory](https://www.tandfonline.com/doi/abs/10.1080/09528130210164198)
 
 ---
 ciclad :copyright: 2015-2020
