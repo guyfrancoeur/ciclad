@@ -1,6 +1,6 @@
 # ciclad Project C++
 
-[Origial scientific Paper : A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
+[Origial : A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
 
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
