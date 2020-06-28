@@ -1,0 +1,30 @@
+set border 0
+set ylabel "Runtime (seconds)"
+
+set border 3 front lt black linewidth 1.000 dashtype solid
+set style fill   solid 1.00 noborder
+
+set terminal png size 700,460
+set output fileout
+
+set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
+
+set yrange [1:1000]
+set logscale y
+set ytics (1,10,100,1000)
+
+
+set style data histogram
+set style histogram cluster gap 1
+
+set boxwidth 0.9
+set bmargin 4
+set tmargin 4
+
+set xtics border in scale 1,0.5 nomirror autojustify
+
+set grid y
+set colorb horizontal user origin .05, .05 size .9, .05
+
+set xtics ("Retail (3k)" 0, "NetLog (13k)" 1, "Synth2 (3.5k)" 2)
+plot filename using "GC-Tree" t col lc rgb "#5B9BD5", '' u "Ciclad" t col lc rgb "#FF6700",'' u "Moment" t col lc rgb "#A5A5A5"

@@ -1,0 +1,4 @@
+GC-Tree	Ciclad	Moment
+300	3	8
+800	5	12
+100	8	15

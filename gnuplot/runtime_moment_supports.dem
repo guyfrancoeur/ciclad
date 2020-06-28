@@ -1,0 +1,27 @@
+set border 0
+set ylabel "Runtime (seconds)"
+
+set border 3 front lt black linewidth 1.000 dashtype solid
+set style fill   solid 1.00 noborder
+
+set terminal png size 850,400
+set output fileout
+
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
+
+set yrange [0:600]
+#set logscale y
+set ytics (0,100,200,300,400,500,600)
+
+set style data histogram
+set style histogram cluster gap 1
+
+set xtics border in scale 1,0.5 nomirror autojustify
+set boxwidth 0.7
+set tmargin 4
+
+set grid y
+set colorb horizontal user origin .05, .05 size 1, .05
+
+set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3)
+plot filename using "Moment(s=1)" t col lc rgb "#43749F", '' u "Moment(s=2)" t col lc rgb "#4E8ABC", '' u "Moment(s=3)" t col lc rgb "#5C9AD5", '' u "Moment(s=5)" t col lc rgb "#98B8DE", '' u "Ciclad (s=1)" t col lc rgb "#FF6700"

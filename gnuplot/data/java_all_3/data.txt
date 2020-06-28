@@ -1,0 +1,2 @@
+Ciclad:220  MOMENT:2100    Clostream:3600  Aprori-TIDClose:1800    CHARM-bitset:331    DCI-Closed:222  LCM:175 FP-growth(-tc):61
+250 2100    2500    1750    350 250 200 150 50
