@@ -1,8 +1,15 @@
 #!/bin/bash
 
 # Enlever fin de ligne (des fichiers windows)
-for file in data/*/*/*; do
-    sed -i 's/\r//g' "$file"
+for elt1 in data/*/*; do
+    if [ -d "$elt1" ]; then
+        echo "folder"
+        for elt2 in data/*/*/*; do
+            sed -i 's/\r//g' "$elt2"
+        done
+    else
+        sed -i 's/\r//g' "$elt1"
+    fi
 done
 
 # ---- annexe_gctree ----
