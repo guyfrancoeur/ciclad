@@ -12,7 +12,7 @@ set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
 set grid ytics ls 12
 set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
 set ylabel "Runtime (seconds)" textcolor rgb "#5D5D5D"
-set yrange [1:1000]
+set yrange [1:*]
 set logscale y
 set ytics (1,10,100,1000) textcolor rgb "#5D5D5D"
 set ytics border in scale 0,0 norotate autojustify

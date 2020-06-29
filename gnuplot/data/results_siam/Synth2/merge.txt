@@ -1,0 +1,4 @@
+CICLAD	Moment	NewMoment	CloStream	CFI-Stream
+20	4096	3800	45	1300
+55	4500	4200	70	0
+200	0	0	256	0

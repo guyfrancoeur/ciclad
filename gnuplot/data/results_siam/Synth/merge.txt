@@ -1,0 +1,4 @@
+CICLAD	Moment	NewMoment	CloStream	CFI-Stream
+35	6000	4300	59	2000
+35	0	0	59	0
+40	0	0	49	0
