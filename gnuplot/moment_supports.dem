@@ -1,57 +1,44 @@
-set border 0
-set ylabel "Runtime (seconds)"
-
-set border 3 front lt black linewidth 1.000 dashtype solid
-set style fill   solid 1.00 noborder
-
-set terminal png size 850,400
 set output fileoutRUNTIME
-
-set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
-
-set yrange [0:600]
-set ytics (0,100,200,300,400,500,600)
-
+set terminal png size 850,400
+set border 0
+set style fill   solid 1.00 noborder
 set style data histogram
 set style histogram cluster gap 1
-
-set xtics border in scale 1,0.5 nomirror autojustify
 set boxwidth 0.7
 set tmargin 4
+# Lignes grises arriere-plan :
+set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+set grid ytics ls 12
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
+set ylabel "Runtime (seconds)" textcolor rgb "#5D5D5D"
+set yrange [0:600]
+set ytics (0,100,200,300,400,500,600) textcolor rgb "#5D5D5D"
+set ytics border in scale 0,0 norotate autojustify
+set xtics border in scale 0,0
 
-set grid y
-set colorb horizontal user origin .05, .05 size 1, .05
-
-set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3)
+set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3) textcolor rgb "#5D5D5D"
 plot filename using "Moment(s=1)" t col lc rgb "#43749F", '' u "Moment(s=2)" t col lc rgb "#4E8ABC", '' u "Moment(s=3)" t col lc rgb "#5C9AD5", '' u "Moment(s=5)" t col lc rgb "#98B8DE", '' u "Ciclad" t col lc rgb "#FF6700"
 
 
 
-
-set border 0
-set ylabel "Memory (MBytes)"
-
-set border 3 front lt black linewidth 1.000 dashtype solid
-set style fill   solid 1.00 noborder
-
-set terminal png size 850,400
 set output fileoutMEMORY
-
-set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
-
-set yrange [1:16384]
-set logscale y
-set ytics (1,4,16,64,256,1024,4096,16384)
-
+set terminal png size 850,400
+set border 0
 set style data histogram
 set style histogram cluster gap 1
-
-set xtics border in scale 1,0.5 nomirror autojustify
+set style fill   solid 1.00 noborder
 set boxwidth 0.7
 set tmargin 4
+# Lignes grises arriere-plan :
+set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+set grid ytics ls 12
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
+set ylabel "Memory (MBytes)" textcolor rgb "#5D5D5D"
+set yrange [1:16384]
+set logscale y
+set ytics (1,4,16,64,256,1024,4096,16384) textcolor rgb "#5D5D5D"
+set ytics border in scale 0,0 norotate autojustify
+set xtics border in scale 0,0
 
-set grid y
-set colorb horizontal user origin .05, .05 size 1, .05
-
-set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3)
+set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3) textcolor rgb "#5D5D5D"
 plot filename using "Moment(s=1)" t col lc rgb "#43749F", '' u "Moment(s=2)" t col lc rgb "#4E8ABC", '' u "Moment(s=3)" t col lc rgb "#5C9AD5", '' u "Moment(s=5)" t col lc rgb "#98B8DE", '' u "Ciclad" t col lc rgb "#FF6700"

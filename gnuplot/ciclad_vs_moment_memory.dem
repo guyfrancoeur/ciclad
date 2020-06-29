@@ -1,58 +1,45 @@
-set border 0
-set ylabel "Runtime (seconds)"
-
-set border 3 front lt black linewidth 1.000 dashtype solid
-set style fill   solid 1.00 noborder
-
-set terminal png size 1200,400
 set output fileoutMEMORY
-
-set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
-
-set yrange [1:16384]
-set logscale y
-set ytics (1,4,16,64,256,1024,4096,16384)
-
+set terminal png size 1200,400
+set border 0
 set style data histogram
 set style histogram cluster gap 1
-
-set xtics border in scale 1,0.5 nomirror autojustify
 set boxwidth 0.9
 set tmargin 4
+set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+# Lignes grises arriere-plan :
+set grid ytics ls 12
+set style fill   solid 1.00 noborder
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
+set ylabel "Runtime (seconds)" textcolor rgb "#5D5D5D"
+set yrange [1:16384]
+set logscale y
+set ytics (1,4,16,64,256,1024,4096,16384) textcolor rgb "#5D5D5D"
+set ytics border in scale 0,0 norotate autojustify
+set xtics border in scale 0,0
 
-set grid y
-set colorb horizontal user origin .05, .05 size 1, .05
-
-set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12)
+set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12) textcolor rgb "#5D5D5D"
 plot filename using "Ciclad(C++)" t col lc rgb "#FF6700", '' u "Moment(C++)" t col lc rgb "#5A9BD5"
 
 
 
-
-set border 0
-set ylabel "Runtime (seconds)"
-
-set border 3 front lt black linewidth 1.000 dashtype solid
-set style fill   solid 1.00 noborder
-
-set terminal png size 1200,400
 set output fileoutRUNTIME
-
-set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox
-
-set yrange [1:10000]
-set logscale y
-set ytics (1,10,100,1000,10000)
-
+set terminal png size 1200,400
+set border 0
 set style data histogram
 set style histogram cluster gap 1
-
-set xtics border in scale 1,0.5 nomirror autojustify
 set boxwidth 0.9
 set tmargin 4
+# Lignes grises arriere-plan :
+set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+set grid ytics ls 12
+set style fill   solid 1.00 noborder
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
+set ylabel "Runtime (seconds)" textcolor rgb "#5D5D5D"
+set yrange [1:10000]
+set logscale y
+set ytics (1,10,100,1000,10000) textcolor rgb "#5D5D5D"
+set ytics border in scale 0,0 norotate autojustify
+set xtics border in scale 0,0
 
-set grid y
-set colorb horizontal user origin .05, .05 size 1, .05
-
-set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12)
+set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12) textcolor rgb "#5D5D5D"
 plot filename using "Ciclad(C++)" t col lc rgb "#FF6700", '' u "Moment(C++)" t col lc rgb "#5A9BD5"
