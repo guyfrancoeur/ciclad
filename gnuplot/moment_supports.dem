@@ -1,32 +1,31 @@
 # ---- Runtime ----
 set output fileoutRUNTIME
 set terminal png size 950,400
-set border 0
-set style fill   solid 1.00 noborder
+set border 0 lc rgb "#FFFFFF"
+set style fill solid 1.00 noborder
 set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.7
 set tmargin 4
 set bmargin 4
 # Lignes grises arriere-plan :
-set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
 set grid ytics ls 12
-set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox textcolor rgb "#5D5D5D"
-set ylabel "Runtime (seconds)" textcolor rgb "#5D5D5D"
+set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5B5C5F" font ",14"
+set ytics border in scale 0,0
+set xtics border in scale 0,0 font ",13"
+set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15"
 set yrange [0:600]
-set ytics (0,100,200,300,400,500,600) textcolor rgb "#5D5D5D"
-set ytics border in scale 0,0 norotate autojustify
-set xtics border in scale 0,0
-set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3) textcolor rgb "#5D5D5D"
+set ytics (0,100,200,300,400,500,600) textcolor rgb "#5B5C5F"
+set xrange [-0.5:3.5]
+set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3) textcolor rgb "#5B5C5F" font ",13"
 plot filename using "Moment(s=1)" t col lc rgb "#43749F", '' u "Moment(s=2)" t col lc rgb "#4E8ABC", '' u "Moment(s=3)" t col lc rgb "#5C9AD5", '' u "Moment(s=5)" t col lc rgb "#98B8DE", '' u "Ciclad" t col lc rgb "#FF6700"
-
 
 # ---- Memory ----
 set output fileoutMEMORY
-set tmargin 2
-set ylabel "Memory (MBytes)" textcolor rgb "#5D5D5D"
-set yrange [1:*]
+set ylabel "Memory (MBytes)"
+set yrange [1:16384]
 set logscale y
-set ytics (1,4,16,64,256,1024,4096,16384) textcolor rgb "#5D5D5D"
-set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3) textcolor rgb "#5D5D5D"
+set ytics (1,4,16,64,256,1024,4096,16384)
+set xtics ("Mushroom (w=.5k)" 0, "Mushroom (w=1k)" 1, "Synth2 (w=1k)" 2, "Synth2 (w=2k)" 3)
 plot filename using "Moment(s=1)" t col lc rgb "#43749F", '' u "Moment(s=2)" t col lc rgb "#4E8ABC", '' u "Moment(s=3)" t col lc rgb "#5C9AD5", '' u "Moment(s=5)" t col lc rgb "#98B8DE", '' u "Ciclad" t col lc rgb "#FF6700"

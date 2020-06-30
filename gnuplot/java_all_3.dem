@@ -1,22 +1,21 @@
 set output fileout
-set terminal png size 650,400
-set border 0
+set terminal png size 650,460
+set border 0 lc rgb "#FFFFFF"
 set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.7
 set tmargin 4
 # Lignes grises arriere-plan :
-set style line 12 lc rgb "#D9D9D9" lt 1 lw 2
+set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
 set grid ytics ls 12
-set style fill   solid 1.00 noborder
+set style fill solid 1.00 noborder
 set nokey
-set ylabel "Time (seconds)" textcolor rgb "#5D5D5D"
-set yrange [0:*]
-set ytics (0,500,1000,1500,2000,2500) textcolor rgb "#5D5D5D"
-set ytics border in scale 0,0 norotate autojustify
-set xtics border in scale 0,0
-set xtic rotate by -45 scale 1
+set ytics border in scale 0,0
+set xtics border in scale 0,0 font ",13"
+set ylabel "Time (seconds)" textcolor rgb "#5B5C5F" font ",15"
+set yrange [0:2500]
+set ytics (0,500,1000,1500,2000,2500) textcolor rgb "#5B5C5F"
 set xtics border in scale 0,0 nomirror rotate by -45  autojustify
-
-set xtics ("Ciclad:220" -0.4, "MOMENT:2100" -0.27, "Clostream:3600" -0.15, "Aprori-TIDClose:1800" -0.05, "CHARM-bitset:331" 0.07, "DCI-Closed:222" 0.17, "LCM:175" 0.28, "FP-growth(-tc):61" 0.39) textcolor rgb "#5D5D5D"
+set xrange [-0.5:0.5]
+set xtics ("Ciclad:220" -0.4, "MOMENT:2100" -0.27, "Clostream:3600" -0.15, "Aprori-TIDClose:1800" -0.05, "CHARM-bitset:331" 0.07, "DCI-Closed:222" 0.17, "LCM:175" 0.28, "FP-growth(-tc):61" 0.39) textcolor rgb "#5B5C5F"
 plot filename using "Ciclad:220" t col lc rgb "#FF6700", '' u "MOMENT:2100" t col lc rgb "#CAD9ED", '' u "Clostream:3600" t col lc rgb "#477CAB", '' u "Aprori-TIDClose:1800" t col lc rgb "#5795CD", '' u "CHARM-bitset:331" t col lc rgb "#97B9E0", '' u "DCI-Closed:222" t col lc rgb "#72A5D8", '' u "LCM:175" t col lc rgb "#5089BC", '' u "FP-growth(-tc):61" t col lc rgb "#B2C9E6"

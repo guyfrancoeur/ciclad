@@ -2,12 +2,13 @@
 
 # Enlever fin de ligne (des fichiers windows)
 for elt1 in data/*/*; do
-    if [ -d "$elt1" ]; then
+    if [ -d $elt1 ]; then
         for elt2 in data/*/*/*; do
-            sed -i 's/\r//g' "$elt2"
+            sed -i 's/\r//g' $elt2
+            
         done
     else
-        sed -i 's/\r//g' "$elt1"
+        sed -i 's/\r//g' $elt1
     fi
 done
 
