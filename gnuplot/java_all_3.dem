@@ -1,5 +1,6 @@
 set output fileout
 set terminal png size 650,460
+set datafile missing "-99"
 set border 0 lc rgb "#FFFFFF"
 set style data histogram
 set style histogram cluster gap 1

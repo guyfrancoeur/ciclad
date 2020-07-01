@@ -1,6 +1,7 @@
 # ---- Retail CPU ----
 set output fileoutRetailCPU
 set terminal png size 850,460
+set datafile missing "-99"
 set title "Retail CPU"
 set title font ",19" textcolor rgb "#5B5C5F"
 set border 0 lc rgb "#FFFFFF"

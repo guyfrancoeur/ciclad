@@ -1,6 +1,7 @@
 # ---- Retail RAM ----
 set output fileoutRetailRAM
 set terminal png size 850,460
+set datafile missing "-99"
 set title "Retail RAM"
 set title font ",19" textcolor rgb "#5B5C5F"
 set border 0 lc rgb "#FFFFFF"
@@ -35,7 +36,7 @@ plot filenameBMSView using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col 
 # ---- ChainStore RAM ----
 set output fileoutChainStoreRAM
 set title "ChainStore RAM"
-set yrange [1:4096]
+set yrange [1:10000]
 set ytics (1,4,16,64,256,1024,4096)
 set xrange [-0.7:3.5]
 set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2, "w=10k" 3)
@@ -53,8 +54,8 @@ plot filenameMushroom using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col
 # ---- Synth RAM ----
 set output fileoutSynthRAM
 set title "Synth RAM"
-set yrange [1:4096]
-set ytics (1,4,16,64,256,1024,4096)
+set yrange [1:11000]
+set ytics (1,8,64,512,4096)
 set xrange [-0.7:2.5]
 set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
 plot filenameSynth using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5",'' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000"
@@ -62,7 +63,7 @@ plot filenameSynth using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc
 # ---- Synth2 RAM ----
 set output fileoutSynth2RAM
 set title "Synth2 RAM"
-set yrange [1:4096]
+set yrange [1:10000]
 set ytics (1,4,16,64,256,1024,4096)
 set xrange [-0.7:2.5]
 set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
@@ -71,7 +72,7 @@ plot filenameSynth2 using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col l
 # ---- Net-Log RAM ----
 set output fileoutNetLogRAM
 set title "Net-Log RAM"
-set yrange [1:1024]
+set yrange [1:1500]
 set ytics (1,4,16,64,256,1024)
 set xrange [-0.7:4.5]
 set xtics ("w=5k" 0, "w=10k" 1, "w=50k" 2, "w=100k" 3, "w=150k" 4)
