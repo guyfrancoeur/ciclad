@@ -16,6 +16,11 @@ done
 paste ./data/annexe_gctree/GC-Tree.txt ./data/annexe_gctree/ciclad.txt ./data/annexe_gctree/moment.txt > ./data/annexe_gctree/merge.txt
 gnuplot -p -e "filename='./data/annexe_gctree/merge.txt'; fileout='./images/annexe_gctree.png'" annexe_gctree.dem
 
+# ---- ciclad_vs_moment ---- Runtime & Memory
+paste ./data/ciclad_vs_moment/runtime/ciclad.txt ./data/ciclad_vs_moment/runtime/moment.txt > ./data/ciclad_vs_moment/runtime/merge.txt
+paste ./data/ciclad_vs_moment/memory/ciclad.txt ./data/ciclad_vs_moment/memory/moment.txt > ./data/ciclad_vs_moment/memory/merge.txt
+gnuplot -p -e "filenameRUNTIME='./data/ciclad_vs_moment/runtime/merge.txt'; filenameMEMORY='./data/ciclad_vs_moment/memory/merge.txt'; fileoutRUNTIME='./images/ciclad_vs_moment_runtime.png'; fileoutMEMORY='./images/ciclad_vs_moment_memory.png'" ciclad_vs_moment_memory.dem
+
 # ---- java_all_3 ----
 gnuplot -p -e "filename='./data/java_all_3/data.txt'; fileout='./images/java_all_3.png'" java_all_3.dem
 
