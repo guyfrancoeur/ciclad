@@ -1,15 +1,15 @@
 # ---- Memory ----
 set output fileoutMEMORY
 set terminal png size 1200,450
+set datafile missing "-99"
 set border 0 lc rgb "#FFFFFF"
 set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.9
 set tmargin 4
 set bmargin 4
-# Lignes grises arriere-plan :
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
-set grid ytics ls 12
+set grid ytics ls 12 #Lignes grises arriere-plan
 set style fill solid 1.00 noborder
 set key tmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5D5D5D" font ",14"
 set ytics border in scale 0,0
@@ -19,13 +19,25 @@ set yrange [1:27000]
 set logscale y
 set ytics (1,4,16,64,256,1024,4096,16384) textcolor rgb "#5B5C5F"
 set xrange [-0.7:12.5]
-set xtics ("Synth2\n(w=1k)" 0, "Synth2\n(w=2k)" 1, "Synth2\n(w=5k)" 2, "Mushr.\n(w=.5k)" 3, "Mushr.\n(w=1k)" 4, "Mushr.\n(w=2k)" 5, "Mushr.\n(w=5k)" 6, "Synth\n(w=1k)" 7, "Synth\n(w=2k)" 8, "Synth\n(w=5k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12) textcolor rgb "#5B5C5F"
-plot filenameMEMORY using "Ciclad(C++)" t col lc rgb "#FF6700", '' u "Moment(C++)" t col lc rgb "#5A9BD5"
+set style line 1 lc rgb "red" lt 0 lw 2
+set arrow 1 from screen 0.09, 0.800, 0 to screen 0.97, 0.800, 0 nohead ls 1 #Ligne rouge
+dx = 1/6.0
+set xtics ("Synth2\n(w=1k)" 0, "Synth2\n(w=2k)" 1, "Synth2\n(w=5k)" 2, "Mushr.\n(w=.5k)" 3, "Mushr.\n(w=1k)" 4, \
+  "Mushr.\n(w=2k)" 5, "Mushr.\n(w=5k)" 6, "Synth\n(w=1k)" 7, "Synth\n(w=2k)" 8, "Synth\n(w=5k)" 9, "Retail\n(w=1k)" 10, \
+  "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12) textcolor rgb "#5B5C5F"
+plot filenameMEMORY using "Ciclad (C++)" t col lc rgb "#FF6700", '' u "Moment (C++)" t col lc rgb "#5A9BD5", \
+'' u ($0 - dx):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10",\
+'' u ($0 + dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
 
 # ---- Runtime ----
 set output fileoutRUNTIME
 set ylabel "Runtime (seconds)"
 set yrange [1:10000]
 set ytics (1,10,100,1000,10000)
-set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12)
-plot filenameRUNTIME using "Ciclad(C++)" t col lc rgb "#FF6700", '' u "Moment(C++)" t col lc rgb "#5A9BD5"
+set arrow 1 from screen 0.09, 0.836, 0 to screen 0.97, 0.836, 0 nohead ls 1 #Ligne rouge
+set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, \
+  "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, \
+  "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12)
+plot filenameRUNTIME using "Ciclad(C++)" t col lc rgb "#FF6700", '' u "Moment(C++)" t col lc rgb "#5A9BD5", \
+  '' u ($0 - dx):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10",\
+  '' u ($0 + dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
