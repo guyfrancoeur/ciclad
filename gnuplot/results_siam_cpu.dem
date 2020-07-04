@@ -1,8 +1,13 @@
-# ---- Retail CPU ----
-set output fileoutRetailCPU
-set terminal png size 1060,460
+set output fileout
+stats filename using 2 nooutput
+nbLignes = STATS_records #Obtenir le nombre de lignes de données
+Xmax = (nbLignes - 1) + .5
+largeur = 280*nbLignes - (280*nbLignes/10)
+if (largeur < 850) largeur = 850 #Largeur minimale du graphe
+set xrange [-0.5:Xmax]
+set terminal png size largeur,500
 set datafile missing "-99"
-set title "Retail CPU" offset 0,1
+set title titleGiven offset 0,1
 set title font ",19" textcolor rgb "#5B5C5F"
 set border 0 lc rgb "#FFFFFF"
 set style fill solid 1.00 noborder
@@ -10,112 +15,23 @@ set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.9
 set bmargin 5
-set tmargin 4
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
 set grid ytics ls 12 #Lignes grises arriere-plan
 set style line 1 lc rgb "red" lt 0 lw 2
-set arrow 1 from -0.5,10000 to 3.5,10000 nohead ls 1 front #Ligne rouge
+set arrow 1 from -0.5,10000 to Xmax,10000 nohead ls 1 #Ligne rouge
+set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15" offset 0,-2,0
 set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5B5C5F" font ",14"
 set ytics border in scale 0,0
-set xtics border in scale 0,0 font ",13"
-set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15"
+set xtics border in scale 0,0 font ",13" textcolor rgb "#5B5C5F"
 set yrange [1:*]
 set logscale y
 set ytics (1,10,100,1000,10000) textcolor rgb "#5B5C5F"
-set xrange [-0.5:3.5]
 dx = 1/6.0
-set xtics ("w=1k" 0, "w=2.5k" 1, "w=5k" 2, "w=10k" 3) textcolor rgb "#5B5C5F"
-plot filenameRetail using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- ChainStore CPU ----
-set output fileoutChainStoreCPU
-set title "ChainStore CPU"
-set xrange [-0.5:3.5]
-set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2, "w=10k" 3)
-set arrow 1 from -0.5,10000 to 3.5,10000 #Ligne rouge
-plot filenameChainStore using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- BMSView CPU ----
-set terminal png size 1100,460
-set output fileoutBMSViewCPU
-set title "BMSView CPU"
-set xrange [-0.5:4.5]
-set xtics ("w=1k" 0, "w=2.5k" 1, "w=5k" 2, "w=10k" 3, "w=20k" 4)
-set arrow 1 from -0.5,10000 to 4.5,10000 #Ligne rouge
-set ylabel  offset 0,-2,0
-plot filenameBMSView using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Mushroom CPU ----
-set output fileoutMushroomCPU
-set title "Mushroom CPU"
-set xrange [-0.5:4.5]
-set xtics ("w=500k" 0, "w=1k" 1, "w=1.5k" 2, "w=2k" 3, "w=5k" 4)
-set arrow 1 from -0.5,10000 to 4.5,10000 #Ligne rouge
-set ylabel offset 0,0,0
-plot filenameMushroom using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Net-Log CPU ----
-set output fileoutNetLogCPU
-set title "Net-Log CPU"
-set xrange [-0.5:4.5]
-set xtics ("w=5k" 0, "w=10k" 1, "w=50k" 2, "w=100k" 3, "w=150k" 4)
-set arrow 1 from -0.5,10000 to 4.5,10000 #Ligne rouge
-plot filenameNetLog using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Synth CPU ----
-set terminal png size 850,460
-set output fileoutSynthCPU
-set title "Synth CPU"
-set xrange [-0.5:2.5]
-set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
-set arrow 1 from -0.5,10000 to 2.5,10000 #Ligne rouge
-plot filenameSynth using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Synth2 CPU ----
-set output fileoutSynth2CPU
-set title "Synth2 CPU"
-set xrange [-0.5:2.5]
-set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
-plot filenameSynth2 using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
+set style textbox opaque noborder #Box autour valeurs labels boxed
+plot filename using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#A5A5A5", \
+  '' u 4:xtic(1) lc rgb "#800080",'' u 5:xtic(1) lc rgb "#4472C4",'' u 6:xtic(1) lc rgb "#008000", \
+  '' u ($0 - dx*2):2:2 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):3:3 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:4:4 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):5:5 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):6:6 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"

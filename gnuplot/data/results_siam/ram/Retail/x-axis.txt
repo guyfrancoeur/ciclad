@@ -1,0 +1,5 @@
+Window
+w=1k
+w=2.5k
+w=5k
+w=10k

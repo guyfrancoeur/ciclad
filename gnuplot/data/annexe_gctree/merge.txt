@@ -1,4 +1,4 @@
-GC-Tree	Ciclad	Moment
-224	2	8
-480	3	15
-120	4	25
+Window	GC-Tree	Ciclad	Moment
+Retail\n(w=3k)	224	2	8
+NetLog\n(w=13k)	480	3	15
+Synth2\n(w=3.5k)	120	4	25
