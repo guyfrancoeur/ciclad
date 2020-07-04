@@ -1,26 +1,30 @@
 set output fileout
+reset
 set terminal png size 650,460
 set datafile missing "-99"
 set border 0 lc rgb "#FFFFFF"
 set style data histogram
-set style histogram cluster gap 1
+set style histogram columnstacked
 set boxwidth 0.7
 set tmargin 4
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2 #Lignes grises arriere-plan
 set grid ytics ls 12
 set style fill solid 1.00 noborder
-set nokey
-set ytics border in scale 0,0
-set xtics border in scale 0,0 font ",13"
-set ylabel "Time (seconds)" textcolor rgb "#5B5C5F" font ",15"
-set yrange [0:2500]
+set ylabel "Time (seconds)" textcolor rgb "#5B5C5F" font ",15" offset 0,-2,0
+set yrange [0:*]
 set ytics (0,500,1000,1500,2000,2500) textcolor rgb "#5B5C5F"
-set xtics border in scale 0,0 nomirror rotate by -45  autojustify
-set xrange [-0.5:0.5]
-dx = 1/6.0
-set xtics ("Ciclad:220" -0.4, "MOMENT:2100" -0.27, "Clostream:3600" -0.15, "Aprori-TIDClose:1800" -0.05, \
-  "CHARM-bitset:331" 0.07, "DCI-Closed:222" 0.17, "LCM:175" 0.28, "FP-growth(-tc):61" 0.39) textcolor rgb "#5B5C5F"
-plot filename using "Ciclad" t col lc rgb "#FF6700", '' u "MOMENT" t col lc rgb "#CAD9ED", \
-  '' u "Clostream" t col lc rgb "#477CAB", '' u "Aprori-TIDClose" t col lc rgb "#5795CD", \
-  '' u "CHARM-bitset" t col lc rgb "#97B9E0", '' u "DCI-Closed" t col lc rgb "#72A5D8", \
-  '' u "LCM" t col lc rgb "#5089BC", '' u "FP-growth(-tc)" t col lc rgb "#B2C9E6"
+set key autotitle columnhead
+set xtics rotate by -45  autojustify textcolor rgb "#5B5C5F"
+# Couleurs pour chaque colonne :
+set lt 1 lc rgb "#FF6700"
+set lt 2 lc rgb "#CAD9ED"
+set lt 3 lc rgb "#477CAB"
+set lt 4 lc rgb "#5795CD"
+set lt 5 lc rgb "#97B9E0"
+set lt 6 lc rgb "#72A5D8"
+set lt 7 lc rgb "#5089BC"
+set lt 8 lc rgb "#B2C9E6"
+plot filename every ::0::0 u 1 lt 1 title columnhead, newhistogram lt 2 at 1, '' u 2 ti col, newhistogram lt 3 at 2, \
+  '' u 3 ti col, newhistogram lt 4 at 3, '' u 4 ti col, newhistogram lt 5 at 4, '' u 5 ti col, newhistogram lt 6 at 5, \
+  '' u 6 ti col, newhistogram lt 7 at 6, '' u 7 ti col, newhistogram lt 8 at 7, '' u 8 ti col, \
+  for[i=1:8] '' u ($0 + (i-1)):i:i with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"

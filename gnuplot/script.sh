@@ -41,7 +41,6 @@ paste ./data/results_siam/cpu/Synth/ciclad.txt ./data/results_siam/cpu/Synth/mom
 paste ./data/results_siam/cpu/Synth2/ciclad.txt ./data/results_siam/cpu/Synth2/moment.txt ./data/results_siam/cpu/Synth2/newmoment.txt ./data/results_siam/cpu/Synth2/clostream.txt ./data/results_siam/cpu/Synth2/cfi-stream.txt > ./data/results_siam/cpu/Synth2/merge.txt
 paste ./data/results_siam/cpu/NetLog/ciclad.txt ./data/results_siam/cpu/NetLog/moment.txt ./data/results_siam/cpu/NetLog/newmoment.txt ./data/results_siam/cpu/NetLog/clostream.txt ./data/results_siam/cpu/NetLog/cfi-stream.txt > ./data/results_siam/cpu/NetLog/merge.txt
 
-
 # RAM
 paste ./data/results_siam/ram/Retail/ciclad.txt ./data/results_siam/ram/Retail/moment.txt ./data/results_siam/ram/Retail/newmoment.txt ./data/results_siam/ram/Retail/clostream.txt ./data/results_siam/ram/Retail/cfi-stream.txt > ./data/results_siam/ram/Retail/merge.txt
 paste ./data/results_siam/ram/BMSView/ciclad.txt ./data/results_siam/ram/BMSView/moment.txt ./data/results_siam/ram/BMSView/newmoment.txt ./data/results_siam/ram/BMSView/clostream.txt ./data/results_siam/ram/BMSView/cfi-stream.txt > ./data/results_siam/ram/BMSView/merge.txt

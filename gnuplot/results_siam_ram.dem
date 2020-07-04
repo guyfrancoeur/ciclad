@@ -1,6 +1,6 @@
 # ---- Retail RAM ----
 set output fileoutRetailRAM
-set terminal png size 850,460
+set terminal png size 1060,460
 set datafile missing "-99"
 set title "Retail RAM" offset 0,1
 set title font ",19" textcolor rgb "#5B5C5F"
@@ -13,117 +13,118 @@ set bmargin 5
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
 set grid ytics ls 12 #Lignes grises arriere-plan
 set style line 1 lc rgb "red" lt 0 lw 2
-set arrow 1 from screen 0.117, 0.814, 0 to screen 0.97, 0.814, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.5,32768 to 3.5,32768 nohead ls 1 front #Ligne rouge
 set ylabel "Memory (MBytes)" textcolor rgb "#5B5C5F" font ",15"
 set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5B5C5F" font ",14"
 set ytics border in scale 0,0
 set xtics border in scale 0,0 font ",13"
-set yrange [1:32768]
+set yrange [1:*]
 set logscale y
 set ytics (1,8,64,512,4096,32768) textcolor rgb "#5B5C5F"
-set xrange [-0.7:3.5]
+set xrange [-0.5:3.5]
 set xtics ("w=1k" 0, "w=2.5k" 1, "w=5k" 2, "w=10k" 3) textcolor rgb "#5B5C5F"
 dx = 1/6.0
 plot filenameRetail using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
   '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- BMSView RAM ----
-set output fileoutBMSViewRAM
-set title "BMSView RAM"
-set yrange [1:16384]
-set ytics (1,4,16,64,256,1024,4096,16384)
-set xrange [-0.7:4.5]
-set xtics ("w=1k" 0, "w=2.5k" 1, "w=5k" 2, "w=10k" 3, "w=20k" 4)
-set arrow 1 from screen 0.117, 0.814, 0 to screen 0.97, 0.814, 0 nohead ls 1 #Ligne rouge
-plot filenameBMSView using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
 
 # ---- ChainStore RAM ----
 set output fileoutChainStoreRAM
 set title "ChainStore RAM"
-set yrange [1:10000]
+set yrange [1:*]
 set ytics (1,4,16,64,256,1024,4096)
-set xrange [-0.7:3.5]
 set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2, "w=10k" 3)
-set arrow 1 from screen 0.117, 0.756, 0 to screen 0.97, 0.756, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.5,4096 to 3.5,4096 #Ligne rouge
 plot filenameChainStore using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
   '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
+
+# ---- BMSView RAM ----
+set terminal png size 1100,460
+set output fileoutBMSViewRAM
+set title "BMSView RAM"
+set yrange [1:*]
+set ytics (1,4,16,64,256,1024,4096,16384)
+set ylabel offset 0,-2,0
+set xrange [-0.5:4.5]
+set xtics ("w=1k" 0, "w=2.5k" 1, "w=5k" 2, "w=10k" 3, "w=20k" 4)
+set arrow 1 from -0.5,16384 to 4.5,16384 #Ligne rouge
+plot filenameBMSView using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
+  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
 
 # ---- Mushroom RAM ----
 set output fileoutMushroomRAM
 set title "Mushroom RAM"
-set yrange [1:4096]
+set yrange [1:*]
 set ytics (1,4,16,64,256,1024,4096)
-set xrange [-0.7:4.5]
+set xrange [-0.5:4.5]
 set xtics ("w=500k" 0, "w=1k" 1, "w=1.5k" 2, "w=2k" 3, "w=5k" 4)
-set arrow 1 from screen 0.117, 0.814, 0 to screen 0.97, 0.814, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.5,4096 to 4.5,4096 #Ligne rouge
 plot filenameMushroom using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
   '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Synth RAM ----
-set output fileoutSynthRAM
-set title "Synth RAM"
-set yrange [1:11000]
-set ytics (1,8,64,512,4096)
-set xrange [-0.7:2.5]
-set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
-set arrow 1 from screen 0.117, 0.75, 0 to screen 0.97, 0.75, 0 nohead ls 1 #Ligne rouge
-plot filenameSynth using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
-
-# ---- Synth2 RAM ----
-set output fileoutSynth2RAM
-set title "Synth2 RAM"
-set yrange [1:10000]
-set ytics (1,4,16,64,256,1024,4096)
-set xrange [-0.7:2.5]
-set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
-set arrow 1 from screen 0.117, 0.756, 0 to screen 0.97, 0.756, 0 nohead ls 1 #Ligne rouge
-plot filenameSynth2 using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
-  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
 
 # ---- Net-Log RAM ----
 set output fileoutNetLogRAM
 set title "Net-Log RAM"
-set yrange [1:1500]
+set ylabel  offset 0,-2,0
+set yrange [1:*]
 set ytics (1,4,16,64,256,1024)
-set xrange [-0.7:4.5]
 set xtics ("w=5k" 0, "w=10k" 1, "w=50k" 2, "w=100k" 3, "w=150k" 4)
-set arrow 1 from screen 0.117, 0.78, 0 to screen 0.97, 0.78, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.5,1024 to 4.5,1024 #Ligne rouge
 plot filenameNetLog using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
   '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
-  '' u ($0 - dx*2):1:1 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):2:2 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:3:3 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):4:4 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):5:5 with labels offset 0,1 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
+
+# ---- Synth RAM ----
+set terminal png size 850,460
+set output fileoutSynthRAM
+set title "Synth RAM"
+set yrange [1:*]
+set ytics (1,8,64,512,4096)
+set xrange [-0.5:2.5]
+set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
+set arrow 1 from -0.5,4096 to 2.5,4096 #Ligne rouge
+plot filenameSynth using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
+  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
+
+# ---- Synth2 RAM ----
+set output fileoutSynth2RAM
+set title "Synth2 RAM"
+set yrange [1:*]
+set ytics (1,4,16,64,256,1024,4096)
+set xtics ("w=1k" 0, "w=2k" 1, "w=5k" 2)
+set ylabel offset 0,0,0
+plot filenameSynth2 using "CICLAD" t col lc rgb "#FF6700", '' u "Moment" t col lc rgb "#A5A5A5", \
+  '' u "NewMoment" t col lc rgb "#800080",'' u "CloStream" t col lc rgb "#4472C4",'' u "CFI-Stream" t col lc rgb "#008000", \
+  '' u ($0 - dx*2):1:1 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 - dx):2:2 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u 0:3:3 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx):4:4 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + dx*2):5:5 with labels offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"

@@ -20,7 +20,7 @@ set logscale y
 set ytics (1,4,16,64,256,1024,4096,16384) textcolor rgb "#5B5C5F"
 set xrange [-0.7:12.5]
 set style line 1 lc rgb "red" lt 0 lw 2
-set arrow 1 from screen 0.09, 0.800, 0 to screen 0.97, 0.800, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.7,16384 to 12.5,16384 nohead ls 1 front #Ligne rouge
 dx = 1/6.0
 set xtics ("Synth2\n(w=1k)" 0, "Synth2\n(w=2k)" 1, "Synth2\n(w=5k)" 2, "Mushr.\n(w=.5k)" 3, "Mushr.\n(w=1k)" 4, \
   "Mushr.\n(w=2k)" 5, "Mushr.\n(w=5k)" 6, "Synth\n(w=1k)" 7, "Synth\n(w=2k)" 8, "Synth\n(w=5k)" 9, "Retail\n(w=1k)" 10, \
@@ -34,7 +34,7 @@ set output fileoutRUNTIME
 set ylabel "Runtime (seconds)"
 set yrange [1:10000]
 set ytics (1,10,100,1000,10000)
-set arrow 1 from screen 0.09, 0.836, 0 to screen 0.97, 0.836, 0 nohead ls 1 #Ligne rouge
+set arrow 1 from -0.7,10000 to 12.5,10000 #Ligne rouge
 set xtics ("Synth2\n(w=.3k)" 0, "Synth2\n(w=1k)" 1, "Synth2\n(w=1.5k)" 2, "Synth2\n(w=2k)" 3, "Mushr.\n(w=.5k)" 4, \
   "Mushr.\n(w=1k)" 5, "Mushr.\n(w=1.5k)" 6, "Mushr.\n(w=5k)" 7, "Synth\n(w=1k)" 8, "Synth\n(w=10k)" 9, "Retail\n(w=1k)" 10, \
   "Retail\n(w=5k)" 11, "Retail\n(w=10k)" 12)
