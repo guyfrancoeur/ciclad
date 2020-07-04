@@ -24,15 +24,16 @@ set arrow 1 from -0.7,16384 to 12.5,16384 nohead ls 1 #Ligne rouge
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs labels boxed
 plot filenameMEMORY using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
-  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
-  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
+  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"
 
 # ---- Runtime ----
 set output fileoutRUNTIME
+set tmargin 4
 set ylabel "Runtime (seconds)"
 set yrange [1:*]
 set ytics (1,10,100,1000,10000)
 set arrow 1 from -0.7,10000 to 12.5,10000 #Ligne rouge
-plot filenameMEMORY using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
-  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
-  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
+plot filenameRUNTIME using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
+  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
+  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"

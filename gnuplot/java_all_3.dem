@@ -28,4 +28,4 @@ set style textbox opaque noborder #Box autour valeurs labels boxed
 plot filename every ::0::0 u 1 lt 1 title columnhead, newhistogram lt 2 at 1, '' u 2 ti col, newhistogram lt 3 at 2, \
   '' u 3 ti col, newhistogram lt 4 at 3, '' u 4 ti col, newhistogram lt 5 at 4, '' u 5 ti col, newhistogram lt 6 at 5, \
   '' u 6 ti col, newhistogram lt 7 at 6, '' u 7 ti col, newhistogram lt 8 at 7, '' u 8 ti col, \
-  for[i=1:8] '' u ($0 + (i-1)):i:i with labels boxed offset 0,1 textcolor rgb "#5B5C5F" font ",10"
+  for[i=1:8] '' u ($0 + (i-1)):i:i with labels boxed offset 0,1 textcolor rgb "#5B5C5F" font ",9.5"

@@ -23,6 +23,6 @@ Xmax = (STATS_records - 1) + .5 #Obtenir le nombre de lignes de données
 set xrange [-0.5:Xmax]
 set style textbox opaque noborder #Box autour valeurs labels boxed
 plot filename using 2:xtic(1) lc rgb "#5B9BD5", '' u 3:xtic(1) lc rgb "#FF6700", '' u 4:xtic(1) lc rgb "#A5A5A5", \
-  '' u ($0 - 0.25):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
-  '' u 0:3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + 0.25):4:4 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - 0.25):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
+  '' u 0:3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 + 0.25):4:4 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"

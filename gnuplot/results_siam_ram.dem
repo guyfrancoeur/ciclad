@@ -25,13 +25,13 @@ set ytics border in scale 0,0
 set xtics border in scale 0,0 font ",13" textcolor rgb "#5B5C5F"
 set yrange [1:*]
 set logscale y
-set ytics (1,8,64,512,4096) textcolor rgb "#5B5C5F"
+set ytics (1,4,16,64,256,1024,4096) textcolor rgb "#5B5C5F"
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs labels boxed
 plot filename using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#A5A5A5", \
   '' u 4:xtic(1) lc rgb "#800080",'' u 5:xtic(1) lc rgb "#4472C4",'' u 6:xtic(1) lc rgb "#008000", \
-  '' u ($0 - dx*2):2:2 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 - dx):3:3 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u 0:4:4 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx):5:5 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + dx*2):6:6 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - dx*2):2:2 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 - dx):3:3 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u 0:4:4 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 + dx):5:5 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 + dx*2):6:6 with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5"
