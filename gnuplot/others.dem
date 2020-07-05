@@ -1,0 +1,54 @@
+# ---- annexe_gctree ----
+set output fileoutGcTree
+set terminal png size 660,400
+set datafile missing "-99"
+set border 0 lc rgb "#FFFFFF"
+set style data histogram
+set style histogram cluster gap 1
+set boxwidth 0.7
+set bmargin 6
+set tmargin 4
+set style fill solid 1.00 noborder
+# Lignes grises arriere-plan :
+set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
+set grid ytics ls 12
+set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5B5C5F" font ",14"
+set ytics border in scale 0,0
+set xtics border in scale 0,0 font ",13" textcolor rgb "#5B5C5F"
+set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15"
+set yrange [1:*]
+set logscale y
+set ytics (1,10,100,1000) textcolor rgb "#5B5C5F"
+stats filenameGcTree using 2 nooutput
+Xmax = (STATS_records - 1) + .5 #Obtenir le nombre de lignes de données
+set xrange [-0.5:Xmax]
+set style textbox opaque noborder #Box autour valeurs (labels boxed)
+plot filenameGcTree using 2:xtic(1) lc rgb "#A5A5A5", '' u 3:xtic(1) lc rgb "#FF6700", '' u 4:xtic(1) lc rgb "#5B9BD5", \
+  '' u ($0 - 0.25):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
+  '' u 0:3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + 0.25):4:4 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
+
+# ---- java_all_3 ----
+set output fileout_java_all_3
+set terminal png size 650,460
+set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15" offset 0,-2,0
+unset logscale
+set style histogram columnstacked
+set yrange [0:*]
+unset xrange
+set ytics (0,500,1000,1500,2000,2500)
+set key autotitle columnhead
+set xtics rotate by -45  autojustify textcolor rgb "#5B5C5F"
+# Couleurs pour chaque colonne :
+set lt 1 lc rgb "#FF6700"
+set lt 2 lc rgb "#5A9BD5"
+set lt 3 lc rgb "#477CAB"
+set lt 4 lc rgb "#CAD9ED"
+set lt 5 lc rgb "#97B9E0"
+set lt 6 lc rgb "#72A5D8"
+set lt 7 lc rgb "#5089BC"
+set lt 8 lc rgb "#B2C9E6"
+plot filename_java_all_3 every ::0::0 u 1 lt 1 title columnhead, newhistogram lt 2 at 1, '' u 2 ti col, newhistogram lt 3 at 2, \
+  '' u 3 ti col, newhistogram lt 4 at 3, '' u 4 ti col, newhistogram lt 5 at 4, '' u 5 ti col, newhistogram lt 6 at 5, \
+  '' u 6 ti col, newhistogram lt 7 at 6, '' u 7 ti col, newhistogram lt 8 at 7, '' u 8 ti col, \
+  for[i=1:8] '' u ($0 + (i-1)):i:i with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"

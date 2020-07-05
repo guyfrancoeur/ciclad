@@ -1,2 +1,2 @@
-Ciclad  MOMENT    Clostream  Aprori-TIDClose    CHARM-bitset    DCI-Closed  LCM FP-growth(-tc)
+Ciclad  Moment    Clostream  Aprori-TIDClose    CHARM-bitset    DCI-Closed  LCM FP-growth(-tc)
 220 2100    3600    1800    331 222 175 61

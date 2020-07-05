@@ -1,4 +1,4 @@
-Window	Ciclad(C++)	Moment(C++)
+Window	"Ciclad (C++)"	"Moment (C++)"
 Synth2\n(w=1k)	8	240
 Synth2\n(w=2k)	25	720
 Synth2\n(w=5k)	135	-99
