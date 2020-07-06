@@ -16,7 +16,7 @@ jobs:
   job_1:
     name: job principale
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 120
     steps:
     - uses: actions/checkout@v2
     - name: affichage
