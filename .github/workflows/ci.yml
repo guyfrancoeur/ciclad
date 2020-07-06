@@ -10,7 +10,7 @@ on:
       - 'ciclad_v3/ciclad_v3_main.cpp'
       - 'ciclad_v3/ciclad_v3_impl.cpp'
       - 'ciclad_v3/ciclad_v3_impl.h'
-      - 'ciclad_v3/test.txt' 
+      - 'ciclad_v3/gitaction.txt'
 
 jobs:
   job_1:
