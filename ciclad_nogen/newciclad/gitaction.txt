@@ -4,4 +4,5 @@ more tests (max 120 minutes)
 plus de test
 
 replaced some frees with deletes (already fixed in a more recent implementation with additional features)
-updated folder structure
+updated folder structure of the project
+
