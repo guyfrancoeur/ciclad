@@ -13,7 +13,7 @@ jobs:
   job_1:
     name: job principale
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 120
     steps:
     - uses: actions/checkout@v2
     - name: affichage
@@ -36,11 +36,10 @@ jobs:
       run: |
         cd ciclad_nogen/newciclad
         ls -lahs ciclad2019_nogen*
-        #./ciclad2019_nogen
         /usr/bin/time -v ./ciclad2019_nogen ../../datasets/mushroom.dat 127 8124
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/testdb_gen2.txt 1001 0
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/testdb_gen.txt 10001 1000
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/BMS2_itemset_mining.txt 500000 20000
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/chainstoreFIM.txt 500000 100000
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/retail.dat 16471 50000
-        #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/siddata3.txt 18000 0
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/testdb_gen2.txt 1001 0
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/testdb_gen.txt 10001 1000
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/BMS2_itemset_mining.txt 500000 20000
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/retail.dat 16471 50000
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/chainstoreFIM.txt 500000 100000
+      #/usr/bin/time -v ./ciclad2019_nogen ../../datasets/siddata3.txt 18000 0
