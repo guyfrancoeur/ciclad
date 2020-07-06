@@ -1,1 +1,1 @@
-Lancement de gitaction pour ciclad2019_nogen.
+Lancement de gitaction pour ciclad2019_nogen with compilation fix
