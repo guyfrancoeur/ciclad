@@ -23,6 +23,7 @@ jobs:
       run: |
         echo $OSTYPE
         cat /proc/cpuinfo
+        cat /proc/meminfo
         gcc -v
         g++ -v
     #- name: installation cuint
