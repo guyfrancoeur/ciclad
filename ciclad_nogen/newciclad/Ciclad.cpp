@@ -104,6 +104,7 @@ uint32_t start_ciclad(char* const _fileSource, const uint32_t _windowSize, const
   while (!transactionStream.empty()) {
     //if not last in stream
     if (0 != _windowSize) {
+      std::cout << "deleting..." << std::endl;
       updateCicladRmv(&window.front(), &index, &conceptContainer);
       window.pop();
       window.push(transactionStream.front());
