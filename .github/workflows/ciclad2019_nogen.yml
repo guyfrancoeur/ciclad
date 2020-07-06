@@ -1,0 +1,46 @@
+name: ciclad 2019 nogen
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v1
+    # file paths to consider in the event. Optional; defaults to all.
+    paths:
+      - 'ciclad_nogen/newcliclad/gitaction.txt' 
+
+jobs:
+  job_1:
+    name: job principale
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v2
+    - name: affichage
+      run: |
+        echo $OSTYPE
+        cat /etc/os-release
+        cat /proc/cpuinfo
+        cat /proc/meminfo
+        g++ -v
+        ls -lsah /usr/bin/time
+    #- name: installation cuint
+    #  run: |
+    #    sudo apt-get install -y libcunit1 libcunit1-doc libcunit1-dev
+    - name: compilation
+      run: |
+        cd ciclad_nogen/newciclad
+        pwd
+        g++ -O2 -std=c++14 -o ../ciclad2019_nogen CicladAdd.cpp CicladRmv.cpp transaction.cpp concept.cpp trienode.cpp
+    - name: testing
+      run: |
+        cd ciclad_nogen
+        ls -lahs ciclad2019_nogen*
+        #./ciclad2019_nogen
+        /usr/bin/time -v ./ciclad2019_nogen ../datasets/mushroom.dat 127 8124
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/testdb_gen2.txt 1001 0
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/testdb_gen.txt 10001 1000
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/BMS2_itemset_mining.txt 500000 20000
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/chainstoreFIM.txt 500000 100000
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/retail.dat 16471 50000
+        #/usr/bin/time -v ./ciclad2019_nogen ../datasets/siddata3.txt 18000 0
