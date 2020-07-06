@@ -123,12 +123,17 @@ uint32_t start_ciclad(char* const _fileSource, const uint32_t _windowSize, const
     window.pop();
   }*/
 
+  std::cout << "finished mining, need to cleanup" << endl;
+
   while (!window.empty()) {
     TRANSACTION* t = &window.front();
     delete t->itemset;
     t->itemset = 0x00;
     window.pop();
   }
+
+  std::cout << "cleaned window, will clean stream" << endl;
+
   while (!transactionStream.empty()) {
     TRANSACTION* t = &transactionStream.front();
     delete t->itemset;

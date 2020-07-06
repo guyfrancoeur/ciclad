@@ -8,6 +8,7 @@ on:
     # file paths to consider in the event. Optional; defaults to all.
     paths:
       - 'ciclad_nogen/newciclad/gitaction.txt' 
+      - 'ciclad_nogen/newciclad/Ciclad.cpp' 
 
 jobs:
   job_1:
