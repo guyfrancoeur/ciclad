@@ -54,7 +54,7 @@ paste ./data/results_siam/ram/Synth2/x-axis.txt ./data/results_siam/ram/Synth2/c
 
 #OLD paste ./data/results_siam/ram/NetLog/x-axis.txt ./data/results_siam/ram/NetLog/ciclad.txt ./data/results_siam/ram/NetLog/moment.txt ./data/results_siam/ram/NetLog/newmoment.txt ./data/results_siam/ram/NetLog/clostream.txt ./data/results_siam/ram/NetLog/cfi-stream.txt > ./data/results_siam/ram/NetLog/merge.txt
 cd ./data/results_siam/ram/NetLog
-paste ./data/results_siam/ram/NetLog/x-axis.txt ./data/results_siam/ram/NetLog/ciclad.txt ./data/results_siam/ram/NetLog/moment.txt ./data/results_siam/ram/NetLog/newmoment.txt ./data/results_siam/ram/NetLog/clostream.txt ./data/results_siam/ram/NetLog/cfi-stream.txt > ./data/results_siam/ram/NetLog/merge.txt
+paste x-axis.txt ciclad.txt moment.txt newmoment.txt clostream.txt cfi-stream.txt > merge.txt
 cd ../../../../
 pwd
 
