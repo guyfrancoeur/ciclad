@@ -37,7 +37,7 @@ jobs:
       run: |
         cd ciclad_nogen/newciclad
         ls -lahs ciclad2019_nogen*
-        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/mushroom.dat 127 8124
+        /usr/bin/time -v ./ciclad2019_nogen ../../datasets/mushroom.dat 127 0
     - name: testing synth2
       run: |
         cd ciclad_nogen/newciclad
