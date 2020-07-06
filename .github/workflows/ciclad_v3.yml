@@ -10,7 +10,7 @@ on:
       - 'ciclad_v3/ciclad_v3_main.cpp'
       - 'ciclad_v3/ciclad_v3_impl.cpp'
       - 'ciclad_v3/ciclad_v3_impl.h'
-      - 'ciclad_v3/test.txt' 
+      - 'ciclad_v3/gitaction.txt'
 
 jobs:
   job_1:
@@ -26,6 +26,7 @@ jobs:
         cat /proc/meminfo
         gcc -v
         g++ -v
+        mkfifo --help
     #- name: installation cuint
     #  run: |
     #    sudo apt-get install -y libcunit1 libcunit1-doc libcunit1-dev
@@ -34,8 +35,17 @@ jobs:
         cd ciclad_v3
         pwd
         g++ -O2 -std=c++14 -ffast-math -o ciclad_v3 ciclad_v3_impl.cpp ciclad_v3_main.cpp
-    - name: testing
+        g++ -O2 -o streamer streamer.cpp
+    - name: testing add-remove
       run: |
         cd ciclad_v3
         ls -lahs ciclad_v3*
         ./ciclad_v3 -v < ../datasets/test-a-r-10.txt
+    - name: testing mushroom
+      run: |
+        cd ciclad_v3
+        ./streamer 10000 < ../datasets/mushroom.dat &
+        cat /tmp/myfifo > f.txt
+        head -n 1 f.txt
+        tail -n 1 f.txt
+        ./ciclad_v3 -v < f.txt
