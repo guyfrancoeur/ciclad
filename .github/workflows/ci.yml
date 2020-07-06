@@ -36,5 +36,4 @@ jobs:
       run: |
         cd ciclad_v3
         ls -lahs ciclad_v3*
-        #echo -e "0 01 0\n10 02 A1 0.100\n20 02 A2 0.11" > t1.txt
-        #cat t1.txt | ./tp2
+        ./ciclad_v3 -v < ../datasets/test-a-r-10.txt
