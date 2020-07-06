@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 [CICLAD TEAM]
+//  Copyright ï¿½ 2018 [CICLAD TEAM]
 //  
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -104,13 +104,12 @@ uint32_t start_ciclad(char* const _fileSource, const uint32_t _windowSize, const
   while (!transactionStream.empty()) {
     //if not last in stream
     if (0 != _windowSize) {
-      std::cout << "deleting..." << std::endl;
       updateCicladRmv(&window.front(), &index, &conceptContainer);
       window.pop();
       window.push(transactionStream.front());
     }
     updateCicladAdd(&transactionStream.front(), &index, &conceptContainer);
-
+    
     transactionStream.pop();
     //TODO: this should be an argument
     if (trxid % 1000 == 0) {
