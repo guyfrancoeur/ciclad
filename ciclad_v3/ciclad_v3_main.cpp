@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   concept3 superconcept(0, 0, /*0,*/ 0, tmp);
   uint gCid = 0;
 
-  std::vector<concept3> fCI2(1, superconcept); //one space with value.
+  std::vector<concept3> fCI2(1, superconcept); //add one space with one value (CI).
   ++gCid;
 
   Stats stats = Stats(); // garde les stats
@@ -48,22 +48,27 @@ int main(int argc, char *argv[]) {
     if (strcmp(t, "add") == 0) {
       strcpy(ss, s + 4);
       ms = add(ss, tn, idx, _rootChild, fCI2, &gCid);
-      stats.insert(&ms); //row++ dans la fonction;
+#ifdef DEBUG
+      stats.insert(&ms);
+#endif
     }
     else if (strcmp(t, "del") == 0) {
       strcpy(ss, s + 4);
       ms = del(ss, tn, idx, _rootChild, fCI2, &gCid);
+#ifdef DEBUG
       stats.remove(&ms);
+#endif
       ms = cleanup(idx, fCI2);
     }
     else if (strcmp(t, "end") == 0) END = 1;
-    
-    if (verbose)
+    ++stats.rows_processed;
+    if (verbose) {
       if ((stats.rows_processed % 1000 == 0 && stats.rows_processed < 10001) || stats.rows_processed % 10000 == 0) {
-        printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
+        printf("time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
         running = clock();
-        std::cout << stats.rows_processed << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+        std::cout << stats.rows_processed << " rows processed, # CI:" << fCI2.size() << endl;
       }
+    }
   }
 
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
