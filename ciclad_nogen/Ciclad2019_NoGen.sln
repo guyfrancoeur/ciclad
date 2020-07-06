@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ciclad2019_NoGen", "Ciclad2019_NoGen\Ciclad2019_NoGen.vcxproj", "{DF1C826A-F375-4ED7-9EA6-A0E7313FC91B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ciclad2019_NoGen", "Ciclad2019_NoGen.vcxproj", "{DF1C826A-F375-4ED7-9EA6-A0E7313FC91B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

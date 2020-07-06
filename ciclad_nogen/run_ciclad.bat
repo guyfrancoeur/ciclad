@@ -16,11 +16,11 @@ REM  along with this program.If not, see <http://www.gnu.org/licenses/>.
 REM
 
 REM <pathToExe> <dataset> <nbrItems> <windowSize>
-REM "Release\Ciclad2019_NoGen.exe" "./testdb_gen2.txt" 1001 0
-REM "Release\Ciclad2019_NoGen.exe" "./testdb_gen.txt" 10001 1000
-"Release\Ciclad2019_NoGen.exe" "./mushroom.dat" 127 8124 
-REM "Release\Ciclad2019_NoGen.exe" "./BMS2_itemset_mining.txt" 500000 20000
-REM "Release\Ciclad2019_NoGen.exe" "./chainstoreFIM.txt" 500000 100000
-REM "Release\Ciclad2019_NoGen.exe" "./retail.dat" 16471 50000
-REM "Release\Ciclad2019_NoGen.exe" "./siddata3.txt" 18000 0
+REM "x64\Release\Ciclad2019_NoGen.exe" "./testdb_gen2.txt" 1001 0
+REM "x64\Release\Ciclad2019_NoGen.exe" "./testdb_gen.txt" 10001 1000
+"x64\Release\Ciclad2019_NoGen.exe" "./mushroom.dat" 127 8124 
+REM "x64\Release\Ciclad2019_NoGen.exe" "./BMS2_itemset_mining.txt" 500000 20000
+REM "x64\Release\Ciclad2019_NoGen.exe" "./chainstoreFIM.txt" 500000 100000
+REM "x64\Release\Ciclad2019_NoGen.exe" "./retail.dat" 16471 50000
+REM "x64\Release\Ciclad2019_NoGen.exe" "./siddata3.txt" 18000 0
 pause

@@ -201,9 +201,9 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       }
       else {
         //cleanup index;
-        fCI2.at(n->Cid).deleted = 1;
-        fCI2[n->Cid] = fCI2.back();
-        fCI2.pop_back();
+        //fCI2.at(n->Cid).deleted = 1;
+        //fCI2[n->Cid] = fCI2.back();
+        //fCI2.pop_back();
       }
     }
     tn.pop();

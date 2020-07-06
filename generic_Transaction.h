@@ -64,8 +64,8 @@ void Transaction<T>::clean(void) {
 
 template <class T>
 void Transaction<T>::load(char *_s, const char *_delims, const short _withcrc) {
-  T v;
-  T oldV;
+  T v = 0;
+  T oldV = 0;
   clean();
   char *pch = _s;// std::strtok(_s, _delims);
   //__type = std::string(pch); pch = strtok(0, _delims);
