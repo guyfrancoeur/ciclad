@@ -1,1 +1,2 @@
-Lancement de gitaction pour ciclad2019_nogen with compilation fix
+Lancement de gitaction pour ciclad2019_nogen with compilation fix.
+#include <climits> fix
