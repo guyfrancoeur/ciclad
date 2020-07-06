@@ -35,7 +35,7 @@ jobs:
         cd ciclad_v3
         pwd
         g++ -O2 -std=c++14 -ffast-math -o ciclad_v3 ciclad_v3_impl.cpp ciclad_v3_main.cpp
-        g++ -Wunused-result -O2 -o streamer streamer.cpp
+        g++ -w -O2 -o streamer streamer.cpp
     - name: testing add-remove
       run: |
         cd ciclad_v3
