@@ -18,7 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v2
+    - name: checkout
+      uses: actions/checkout@v2
     - name: affichage
       run: |
         cat /etc/os-release
@@ -33,3 +34,9 @@ jobs:
         bash script.sh
         cd images
         ls -lash
+    - name: push
+      uses: actions-x/commit@v1
+      with:
+        name: GitHub Actions Autocommitter
+        branch: master
+        files: gnuplot/images/
