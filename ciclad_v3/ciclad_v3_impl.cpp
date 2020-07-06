@@ -2,6 +2,60 @@
 
 #pragma warning(disable : 4996)
 
+double cleanup(std::vector<vector<uint>>& _idx, std::vector<concept3>& _fCI2) {
+  clock_t start = clock();
+    size_t x = 0;
+    for (x = _fCI2.size()-1; x > 0; --x) {
+      if (_fCI2[x].deleted == 1) {
+        uint oldCid = (uint)_fCI2.size() - 1;
+        //for debug only
+        //if (x == 8 || oldCid == 8)
+        //  cerr << "attention" << oldCid << endl;
+        for (size_t m=0; m<_idx.size(); ++m) {
+          char pop = 0;
+          if (_idx[m].size() != 0) {
+            auto i = _idx[m];
+            uint j = 1;
+            for (std::vector<uint>::reverse_iterator rit = i.rbegin(); rit != i.rend(); ++rit) {
+            //ordre des etapes est importante !!!
+              if (*rit == x) { //step 1 : CAS #2, #3 et #4 find Cid to delete swap it
+                if (*rit != _idx[m].back()) { // on doit garder le dernier id avant le pop.
+                  _idx[m].at(i.rend() - i.rbegin() - j) = i.back();
+                  //*rit = (uint)i.back(); //bogue STL interator update... :)
+                }
+                pop += 1;
+                //i.pop_back(); //bogue STL
+                //break;
+              } else {
+                //step 2 Cas #1 : le dernier est un Cid qui sera efface : on utilise le x
+                if (*rit == oldCid) {
+                  if (_idx[m].back() == x) pop += 1; 
+                  else _idx[m].at(i.rend() - i.rbegin() - j) = (uint)x;
+                }
+              }
+              ++j;
+            }
+            if (pop) {
+              for (uint t = 0; t < pop; ++t) {
+                _idx[m].pop_back();
+              }
+            }
+          }
+        }
+
+        if (x == _fCI2.size()-1) {
+          _fCI2.pop_back();
+        }
+        else {
+          _fCI2[x] = _fCI2.back();
+          _fCI2[x].id = x;
+          _fCI2.pop_back();
+        }
+      }
+    }
+  return (clock() - start) / (double)CLOCKS_PER_SEC;
+}
+
 double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
   clock_t start = clock();
 
@@ -34,16 +88,10 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         fCI2[0].supp = 0;
       }
       fCI2[0].itemset.push_back(item);
-      //gf fCI2[0].size = fCI2[0].size + 1;
     }
     //---- mise a jour du superconcept (bottom) et de son index ---- fin
     for (auto idConcept : idx[item]) { //tant qu'il y a des concepts (pour un item).
       concept3 *e = &fCI2[idConcept]; //fCI2.at(idConcept); //e est un concept 
-      //if (e->deleted == 1) {
-      //  idx[item].at(i) = idx[item].back();
-      //  idx[item].pop_back();
-      //  continue;
-      //}
       node3 *lin; //lin =est= last item node
       if (li[idConcept] != 0) { //v2.1g rev2
         lin = li[idConcept]; //v2.1g rev2
@@ -111,7 +159,7 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
 double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
   clock_t start = clock();
 
-  node3 *root = new node3(_rootChild); //new struct for delete GF
+  node3 *root = new node3(_rootChild);
   //ici nous avons besoin d'une optimisation sans arguments --->
   uint allocated_memory = 0; uint allocated_block = 0;
   uint requested_memory = (uint)fCI2.size() * sizeof(node3 *);
@@ -129,12 +177,18 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
     uint item = atol(pch);
     for (uint i = 0; i < idx[item].size(); ++i) { //tant qu'il y a des concepts (pour un item).
       auto idConcept = idx[item].at(i);
-      concept3 *e = &fCI2.at(idConcept); //auto e = fCI2.at(idConcept); //e est un concept fCI2[idConcept]
-      if (e->deleted == 1) { 
-        idx[item].at(i) = idx[item].back();
-        idx[item].pop_back();
-        continue;
-      }
+      concept3 *e=NULL;
+      //try {
+        e = &fCI2.at(idConcept); //auto e = fCI2.at(idConcept); //e est un concept fCI2[idConcept]
+        if (e->deleted == 1) {
+          //cleanup(idConcept, idx, fCI2);
+          //std::thread t(&cleanup, std::ref(idConcept), std::ref(idx), std::ref(fCI2));
+          //t.detach();
+          cerr << "deleted" << e->id << endl;
+          break;
+        }
+      //}
+      //catch (const out_of_range& err) { cerr << "error:" << err.what() << ", item=" << item << endl; } 
       node3 *lin; //lin =est= last item node
       if (li[idConcept] != 0) { //v2.1g rev2
         lin = li[idConcept];    //v2.1g rev2
@@ -201,10 +255,10 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
       }
       else {
         //cleanup index; //fix memory bug with capacity()
-        fCI2.at(nn->cid[0]).deleted = 1;
-        fCI2.at(nn->cid[0]).supp = 0;
-        //fCI2[nn->cid[0]] = fCI2.back();
-        //fCI2.pop_back();
+        if (nn->cid[0] != 0) {
+          fCI2.at(nn->cid[0]).deleted = 1;
+          fCI2.at(nn->cid[0]).supp = 0; //with cleanup function not necessary
+        }
       }
     }
     tn.pop();

@@ -9,6 +9,8 @@
 #include <iostream> //cout
 #include <set>      //set
 #include <fstream>  //ofstream, ifstream
+#include <thread>   //thread (clean idx, CI)
+#include <omp.h>    //openmp
 
 //#include "../stx/btree_map.h"
 #include "../tlx/container/btree_map.hpp"
@@ -56,7 +58,7 @@ struct concept3 {
   concept3() : id(0), supp(0), deleted(0) {}
   concept3(uint _id, uint _supp, ushort _deleted) : id(_id), supp(_supp), deleted(_deleted) {}
   concept3(uint _id, uint _supp, ushort _deleted, std::vector<uint> _itemset) : id(_id), supp(_supp), deleted(_deleted), itemset(_itemset) {}
-  uint id;
+  uint id; // utile si la fCI2 n'est pas un vector todo : optimisation
   uint supp;
   ushort deleted; //flag 0 | 1
   std::vector<uint> itemset;
@@ -119,7 +121,7 @@ template<class T>
 inline NodeR<T>::~NodeR() { }
 //------------------------------------------------------------------------------
 //Prototype
-
+double cleanup(std::vector<vector<uint>>& _idx, std::vector<concept3>& _fCI2);
 double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
 double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid);
 
