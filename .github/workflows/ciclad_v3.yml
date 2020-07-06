@@ -5,12 +5,12 @@ on:
       - master
     tags:
       - v1
-    # file paths to consider in the event. Optional; defaults to all.
     paths:
       - 'ciclad_v3/ciclad_v3_main.cpp'
       - 'ciclad_v3/ciclad_v3_impl.cpp'
       - 'ciclad_v3/ciclad_v3_impl.h'
       - 'ciclad_v3/gitaction.txt'
+      - '.github/workflows/ciclad_v3.yml'
 
 jobs:
   job_1:
