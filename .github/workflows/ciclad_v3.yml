@@ -40,25 +40,25 @@ jobs:
       run: |
         cd ciclad_v3
         ls -lahs ciclad_v3*
-        ./ciclad_v3 -v < ../datasets/test-a-r-10.txt
+        /usr/bin/time -v ./ciclad_v3 -v < ../datasets/test-a-r-10.txt
     - name: testing mushroom
       run: |
         cd ciclad_v3
         ./streamer 10000 ./f.txt file < ../datasets/mushroom.dat
         head -n 1 f.txt
-        tail -n 1 f.txt
-        ./ciclad_v3 -v < f.txt
+        tail -n 2 f.txt
+        /usr/bin/time -v ./ciclad_v3 -v < f.txt
     - name: testing synth2
       run: |
         cd ciclad_v3
         ./streamer 10000 ./f.txt file < ../datasets/testdb_gen2.txt
         head -n 1 f.txt
-        tail -n 1 f.txt
-        ./ciclad_v3 -v < f.txt
+        tail -n 2 f.txt
+        /usr/bin/time -v ./ciclad_v3 -v < f.txt
     - name: testing synth1
       run: |
         cd ciclad_v3
         ./streamer 100000 ./f.txt file < ../datasets/testdb_gen.txt
         head -n 1 f.txt
-        tail -n 1 f.txt
-        ./ciclad_v3 -v < f.txt
+        tail -n 2 f.txt
+        /usr/bin/time -v ./ciclad_v3 -v < f.txt
