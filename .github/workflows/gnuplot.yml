@@ -10,7 +10,7 @@ on:
       - 'gnuplot/script.sh'
       - 'gnuplot/results_siam.dem'
       - 'gnuplot/ciclad_vs_moment.dem'
-      - 'gnuplot/gitaction.txt'
+      - 'gnuplot/gitactions.txt'
 
 jobs:
   job_1:
