@@ -31,7 +31,7 @@ jobs:
       run: |
         cd ciclad_nogen/newciclad
         pwd
-        g++ -O2 -std=c++14 -I./../newciclad/ -o ciclad2019_nogen ../Ciclad2019_NoGen/Ciclad.cpp CicladAdd.cpp CicladRmv.cpp transaction.cpp concept.cpp trienode.cpp
+        g++ -O2 -std=c++14 -I./../newciclad/ -o ciclad2019_nogen ../Ciclad.cpp CicladAdd.cpp CicladRmv.cpp transaction.cpp concept.cpp trienode.cpp
     - name: testing mushroom
       run: |
         cd ciclad_nogen/newciclad
