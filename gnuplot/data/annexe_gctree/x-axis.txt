@@ -1,0 +1,4 @@
+Window
+Retail\n(w=3k)
+NetLog\n(w=13k)
+Synth2\n(w=3.5k)

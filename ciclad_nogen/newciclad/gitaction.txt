@@ -1,0 +1,4 @@
+Lancement de gitaction pour ciclad2019_nogen with compilation fix.
+#include <climits> fix
+more tests (max 120 minutes)
+plus de test

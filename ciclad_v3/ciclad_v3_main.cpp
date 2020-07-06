@@ -1,36 +1,36 @@
 // version 3.0a 2019-09-30 (insert, clean C++ template, stdin/stream)
-// version 3.0b 2019-10-04 (remove)
+// version 3.0b 2019-10-04 (beta remove with leaks)
+// version 3.0c 2020-07-03 (remove with cleanup function)
 
 #include "ciclad_v3_impl.h"   //uint, ushort, node3, concept3, freenode3()
-
-#ifdef _WIN32
-#include <windows.h>
-#include <psapi.h>
-#endif
+#include "../utility/usage.h"  //ram-cpu usage utility (Win32 or Linux)
 
 #pragma warning(disable : 4996)
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
+#ifdef LINUX
+  struct rusage ru;
+#endif
   short verbose = 0; short END = 0;
   if (argc == 2) {
     if (strcmp(argv[1], "-v") == 0) { verbose = 1; }
   }
-  else { cout << "verbose mode inactive." << endl; }
+  else { std::cout << "verbose mode inactive." << endl; }
   clock_t start = clock(); clock_t running = clock();
-  vector<vector<uint>> idx(10001); //Initalisation de index inversé
+  std::vector<vector<uint>> idx(10001); //Initalisation de index inversé
   for (int i = 0; i < 10001; ++i) {
     vector<uint> vc; //Reservation
     idx[i] = vc; //Affection
   }
-  queue<node3 *> tn; // terminal nodes
+  std::queue<node3 *> tn; // terminal nodes
   tlx::btree_map<uint, node3 *> _rootChild; //stx is the fastest
-  vector<uint> tmp;
+  std::vector<uint> tmp;
   concept3 superconcept(0, 0, /*0,*/ 0, tmp);
   uint gCid = 0;
 
-  vector<concept3> fCI2(1, superconcept); //one space with value.
+  std::vector<concept3> fCI2(1, superconcept); //one space with value.
   ++gCid;
 
   Stats stats = Stats(); // garde les stats
@@ -54,19 +54,20 @@ int main(int argc, char *argv[]) {
       strcpy(ss, s + 4);
       ms = del(ss, tn, idx, _rootChild, fCI2, &gCid);
       stats.remove(&ms);
+      ms = cleanup(idx, fCI2);
     }
     else if (strcmp(t, "end") == 0) END = 1;
-
+    
     if (verbose)
       if ((stats.rows_processed % 1000 == 0 && stats.rows_processed < 10001) || stats.rows_processed % 10000 == 0) {
         printf("elapsed time between checkpoint %0.2f ms, ", (clock() - running) / (double)CLOCKS_PER_SEC * 1000);
         running = clock();
-        cout << stats.rows_processed << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+        std::cout << stats.rows_processed << " rows processed, idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
       }
   }
 
   printf("Stream completed in %0.2f sec, ", (clock() - start) / (double)CLOCKS_PER_SEC);
-  cout << stats.rows_inserted << " rows inserted, " << stats.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
+  std::cout << stats.rows_inserted << " rows inserted, " << stats.rows_removed << " rows removed , idx size/capacity:" << idx.size() << "/" << idx.capacity() << ", # concept:" << fCI2.size() << endl;
   if (verbose) {
     uint nb[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
     for (uint n = 0; n < fCI2.size(); ++n) {
@@ -78,13 +79,15 @@ int main(int argc, char *argv[]) {
         ++nb[10];
       }
     }
-    for (uint n = 0; n < 11; ++n) { cout << n << "->" << nb[n] << endl; }
+    for (uint n = 0; n < 11; ++n) { std::cout << n << "->" << nb[n] << endl; }
   }
   fCI2.clear();
 #ifdef _WIN32
-  PROCESS_MEMORY_COUNTERS_EX info;
-  GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS *)&info, sizeof(info));
-  std::cout << "WorkingSet " << info.WorkingSetSize / 1024 << "K, PeakWorkingSet " << info.PeakWorkingSetSize / 1024 << "K, PrivateSet " << info.PrivateUsage / 1024 << "K" << endl;
+  pu_ram();
+#endif
+#ifdef LINUX
+  gu_all(&ru);
+  pu_ram(ru);
 #endif
   return EXIT_SUCCESS;
 }

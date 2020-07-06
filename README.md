@@ -1,6 +1,6 @@
-# ciclad C++
+# ciclad Project C++
 
-## Based on Galicia-P by Petko Valtchev, PhD
+![ciclad v3](https://github.com/guyfrancoeur/ciclad/workflows/ciclad%20v3/badge.svg)
 
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
@@ -13,11 +13,20 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
 Contributors :
  - Tomas Martin 2015-2020
  - Guy Francoeur 2015-2020
- - Mickael Wajnberg 2018
  - Petko Valtchev :copyright:
+
+Developer
+ - Mickael Wajnberg 2018
 
 More 
  + [experiments in images](./image/README.md)
+
+Accepted paper :
++ [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:text=CICLAD)
+
+Reference :
++ [A framework for incremental generation of closed itemsets](https://www.sciencedirect.com/science/article/pii/S0166218X07003472)
++ [Generating frequent itemsets incrementally: two novel approaches based on Galois lattice theory](https://www.tandfonline.com/doi/abs/10.1080/09528130210164198)
 
 ---
 ciclad :copyright: 2015-2020

@@ -1,0 +1,14 @@
+Window	"Ciclad (C++)"	"Moment (C++)"
+Synth2\n(w=1k)	8	240
+Synth2\n(w=2k)	25	720
+Synth2\n(w=5k)	135	-99
+Mushr.\n(w=.5k)	71	87
+Mushr.\n(w=1k)	102	98
+Mushr.\n(w=2k)	145	155
+Mushr.\n(w=5k)	210	180
+Synth\n(w=1k)	8	10000
+Synth\n(w=2k)	12	0
+Synth\n(w=5k)	27	-99
+Retail\n(w=1k)	20	3240
+Retail\n(w=5k)	113	10000
+Retail\n(w=10k)	254	10000

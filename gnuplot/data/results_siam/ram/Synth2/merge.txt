@@ -1,0 +1,4 @@
+Window	CICLAD	Moment	NewMoment	CloStream	CFI-Stream
+w=1k	21	4005	3018	35	1507
+w=2k	48	6025	5500	71	-99
+w=5k	187	-99	-99	260	-99
