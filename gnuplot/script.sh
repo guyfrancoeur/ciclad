@@ -17,6 +17,9 @@
 #  fi
 #done
 
+#ou somme nous? dans gnuplot !
+pwd
+
 # annexe_gctree | java_all_3
 paste ./data/annexe_gctree/x-axis.txt ./data/annexe_gctree/GC-Tree.txt ./data/annexe_gctree/ciclad.txt ./data/annexe_gctree/moment.txt > ./data/annexe_gctree/merge.txt
 gnuplot -p -e "filenameGcTree='./data/annexe_gctree/merge.txt'; fileoutGcTree='./images/annexe_gctree.png';" \
@@ -36,7 +39,11 @@ paste ./data/results_siam/cpu/ChainStore/x-axis.txt ./data/results_siam/cpu/Chai
 paste ./data/results_siam/cpu/Mushroom/x-axis.txt ./data/results_siam/cpu/Mushroom/ciclad.txt ./data/results_siam/cpu/Mushroom/moment.txt ./data/results_siam/cpu/Mushroom/newmoment.txt ./data/results_siam/cpu/Mushroom/clostream.txt ./data/results_siam/cpu/Mushroom/cfi-stream.txt > ./data/results_siam/cpu/Mushroom/merge.txt
 paste ./data/results_siam/cpu/Synth/x-axis.txt ./data/results_siam/cpu/Synth/ciclad.txt ./data/results_siam/cpu/Synth/moment.txt ./data/results_siam/cpu/Synth/newmoment.txt ./data/results_siam/cpu/Synth/clostream.txt ./data/results_siam/cpu/Synth/cfi-stream.txt > ./data/results_siam/cpu/Synth/merge.txt
 paste ./data/results_siam/cpu/Synth2/x-axis.txt ./data/results_siam/cpu/Synth2/ciclad.txt ./data/results_siam/cpu/Synth2/moment.txt ./data/results_siam/cpu/Synth2/newmoment.txt ./data/results_siam/cpu/Synth2/clostream.txt ./data/results_siam/cpu/Synth2/cfi-stream.txt > ./data/results_siam/cpu/Synth2/merge.txt
-paste ./data/results_siam/cpu/NetLog/x-axis.txt ./data/results_siam/cpu/NetLog/ciclad.txt ./data/results_siam/cpu/NetLog/moment.txt ./data/results_siam/cpu/NetLog/newmoment.txt ./data/results_siam/cpu/NetLog/clostream.txt ./data/results_siam/cpu/NetLog/cfi-stream.txt > ./data/results_siam/cpu/NetLog/merge.txt
+#pour rendre ca simple ************
+cd ./data/results_siam/cpu/NetLog
+#OLD paste ./data/results_siam/cpu/NetLog/x-axis.txt ./data/results_siam/cpu/NetLog/ciclad.txt ./data/results_siam/cpu/NetLog/moment.txt ./data/results_siam/cpu/NetLog/newmoment.txt ./data/results_siam/cpu/NetLog/clostream.txt ./data/results_siam/cpu/NetLog/cfi-stream.txt > ./data/results_siam/cpu/NetLog/merge.txt
+paste x-axis.txt ciclad.txt moment.txt newmoment.txt clostream.txt cfi-stream.txt > merge.txt
+cd ../../../../
 # RAM
 paste ./data/results_siam/ram/Retail/x-axis.txt ./data/results_siam/ram/Retail/ciclad.txt ./data/results_siam/ram/Retail/moment.txt ./data/results_siam/ram/Retail/newmoment.txt ./data/results_siam/ram/Retail/clostream.txt ./data/results_siam/ram/Retail/cfi-stream.txt > ./data/results_siam/ram/Retail/merge.txt
 paste ./data/results_siam/ram/BMSView/x-axis.txt ./data/results_siam/ram/BMSView/ciclad.txt ./data/results_siam/ram/BMSView/moment.txt ./data/results_siam/ram/BMSView/newmoment.txt ./data/results_siam/ram/BMSView/clostream.txt ./data/results_siam/ram/BMSView/cfi-stream.txt > ./data/results_siam/ram/BMSView/merge.txt
@@ -44,7 +51,12 @@ paste ./data/results_siam/ram/ChainStore/x-axis.txt ./data/results_siam/ram/Chai
 paste ./data/results_siam/ram/Mushroom/x-axis.txt ./data/results_siam/ram/Mushroom/ciclad.txt ./data/results_siam/ram/Mushroom/moment.txt ./data/results_siam/ram/Mushroom/newmoment.txt ./data/results_siam/ram/Mushroom/clostream.txt ./data/results_siam/ram/Mushroom/cfi-stream.txt > ./data/results_siam/ram/Mushroom/merge.txt
 paste ./data/results_siam/ram/Synth/x-axis.txt ./data/results_siam/ram/Synth/ciclad.txt ./data/results_siam/ram/Synth/moment.txt ./data/results_siam/ram/Synth/newmoment.txt ./data/results_siam/ram/Synth/clostream.txt ./data/results_siam/ram/Synth/cfi-stream.txt > ./data/results_siam/ram/Synth/merge.txt
 paste ./data/results_siam/ram/Synth2/x-axis.txt ./data/results_siam/ram/Synth2/ciclad.txt ./data/results_siam/ram/Synth2/moment.txt ./data/results_siam/ram/Synth2/newmoment.txt ./data/results_siam/ram/Synth2/clostream.txt ./data/results_siam/ram/Synth2/cfi-stream.txt > ./data/results_siam/ram/Synth2/merge.txt
+
+#OLD paste ./data/results_siam/ram/NetLog/x-axis.txt ./data/results_siam/ram/NetLog/ciclad.txt ./data/results_siam/ram/NetLog/moment.txt ./data/results_siam/ram/NetLog/newmoment.txt ./data/results_siam/ram/NetLog/clostream.txt ./data/results_siam/ram/NetLog/cfi-stream.txt > ./data/results_siam/ram/NetLog/merge.txt
+cd ./data/results_siam/ram/NetLog
 paste ./data/results_siam/ram/NetLog/x-axis.txt ./data/results_siam/ram/NetLog/ciclad.txt ./data/results_siam/ram/NetLog/moment.txt ./data/results_siam/ram/NetLog/newmoment.txt ./data/results_siam/ram/NetLog/clostream.txt ./data/results_siam/ram/NetLog/cfi-stream.txt > ./data/results_siam/ram/NetLog/merge.txt
+cd ../../../../
+pwd
 
 # Retail
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/retail/merge.txt'; fileoutCPU='./images/retail_cpu.png'" \
