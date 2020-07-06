@@ -44,8 +44,21 @@ jobs:
     - name: testing mushroom
       run: |
         cd ciclad_v3
-        ./streamer 10000 < ../datasets/mushroom.dat &
-        cat /tmp/myfifo > f.txt
+        ./streamer 10000 ./f.txt file < ../datasets/mushroom.dat
+        head -n 1 f.txt
+        tail -n 1 f.txt
+        ./ciclad_v3 -v < f.txt
+    - name: testing synth2
+      run: |
+        cd ciclad_v3
+        ./streamer 10000 ./f.txt file < ../datasets/testdb_gen2.txt
+        head -n 1 f.txt
+        tail -n 1 f.txt
+        ./ciclad_v3 -v < f.txt
+    - name: testing synth1
+      run: |
+        cd ciclad_v3
+        ./streamer 100000 ./f.txt file < ../datasets/testdb_gen.txt
         head -n 1 f.txt
         tail -n 1 f.txt
         ./ciclad_v3 -v < f.txt
