@@ -2,6 +2,10 @@
 
 ![ciclad v3](https://github.com/guyfrancoeur/ciclad/workflows/ciclad%20v3/badge.svg)
 
+![gnuplot histogram](https://github.com/guyfrancoeur/ciclad/workflows/gnuplot%20histogram/badge.svg)
+
+[![Maintenance](https://img.shields.io/badge/Active%3F-Yes-orange.svg)](https://github.com/guyfrancoeur/ciclad/blob/master/README.md)
+
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
 Today increasing amount of data demands appropriate algorithm to discover the unknown. Mining of frequent itemsets over a data stream still witholds some challenges. As a remedy, frequent closed itemsets (FCIs) were studied, yet they rise their own issues, especially with sparse datasets. We introduce `ciclad`, an efficient stream CI miner that leverages in-depth insights into the mathematics of FCI evolution into an intersection-based approach. It combines efficient storage and access techniques into a sliding-window method of a surprising simplicity. Experimental results indicate that ciclad~largely outperforms its main competitors by a large margin (up to 70 times faster) on sparse dataset whereas on dense ones its performance remains comparable.
@@ -10,18 +14,37 @@ Leaving data behind because they are not frequent is not reasonable. Not frequen
 
 Keywords : frequent pattern mining, closed itemsets, data streams, sliding window, inverted lists
 
-Contributors :
+#### Authors :
  - Tomas Martin 2015-2020
  - Guy Francoeur 2015-2020
  - Petko Valtchev :copyright:
 
-Developer
- - Mickael Wajnberg 2018
+[![Maintenance](https://img.shields.io/badge/Paper%20Link%20at%20arXiv-CICLAD-orange.svg)](https://arxiv.org/abs/2007.01946)
 
-More 
+[![DOI:10.1145/3394486.3403232](https://zenodo.org/badge/DOI/10.1145/3394486.3403232.svg)](https://doi.org/10.1145/3394486.3403232)
+
+#### How to make citation :
+
+- BibTeX :
+~~~
+@misc{martin2020ciclad,
+    title={CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams},
+    author={Tomas Martin and Guy Francoeur and Petko Valtchev},
+    year={2020},
+    eprint={2007.01946},
+    archivePrefix={arXiv},
+    primaryClass={cs.DB}
+}
+~~~
+
+Contributors :
+ - Mickael Wajnberg 2018
+ - see github contributors
+
+#### More :
  + [experiments in images](./image/README.md)
 
-Accepted paper :
+Accepted paper fot KDD 2020 :
 + [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:text=CICLAD)
 
 Reference :

@@ -30,11 +30,11 @@ public:
   Stats() { rows_processed = 0; rows_inserted = 0; rows_removed = 0; avg_ms_insert = 0; avg_ms_remove = 0; };
   ~Stats() { };
   void insert(const double *_ms) {
-    ++rows_inserted; ++rows_processed;
+    ++rows_inserted;
     avg_ms_insert = (avg_ms_insert + *_ms) / 2;
   };
   void remove(const double *_ms) {
-    ++rows_removed; ++rows_processed;
+    ++rows_removed;
     avg_ms_remove = (avg_ms_remove + *_ms) / 2;
   };
 };

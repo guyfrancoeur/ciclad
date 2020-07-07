@@ -3,7 +3,9 @@
 #pragma warning(disable : 4996)
 
 double cleanup(std::vector<vector<uint>>& _idx, std::vector<concept3>& _fCI2) {
+#ifdef DEBUG
   clock_t start = clock();
+#endif
     size_t x = 0;
     for (x = _fCI2.size()-1; x > 0; --x) {
       if (_fCI2[x].deleted == 1) {
@@ -53,12 +55,17 @@ double cleanup(std::vector<vector<uint>>& _idx, std::vector<concept3>& _fCI2) {
         }
       }
     }
-  return (clock() - start) / (double)CLOCKS_PER_SEC;
+#ifdef DEBUG
+    return (clock() - start) / (double)CLOCKS_PER_SEC;
+#else
+    return 0;
+#endif
 }
 
 double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
+#ifdef DEBUG
   clock_t start = clock();
-
+#endif
   node3 *root = new node3(_rootChild);
   // à reviser --->
   //uint allocated_memory = 0; uint allocated_block = 0;
@@ -153,11 +160,17 @@ double add(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
   }
   free(li);
   delete root;
+#ifdef DEBUG
   return (clock() - start) / (double)CLOCKS_PER_SEC;
+#else
+  return 0;
+#endif
 }
 
 double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx::btree_map<uint, node3 *> &_rootChild, std::vector<concept3> &fCI2, uint *gCid) {
+#ifdef DEBUG
   clock_t start = clock();
+#endif
 
   node3 *root = new node3(_rootChild);
   //ici nous avons besoin d'une optimisation sans arguments --->
@@ -254,17 +267,22 @@ double del(char *s, std::queue<node3 *> &tn, std::vector<vector<uint>> &idx, tlx
         if (fCI2.at(nn->cid[0]).supp > 0) fCI2.at(nn->cid[0]).supp--;
       }
       else {
-		//cleanup index;
-        //fCI2.at(n->Cid).deleted = 1;
-        //fCI2[n->Cid] = fCI2.back();
-        //fCI2.pop_back();
+        //cleanup index; //fix memory bug with capacity()
+        if (nn->cid[0] != 0) {
+          fCI2.at(nn->cid[0]).deleted = 1;
+          fCI2.at(nn->cid[0]).supp = 0; //with cleanup function not necessary
+        }
       }
     }
     tn.pop();
   }
   free(li);
   delete root;
+#ifdef DEBUG
   return (clock() - start) / (double)CLOCKS_PER_SEC;
+#else
+  return 0;
+#endif
 }
 
 template <class T>

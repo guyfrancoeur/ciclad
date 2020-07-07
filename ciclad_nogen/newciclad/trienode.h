@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 [CICLAD TEAM]
+//  Copyright ï¿½ 2018 [CICLAD TEAM]
 //  
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ typedef struct trie_node_add {
 } TRIE_NODE_ADD;
 
 typedef struct trie_node_rmv{
-    uint32_t nb_ref;
+    uint32_t nb_ref = 0;
     std::vector<concept*>* genitors;
     std::vector<concept*>* minimalCandidates;
     uint32_t depth;

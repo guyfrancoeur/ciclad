@@ -1,0 +1,42 @@
+name: gnuplot histogram
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v1
+    # file paths to consider in the event. Optional; defaults to all.
+    paths:
+      - 'gnuplot/script.sh'
+      - 'gnuplot/results_siam.dem'
+      - 'gnuplot/ciclad_vs_moment.dem'
+      - 'gnuplot/gitactions.txt'
+
+jobs:
+  job_1:
+    name: job principale
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: affichage
+      run: |
+        cat /etc/os-release
+        cat /proc/cpuinfo
+        cat /proc/meminfo
+    - name: installation gnuplot
+      run: |
+        sudo apt-get install -y gnuplot
+    - name: execution
+      run: |
+        cd gnuplot
+        bash script.sh
+        cd images
+        ls -lash
+    - name: push
+      uses: actions-x/commit@v1
+      with:
+        name: GitHub Actions Autocommitter
+        branch: master
+        files: gnuplot/images/

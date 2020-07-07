@@ -72,14 +72,16 @@ void updateCicladRmv(TRANSACTION *current_T, vector<vector<concept*>>*index, vec
               available_positions_for_new_cis[item]->push(position);
 #endif
             }
+            const uint32_t obsolete_cid = tnodes[i].minimalCandidates->at(0)->id;
             delete obsolete;
             {
-              free(tnodes[i].minimalCandidates->at(0)->positionsInIndex);
-              free((*conceptContainer)[tnodes[i].minimalCandidates->at(0)->id]);
-              (*conceptContainer)[tnodes[i].minimalCandidates->at(0)->id] = 0;
+              free(tnodes[i].minimalCandidates->at(0)->positionsInIndex);              
+              free(conceptContainer->at(/*tnodes[i].minimalCandidates->at(0)->id*/obsolete_cid));
+              //std::cout << tnodes[i].minimalCandidates->at(0)->id << std::endl;
+              conceptContainer->at(/*tnodes[i].minimalCandidates->at(0)->id*/obsolete_cid) = 0x00;
             }
 #ifdef REUSE_OBSOLETE
-            available_id_for_new_cis->push(tnodes[i].minimalCandidates->at(0)->id);
+            available_id_for_new_cis->push(/*tnodes[i].minimalCandidates->at(0)->id*/obsolete_cid);
 #endif
             numberOfCI--;
             stateModified = false;
@@ -94,7 +96,9 @@ void updateCicladRmv(TRANSACTION *current_T, vector<vector<concept*>>*index, vec
     }
     delete tnodes[i].genitors;
     delete tnodes[i].minimalCandidates;
-    delete tnodes[i].children;
+    if(tnodes[i].children){
+        delete tnodes[i].children;
+    }
   }
 
   concept** it = &(*(conceptContainer->begin()));
@@ -105,6 +109,7 @@ void updateCicladRmv(TRANSACTION *current_T, vector<vector<concept*>>*index, vec
       ci->lastitem = 0;
     }
   }
+
   delete root.children;
   delete root.genitors;
   delete root.minimalCandidates;
