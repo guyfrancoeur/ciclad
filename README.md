@@ -23,7 +23,11 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
 
 [![DOI:10.1145/3394486.3403232](https://zenodo.org/badge/DOI/10.1145/3394486.3403232.svg)](https://doi.org/10.1145/3394486.3403232)
 
-NOTA: ciclad_nogen is the folder with the implementation used in the KDD'20 paper.
+NOTA: /ciclad_nogen is the folder with the implementation used in the KDD'20 paper.
+
+NOTA: /alternatives contains sub-folders with implementations of Moment, NewMoment, CloStream and CFI-Stream. All were implemented and tested for Windows.
+
+NOTA: The original Moment(FP) implementation used in our KDD-20 paper is not publicly available, you should contact its authors.
 
 <!--
 #### How to make citation :
