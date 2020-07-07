@@ -28,7 +28,7 @@ set logscale y
 set ytics (1,4,16,64,256,1024,4096) textcolor rgb "#5B5C5F"
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
-set style line 4 lc rgb 'red' pt 'X' #Croix rouges
+set style line 4 lc rgb "#FF0505" pt 2 ps 1.4 lw 2 #Croix rouges
 plot filenameRAM using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
   '' u 4:xtic(1) lc rgb "#975CA5",'' u 5:xtic(1) lc rgb "#A5A5A5",'' u 6:xtic(1) lc rgb "#85C271", \
   for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels t '' boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
