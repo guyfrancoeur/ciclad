@@ -1,4 +1,4 @@
-# ciclad Project C++
+# Ciclad Project C++
 
 ![ciclad v3](https://github.com/guyfrancoeur/ciclad/workflows/ciclad%20v3/badge.svg)
 
