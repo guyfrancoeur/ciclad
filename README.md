@@ -23,6 +23,8 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
 
 [![DOI:10.1145/3394486.3403232](https://zenodo.org/badge/DOI/10.1145/3394486.3403232.svg)](https://doi.org/10.1145/3394486.3403232)
 
+NOTA: ciclad_nogen is the folder with the implementation used in the KDD'20 paper.
+
 #### How to make citation :
 
 - BibTeX :
