@@ -50,9 +50,11 @@ void updateCicladRmv(TRANSACTION *current_T, vector<vector<concept*>>*index, vec
     }
   }
   const size_t tnodes_len = tnodes.size();
+  std::cout << tnodes_len << std::endl;
   for (size_t i = 1; i < tnodes_len; ++i) {
     trie_node_rmv* const node = &tnodes[i];
     if (node->nb_ref != 0) {
+      std::cout << node->nb_ref << std::endl;
       bool stateModified = true;
       if (node->genitors && !node->genitors->empty()) {
         concept** it = &(*(node->genitors->begin()));
