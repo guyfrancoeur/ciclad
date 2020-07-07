@@ -4,7 +4,7 @@
 
 ![gnuplot histogram](https://github.com/guyfrancoeur/ciclad/workflows/gnuplot%20histogram/badge.svg)
 
-[![Maintenance](https://img.shields.io/badge/Active%3F-Yes-orange.svg)](https://shields.io/)
+[![Maintenance](https://img.shields.io/badge/Active%3F-Yes-orange.svg)](https://github.com/guyfrancoeur/ciclad/)
 
 # CICLAD: A super fast Streaming, Memory ultra-lite Closed Itemset Miner
 
