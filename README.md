@@ -41,10 +41,10 @@ Contributors :
  - Mickael Wajnberg 2018
  - see github contributors
 
-More 
+#### More :
  + [experiments in images](./image/README.md)
 
-Accepted paper :
+Accepted paper fot KDD 2020 :
 + [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:text=CICLAD)
 
 Reference :
