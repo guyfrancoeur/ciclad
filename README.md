@@ -25,6 +25,7 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
 
 NOTA: ciclad_nogen is the folder with the implementation used in the KDD'20 paper.
 
+<!--
 #### How to make citation :
 
 - BibTeX :
@@ -38,6 +39,7 @@ NOTA: ciclad_nogen is the folder with the implementation used in the KDD'20 pape
     primaryClass={cs.DB}
 }
 ~~~
+-->
 
 Contributors :
  - Mickael Wajnberg 2018
