@@ -46,7 +46,7 @@ Contributors :
 #### More :
  + [experiments in images](./image/README.md)
 
-Accepted paper fot KDD 2020 :
+Accepted paper at KDD 2020 :
 + [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:text=CICLAD)
 
 Reference :
