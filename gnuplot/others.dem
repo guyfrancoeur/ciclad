@@ -7,7 +7,7 @@ set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.7
 set bmargin 6
-set tmargin 4
+set tmargin 1
 set style fill solid 1.00 noborder
 # Lignes grises arriere-plan :
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
