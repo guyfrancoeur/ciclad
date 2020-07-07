@@ -24,9 +24,9 @@ Xmax = (STATS_records - 1) + .5 #Obtenir le nombre de lignes de données
 set xrange [-0.5:Xmax]
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
 plot filenameGcTree using 2:xtic(1) lc rgb "#A5A5A5", '' u 3:xtic(1) lc rgb "#FF6700", '' u 4:xtic(1) lc rgb "#5B9BD5", \
-  '' u ($0 - 0.25):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
-  '' u 0:3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10", \
-  '' u ($0 + 0.25):4:4 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
+  '' u ($0 - 0.25):2:2 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
+  '' u 0:3:3 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10", \
+  '' u ($0 + 0.25):4:4 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
 
 # ---- java_all_3 ----
 set output fileout_java_all_3
@@ -51,4 +51,4 @@ set lt 8 lc rgb "#B2C9E6"
 plot filename_java_all_3 every ::0::0 u 1 lt 1 title columnhead, newhistogram lt 2 at 1, '' u 2 ti col, newhistogram lt 3 at 2, \
   '' u 3 ti col, newhistogram lt 4 at 3, '' u 4 ti col, newhistogram lt 5 at 4, '' u 5 ti col, newhistogram lt 6 at 5, \
   '' u 6 ti col, newhistogram lt 7 at 6, '' u 7 ti col, newhistogram lt 8 at 7, '' u 8 ti col, \
-  for[i=1:8] '' u ($0 + (i-1)):i:i with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"
+  for[i=1:8] '' u ($0 + (i-1)):i:i with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5"

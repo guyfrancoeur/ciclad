@@ -28,10 +28,10 @@ set arrow 1 from -0.5,16384 to Xmax,16384 nohead ls 1 #Ligne rouge
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
 plot filenameMEMORY using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
-  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
-  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5", \
-  '' u ($0 - dx):($2 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red', \
-  '' u ($0 + dx):($3 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red'
+  '' u ($0 - dx):2:2 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
+  '' u ($0 + dx):3:3 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 - dx):($2 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' , \
+  '' u ($0 + dx):($3 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' 
 
 # ---- Runtime ----
 set output fileoutRUNTIME
@@ -41,7 +41,7 @@ set yrange [1:*]
 set ytics (1,10,100,1000,10000)
 set arrow 1 from -0.5,10000 to Xmax,10000 #Ligne rouge
 plot filenameRUNTIME using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
-  '' u ($0 - dx):2:2 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
-  '' u ($0 + dx):3:3 with labels boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5", \
-  '' u ($0 - dx):($2 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red', \
-  '' u ($0 + dx):($3 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red'
+  '' u ($0 - dx):2:2 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5",\
+  '' u ($0 + dx):3:3 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  '' u ($0 - dx):($2 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' , \
+  '' u ($0 + dx):($3 == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' 

@@ -30,8 +30,8 @@ dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
 plot filenameRAM using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
   '' u 4:xtic(1) lc rgb "#975CA5",'' u 5:xtic(1) lc rgb "#A5A5A5",'' u 6:xtic(1) lc rgb "#85C271", \
-  for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
-  for [i=2:6] '' u ($0 + ((i-4)*dx)):(column(i) == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red'
+  for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels t '' boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  for [i=2:6] '' u ($0 + ((i-4)*dx)):(column(i) == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' 
 
 # ---- CPU ----
 set output fileoutCPU
@@ -41,5 +41,5 @@ set arrow 1 from -0.5,10000 to Xmax,10000 nohead ls 1 #Ligne rouge
 set ylabel "Runtime (seconds)" textcolor rgb "#5B5C5F" font ",15" offset 0,-2,0
 plot filenameCPU using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
   '' u 4:xtic(1) lc rgb "#975CA5",'' u 5:xtic(1) lc rgb "#A5A5A5",'' u 6:xtic(1) lc rgb "#85C271", \
-  for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
-  for [i=2:6] '' u ($0 + ((i-4)*dx)):(column(i) == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red'
+  for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels t '' boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
+  for [i=2:6] '' u ($0 + ((i-4)*dx)):(column(i) == -99 ? 1.5 : '1/0') t '' with points pt 'X' lc rgb 'red' 
