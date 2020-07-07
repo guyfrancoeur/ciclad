@@ -14,7 +14,7 @@ set style fill solid 1.00 noborder
 set style data histogram
 set style histogram cluster gap 1
 set boxwidth 0.9
-set bmargin 5
+set bmargin 6
 set style line 12 lc rgb "#D9D9D9" lt 0 lw 2
 set grid ytics ls 12 #Lignes grises arriere-plan
 set style line 1 lc rgb "red" lt 0 lw 2
@@ -29,6 +29,7 @@ set ytics (1,4,16,64,256,1024,4096) textcolor rgb "#5B5C5F"
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
 set style line 4 lc rgb "#FF0505" pt 2 ps 1.4 lw 2 #Croix rouges
+set xlabel "w = window size         x = doesn't stop" font ",10" textcolor "#92949B" norotate offset 0,-1
 plot filenameRAM using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
   '' u 4:xtic(1) lc rgb "#975CA5",'' u 5:xtic(1) lc rgb "#A5A5A5",'' u 6:xtic(1) lc rgb "#85C271", \
   for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels t '' boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \
