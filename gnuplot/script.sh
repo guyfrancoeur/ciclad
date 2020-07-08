@@ -103,7 +103,7 @@ gnuplot -p -e "filenameCPU='./data/results_siam/cpu/NetLog/merge.txt'; fileoutCP
 
 # >>>> Mosaic creation :
 cd ./images
-magick convert retail_cpu.png -crop -110+460 -crop +180+0 -resize 120% m_legend.png #Récupération de la légende
+magick convert retail_cpu.png -crop -110+450 -crop +180+0 -resize 120% m_legend.png #Récupération de la légende
 magick montage -background '#FFFFFF' -geometry 1300x500+10+10 -tile 4x m_retail_cpu.png m_retail_ram.png m_BMSView_cpu.png m_BMSView_ram.png m_ChainStore_cpu.png m_ChainStore_ram.png m_Mushroom_cpu.png m_Mushroom_ram.png m_Synth_cpu.png m_Synth_ram.png m_NetLog_cpu.png m_NetLog_ram.png m_Synth2_cpu.png m_Synth2_ram.png m_legend.png -gravity west mosaic.png
 rm m_*.png
 cd ../
