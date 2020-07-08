@@ -25,7 +25,6 @@ jobs:
         cat /etc/os-release
         cat /proc/cpuinfo
         cat /proc/meminfo
-        magick -version
     - name: installation gnuplot
       run: |
         sudo apt-get install -y gnuplot
