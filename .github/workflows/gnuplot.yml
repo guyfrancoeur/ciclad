@@ -16,7 +16,7 @@ jobs:
   job_1:
     name: job principale
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
     - name: checkout
       uses: actions/checkout@v2
@@ -25,9 +25,21 @@ jobs:
         cat /etc/os-release
         cat /proc/cpuinfo
         cat /proc/meminfo
+        magick -version
     - name: installation gnuplot
       run: |
         sudo apt-get install -y gnuplot
+    - name: installation imageMagick
+      run: |
+        wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+        tar xvzf ImageMagick.tar.gz
+        cd ImageMagick*
+        ./configure
+        make
+        sudo make install 
+        sudo ldconfig /usr/local/lib
+        magick -version
+        cd ..
     - name: execution
       run: |
         cd gnuplot
