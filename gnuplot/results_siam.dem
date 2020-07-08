@@ -21,6 +21,11 @@ set style line 1 lc rgb "red" lt 0 lw 2
 set arrow 1 from -0.5,4096 to Xmax,4096 nohead ls 1 #Ligne rouge
 set ylabel "Memory (MBytes)" textcolor rgb "#5B5C5F" font ",15" offset 0,-2,0
 set key bmargin center horizontal Left reverse noenhanced autotitle columnhead nobox samplen 0.6 textcolor rgb "#5B5C5F" font ",14"
+set xlabel "w = window size         x = did not finish (fail)" font ",10" textcolor "#92949B" norotate offset 0,-1
+if (legend eq "no") {
+  unset key
+  unset xlabel
+}
 set ytics border in scale 0,0
 set xtics border in scale 0,0 font ",13" textcolor rgb "#5B5C5F"
 set yrange [1:*]
@@ -29,7 +34,6 @@ set ytics (1,4,16,64,256,1024,4096) textcolor rgb "#5B5C5F"
 dx = 1/6.0
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
 set style line 4 lc rgb "#FF0505" pt 2 ps 1.4 lw 2 #Croix rouges
-set xlabel "w = window size         x = doesn't stop" font ",10" textcolor "#92949B" norotate offset 0,-1
 plot filenameRAM using 2:xtic(1) lc rgb "#FF6700", '' u 3:xtic(1) lc rgb "#5A9BD5", \
   '' u 4:xtic(1) lc rgb "#975CA5",'' u 5:xtic(1) lc rgb "#A5A5A5",'' u 6:xtic(1) lc rgb "#85C271", \
   for [i=2:6] '' u ($0 + ((i-4)*dx)):i:i with labels t '' boxed offset 0,0.6 textcolor rgb "#5B5C5F" font ",9.5", \

@@ -23,8 +23,8 @@ stats filenameGcTree using 2 nooutput
 Xmax = (STATS_records - 1) + .5 #Obtenir le nombre de lignes de données
 set xrange [-0.5:Xmax]
 set style textbox opaque noborder #Box autour valeurs (labels boxed)
-set xlabel "w = window size" font ",10" textcolor "#92949B" norotate offset 0,-1
-plot filenameGcTree using 2:xtic(1) lc rgb "#A5A5A5", '' u 3:xtic(1) lc rgb "#FF6700", '' u 4:xtic(1) lc rgb "#5B9BD5", \
+set xlabel "w = window size" font ",10" textcolor "#92949B" norotate offset 0,-2
+plot filenameGcTree using 2:xtic(1) lc rgb "#799E80", '' u 3:xtic(1) lc rgb "#FF6700", '' u 4:xtic(1) lc rgb "#5B9BD5", \
   '' u ($0 - 0.25):2:2 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10",\
   '' u 0:3:3 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10", \
   '' u ($0 + 0.25):4:4 with labels t '' boxed offset 0,.6 textcolor rgb "#5B5C5F" font ",10"
@@ -44,8 +44,8 @@ unset xlabel
 # Couleurs pour chaque colonne :
 set lt 1 lc rgb "#FF6700"
 set lt 2 lc rgb "#5A9BD5"
-set lt 3 lc rgb "#477CAB"
-set lt 4 lc rgb "#CAD9ED"
+set lt 3 lc rgb "#A5A5A5"
+set lt 4 lc rgb "#477CAB"
 set lt 5 lc rgb "#97B9E0"
 set lt 6 lc rgb "#72A5D8"
 set lt 7 lc rgb "#5089BC"

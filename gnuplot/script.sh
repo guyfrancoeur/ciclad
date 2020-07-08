@@ -55,24 +55,55 @@ paste x-axis.txt ciclad.txt moment.txt newmoment.txt clostream.txt cfi-stream.tx
 cd ../../../../
 pwd
 
+# >>>> Graphics with legend 
 # Retail
-gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Retail/merge.txt'; fileoutCPU='./images/retail_cpu.png'" \
-  -e "filenameRAM='./data/results_siam/ram/Retail/merge.txt'; fileoutRAM='./images/retail_ram.png'; title='Retail'" results_siam.dem
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/retail/merge.txt'; fileoutCPU='./images/retail_cpu.png'" \
+  -e "filenameRAM='./data/results_siam/ram/retail/merge.txt'; fileoutRAM='./images/retail_ram.png'; title='Retail'; legend='yes'" results_siam.dem
 # BMSView
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/BMSView/merge.txt'; fileoutCPU='./images/BMSView_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/BMSView/merge.txt'; fileoutRAM='./images/BMSView_ram.png'; title='BMSView'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/BMSView/merge.txt'; fileoutRAM='./images/BMSView_ram.png'; title='BMSView'; legend='yes'" results_siam.dem
 # ChainStore
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/ChainStore/merge.txt'; fileoutCPU='./images/ChainStore_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/ChainStore/merge.txt'; fileoutRAM='./images/ChainStore_ram.png'; title='ChainStore'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/ChainStore/merge.txt'; fileoutRAM='./images/ChainStore_ram.png'; title='ChainStore'; legend='yes'" results_siam.dem
 # Mushroom
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Mushroom/merge.txt'; fileoutCPU='./images/Mushroom_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/Mushroom/merge.txt'; fileoutRAM='./images/Mushroom_ram.png'; title='Mushroom'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/Mushroom/merge.txt'; fileoutRAM='./images/Mushroom_ram.png'; title='Mushroom'; legend='yes'" results_siam.dem
 # Synth
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Synth/merge.txt'; fileoutCPU='./images/Synth_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/Synth/merge.txt'; fileoutRAM='./images/Synth_ram.png'; title='Synth'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/Synth/merge.txt'; fileoutRAM='./images/Synth_ram.png'; title='Synth'; legend='yes'" results_siam.dem
 # Synth2
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Synth2/merge.txt'; fileoutCPU='./images/Synth2_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/Synth2/merge.txt'; fileoutRAM='./images/Synth2_ram.png'; title='Synth2'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/Synth2/merge.txt'; fileoutRAM='./images/Synth2_ram.png'; title='Synth2'; legend='yes'" results_siam.dem
 # NetLog
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/NetLog/merge.txt'; fileoutCPU='./images/NetLog_cpu.png';" \
-  -e "filenameRAM='./data/results_siam/ram/NetLog/merge.txt'; fileoutRAM='./images/NetLog_ram.png'; title='NetLog'" results_siam.dem
+  -e "filenameRAM='./data/results_siam/ram/NetLog/merge.txt'; fileoutRAM='./images/NetLog_ram.png'; title='NetLog'; legend='yes'" results_siam.dem
+
+# >>>> Graphics without legend for the mosaic creation
+# Retail
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/retail/merge.txt'; fileoutCPU='./images/m_retail_cpu.png'" \
+  -e "filenameRAM='./data/results_siam/ram/retail/merge.txt'; fileoutRAM='./images/m_retail_ram.png'; title='Retail'; legend='no'" results_siam.dem
+# BMSView
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/BMSView/merge.txt'; fileoutCPU='./images/m_BMSView_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/BMSView/merge.txt'; fileoutRAM='./images/m_BMSView_ram.png'; title='BMSView'; legend='no'" results_siam.dem
+# ChainStore
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/ChainStore/merge.txt'; fileoutCPU='./images/m_ChainStore_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/ChainStore/merge.txt'; fileoutRAM='./images/m_ChainStore_ram.png'; title='ChainStore'; legend='no'" results_siam.dem
+# Mushroom
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Mushroom/merge.txt'; fileoutCPU='./images/m_Mushroom_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/Mushroom/merge.txt'; fileoutRAM='./images/m_Mushroom_ram.png'; title='Mushroom'; legend='no'" results_siam.dem
+# Synth
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Synth/merge.txt'; fileoutCPU='./images/m_Synth_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/Synth/merge.txt'; fileoutRAM='./images/m_Synth_ram.png'; title='Synth'; legend='no'" results_siam.dem
+# Synth2
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Synth2/merge.txt'; fileoutCPU='./images/m_Synth2_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/Synth2/merge.txt'; fileoutRAM='./images/m_Synth2_ram.png'; title='Synth2'; legend='no'" results_siam.dem
+# NetLog
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/NetLog/merge.txt'; fileoutCPU='./images/m_NetLog_cpu.png';" \
+  -e "filenameRAM='./data/results_siam/ram/NetLog/merge.txt'; fileoutRAM='./images/m_NetLog_ram.png'; title='NetLog'; legend='no'" results_siam.dem
+
+# >>>> Mosaic creation :
+cd ./images
+magick convert retail_cpu.png -crop -110+420 -crop +180+0 -resize 120% m_legend.png #Récupération de la légende
+magick montage -background '#FFFFFF' -geometry 1300x500+10+10 -tile 4x m_retail_cpu.png m_retail_ram.png m_BMSView_cpu.png m_BMSView_ram.png m_ChainStore_cpu.png m_ChainStore_ram.png m_Mushroom_cpu.png m_Mushroom_ram.png m_Synth_cpu.png m_Synth_ram.png m_NetLog_cpu.png m_NetLog_ram.png m_Synth2_cpu.png m_Synth2_ram.png m_legend.png -gravity west mosaic.png
+rm m_*.png
+cd ../
