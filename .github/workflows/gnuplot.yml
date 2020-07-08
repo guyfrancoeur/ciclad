@@ -11,6 +11,7 @@ on:
       - 'gnuplot/results_siam.dem'
       - 'gnuplot/ciclad_vs_moment.dem'
       - 'gnuplot/gitactions.txt'
+      - 'gnuplot/.githib/workflows/gnuplot.yml'
 
 jobs:
   job_1:
