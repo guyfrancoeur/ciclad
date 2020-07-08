@@ -32,7 +32,7 @@ jobs:
     - name: installation imageMagick
       run: |
         wget https://www.imagemagick.org/download/ImageMagick.tar.gz
-        tar xvzf ImageMagick.tar.gz
+        tar xzf ImageMagick.tar.gz
         cd ImageMagick*
         ./configure
         make
