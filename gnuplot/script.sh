@@ -57,8 +57,8 @@ pwd
 
 # >>>> Graphics with legend 
 # Retail
-gnuplot -p -e "filenameCPU='./data/results_siam/cpu/retail/merge.txt'; fileoutCPU='./images/retail_cpu.png'" \
-  -e "filenameRAM='./data/results_siam/ram/retail/merge.txt'; fileoutRAM='./images/retail_ram.png'; title='Retail'; legend='yes'" results_siam.dem
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Retail/merge.txt'; fileoutCPU='./images/retail_cpu.png'" \
+  -e "filenameRAM='./data/results_siam/ram/Retail/merge.txt'; fileoutRAM='./images/retail_ram.png'; title='Retail'; legend='yes'" results_siam.dem
 # BMSView
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/BMSView/merge.txt'; fileoutCPU='./images/BMSView_cpu.png';" \
   -e "filenameRAM='./data/results_siam/ram/BMSView/merge.txt'; fileoutRAM='./images/BMSView_ram.png'; title='BMSView'; legend='yes'" results_siam.dem
@@ -80,8 +80,8 @@ gnuplot -p -e "filenameCPU='./data/results_siam/cpu/NetLog/merge.txt'; fileoutCP
 
 # >>>> Graphics without legend for the mosaic creation
 # Retail
-gnuplot -p -e "filenameCPU='./data/results_siam/cpu/retail/merge.txt'; fileoutCPU='./images/m_retail_cpu.png'" \
-  -e "filenameRAM='./data/results_siam/ram/retail/merge.txt'; fileoutRAM='./images/m_retail_ram.png'; title='Retail'; legend='no'" results_siam.dem
+gnuplot -p -e "filenameCPU='./data/results_siam/cpu/Retail/merge.txt'; fileoutCPU='./images/m_retail_cpu.png'" \
+  -e "filenameRAM='./data/results_siam/ram/Retail/merge.txt'; fileoutRAM='./images/m_retail_ram.png'; title='Retail'; legend='no'" results_siam.dem
 # BMSView
 gnuplot -p -e "filenameCPU='./data/results_siam/cpu/BMSView/merge.txt'; fileoutCPU='./images/m_BMSView_cpu.png';" \
   -e "filenameRAM='./data/results_siam/ram/BMSView/merge.txt'; fileoutRAM='./images/m_BMSView_ram.png'; title='BMSView'; legend='no'" results_siam.dem
