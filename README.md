@@ -1,4 +1,4 @@
-# ciclad Project C++
+# Ciclad Project C++
 
 ![ciclad v3](https://github.com/guyfrancoeur/ciclad/workflows/ciclad%20v3/badge.svg)
 
@@ -23,6 +23,13 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
 
 [![DOI:10.1145/3394486.3403232](https://zenodo.org/badge/DOI/10.1145/3394486.3403232.svg)](https://doi.org/10.1145/3394486.3403232)
 
+NOTA: /ciclad_nogen is the folder with the implementation used in the KDD'20 paper.
+
+NOTA: /alternatives contains sub-folders with implementations of Moment, NewMoment, CloStream and CFI-Stream. All were implemented and tested for Windows.
+
+NOTA: The original Moment(FP) implementation used in our KDD-20 paper is not publicly available, you should contact its authors.
+
+<!--
 #### How to make citation :
 
 - BibTeX :
@@ -36,6 +43,7 @@ Keywords : frequent pattern mining, closed itemsets, data streams, sliding windo
     primaryClass={cs.DB}
 }
 ~~~
+-->
 
 Contributors :
  - Mickael Wajnberg 2018
@@ -44,7 +52,7 @@ Contributors :
 #### More :
  + [experiments in images](./image/README.md)
 
-Accepted paper fot KDD 2020 :
+Accepted paper at KDD 2020 :
 + [CICLAD: A Fast and Memory-efficient Closed Itemset Miner for Streams](https://www.kdd.org/kdd2020/accepted-papers#:~:text=CICLAD)
 
 Reference :
